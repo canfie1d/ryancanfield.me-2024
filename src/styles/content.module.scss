@@ -94,7 +94,8 @@
 
       &:hover,
       &:focus {
-        margin: calc(-var(--spacing-unit) / 2) calc(-var(--spacing-unit) / 2);
+        margin: calc(var(--spacing-unit / 4) * -1)
+          calc(var(--spacing-unit / 2) * -1);
         padding: calc(var(--spacing-unit) / 4) calc(var(--spacing-unit) / 2);
         background-color: var(--unremarkable-semi-opaque-light-gray);
       }

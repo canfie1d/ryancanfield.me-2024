@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import { useAnimate } from "../hooks/useAnimate";
-import { useShortcuts } from "../hooks/useShortcuts";
 import PagePreview from "../components/PagePreview";
 import PageContent from "../components/PageContent";
 import AboutContent from "../content/AboutContent";
@@ -10,7 +9,6 @@ import styles from "../styles/page.module.scss";
 import classNames from "classnames";
 
 const About = () => {
-  useShortcuts();
   const prefersReducedMotion = useReducedMotion();
   const { pathname } = useLocation();
   const pageName = "about";

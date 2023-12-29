@@ -40,7 +40,7 @@
   &:hover,
   &:focus-within,
   &.themeMenuActive {
-    background-color: var(--unremarkable-medium-gray);
+    background-color: var(--unremarkable-light-gray);
     transform: translateX(0);
 
     .themeMenuHeader {
@@ -65,11 +65,11 @@
     box-shadow: none;
     width: 100%;
     text-transform: capitalize;
+    border-radius: var(--border-radius-medium);
+    border: 2px solid transparent;
     transition:
       background-color var(--transition-duration-quick) ease-out,
       color var(--transition-duration-super-quick) ease;
-    border-radius: var(--border-radius-medium);
-    border: 2px solid transparent;
 
     &:hover,
     &:focus,
@@ -97,7 +97,7 @@
 
     .themeMenuHeader {
       left: 50%;
-      top: -var(--spacing-unit);
+      top: calc(var(--spacing-unit) * -1);
       transform: rotate(0) translateX(-50%);
     }
 

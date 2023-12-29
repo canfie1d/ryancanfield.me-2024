@@ -9,6 +9,8 @@ import CircleX from "../icons/circle-x.svg?react";
 import styles from "../styles/page.module.scss";
 import classNames from "classnames";
 import { caseStudies } from "../data/caseStudies";
+import { Suspense } from "react";
+import Loader from "../components/Loader";
 
 const Work = () => {
   const prefersReducedMotion = useReducedMotion();
@@ -58,7 +60,9 @@ const Work = () => {
                   }
             }
           >
-            {isCaseStudy ? <Outlet /> : <WorkContent />}
+            <Suspense fallback={<Loader />}>
+              {isCaseStudy ? <Outlet /> : <WorkContent />}
+            </Suspense>
           </PageContent>
         </motion.div>
       ) : (
