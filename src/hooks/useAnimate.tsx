@@ -14,7 +14,6 @@ export const useAnimate = () => {
     const isCurrent = pathname === `/${pageName}`;
     const isCaseStudy = pageName === "work" && caseStudies.includes(pathname);
 
-    console.log("pathname: ", pathname);
     if (pathname === "/") {
       if (isSmall) {
         return { height: "calc(20% - 20px)" };
