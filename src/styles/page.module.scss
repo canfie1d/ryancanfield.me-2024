@@ -1,0 +1,23 @@
+.pageWrapper {
+  margin: 10px 0;
+  border-radius: 20px;
+  box-shadow: 0 0 6px 4px rgba(6, 6, 6, 0.07);
+  min-height: 100px;
+  min-width: 100%;
+
+  &.pageWrapperHome {
+    min-height: 17.5%;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .pageWrapper {
+    min-width: 100px;
+    min-height: 100%;
+    margin: 0 10px;
+
+    &.pageWrapperHome {
+      min-width: 17.5%;
+    }
+  }
+}

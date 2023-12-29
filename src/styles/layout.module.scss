@@ -1,0 +1,26 @@
+.layout {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  height: 100svh;
+  padding: 10px;
+  @media (prefers-reduced-motion: no-preference) {
+    transition: all linear var(--transition-duration);
+  }
+
+  &:last-child {
+    padding-bottom: 10px;
+    padding-right: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+
+    &:last-child {
+      padding-bottom: 20px;
+      padding-right: 10px;
+    }
+  }
+}

@@ -1,0 +1,112 @@
+.themeMenu {
+  position: fixed;
+  bottom: 20px;
+  right: 0;
+  transform: translateX(calc(100% - 20px));
+  width: calc(17.5% + 40px);
+  transition: all 200ms ease-out;
+  background-color: transparent;
+  padding: 20px;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  border: 20px solid transparent;
+  border-bottom: 0;
+  color: #636363;
+
+  .themeMenuHeader {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    transform-origin: left top;
+    margin: 0;
+    transform: rotate(-90deg) translateX(-50%);
+    top: 50%;
+    left: -25px;
+    transition: all 150ms ease-out;
+
+    span {
+      padding-left: 0.5rem;
+    }
+  }
+
+  &:hover,
+  &:focus-within {
+    &:not(.themeMenuActive) {
+      box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  &:hover,
+  &:focus-within,
+  &.themeMenuActive {
+    background-color: lightgray;
+    transform: translateX(0);
+
+    .themeMenuHeader {
+      transform: rotate(0) translateX(-50%);
+      top: 0;
+      left: 50%;
+      font-size: 1.2rem;
+    }
+  }
+
+  ul {
+    list-style: none;
+    margin: 20px 0 0;
+    padding: 0;
+  }
+
+  .themeButton {
+    border-radius: 12px;
+    margin-bottom: 0.35rem;
+    padding: 0.5rem;
+    border: none;
+    box-shadow: none;
+    width: 100%;
+    text-transform: capitalize;
+    transition: background-color 200ms ease-out, color 200ms ease-out;
+    border-radius: 12px;
+    border: 2px solid transparent;
+
+    &:hover,
+    &:focus {
+      border: 2px solid rgba(30, 30, 30, 0.5);
+      background-color: gray;
+      outline: none;
+      color: #fff;
+    }
+
+    &.themeButtonActive {
+      background-color: #333;
+      color: #ddd;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .themeMenu {
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 12px;
+    bottom: 0;
+    right: 20px;
+    transform: translateY(calc(100% - 20px));
+    width: auto;
+    height: calc(17.5% + 45px);
+
+    .themeMenuHeader {
+      left: 50%;
+      top: -25px;
+      transform: rotate(0) translateX(-50%);
+    }
+
+    &:hover,
+    &:focus-within,
+    &.themeMenuActive {
+      .themeMenuHeader {
+        top: 0;
+        left: 50%;
+        font-size: 1.2rem;
+      }
+    }
+  }
+}

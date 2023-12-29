@@ -1,0 +1,135 @@
+.main {
+  overflow: auto;
+  border-radius: 20px;
+  height: 100%;
+  width: 100%;
+  transition: width var(--transition-duration) ease-in-out, color 200ms ease-out,
+    background-color 200ms ease-out;
+}
+
+@media screen and (min-width: 769px) {
+  .main {
+    height: calc(100svh - 20px) !important;
+  }
+}
+
+.contentWrapper {
+  opacity: 0;
+  animation: fadeIn 700ms ease-out 200ms;
+  animation-fill-mode: forwards;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+
+  .contentMeta {
+    position: sticky;
+    top: 1rem;
+    left: 1rem;
+    max-height: 34px;
+    width: 34px;
+    font-size: 1.6rem;
+    text-align: center;
+    color: rgba(30, 30, 30, 0.2);
+
+    a {
+      color: inherit;
+      max-height: inherit;
+      text-decoration: none;
+      transition: color 200ms ease-out;
+      display: inline-block;
+
+      &:hover,
+      &:focus {
+        background-color: rgba(30, 30, 30, 0.1);
+      }
+    }
+  }
+
+  .contentHeader {
+    height: 35svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h1 {
+      text-transform: capitalize;
+    }
+  }
+
+  .contentBody {
+    margin-inline: auto;
+    max-width: 760px;
+    padding: 0 20px;
+
+    .h2 {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      background-color: rgba(30, 30, 30, 0.1);
+    }
+
+    .p {
+      padding-bottom: 1rem;
+    }
+
+    .h2 + .p {
+      padding-top: 0.5rem;
+    }
+
+    .p + .h2 {
+      margin-top: 2rem;
+    }
+
+    .a {
+      color: inherit;
+      text-decoration: underline;
+      transition: color 200ms ease-out;
+
+      &:hover,
+      &:focus {
+        margin: -0.25rem -0.5rem;
+        padding: 0.25rem 0.5rem;
+        background-color: rgba(30, 30, 30, 0.1);
+      }
+
+      .h3 {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.caseStudy,
+.article {
+  h3 {
+    margin-top: 0;
+  }
+
+  h4 {
+    font-size: 1.2rem;
+    font-family: "Nunito", sans-serif;
+  }
+
+  .tag {
+    background-color: rgba(30, 30, 30, 0.2);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
+    display: inline-block;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
