@@ -1,4 +1,4 @@
-import { FormEventHandler, useState } from "react";
+import { useState } from "react";
 import styles from "../styles/content.module.scss";
 import formStyles from "../styles/form.module.scss";
 import classNames from "classnames";
@@ -10,12 +10,6 @@ type FormData = {
   email: string;
   message: string;
   [key: string]: string; // Add index signature
-};
-
-const encode = (data: FormData) => {
-  return Object.keys(data)
-    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-    .join("&");
 };
 
 const DEFAULT_FORM_DATA: FormData = {
