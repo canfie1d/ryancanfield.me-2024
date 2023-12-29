@@ -1,9 +1,7 @@
 import { lazy } from "react";
 import { LayoutGroup } from "framer-motion";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useShortcuts } from "../hooks/useShortcuts";
-import ThemeMenu from "../components/ThemeMenu";
-
 const About = lazy(() => import("./About"));
 const Work = lazy(() => import("./Work"));
 const Writing = lazy(() => import("./Writing"));
@@ -12,7 +10,7 @@ const FreightWeb = lazy(() => import("./FreightWeb"));
 const Xinova = lazy(() => import("./Xinova"));
 const Carnival = lazy(() => import("./Carnival"));
 
-const Page = ({ isHome }: { isHome?: boolean }) => {
+const Page = () => {
   useShortcuts();
 
   return (
@@ -23,17 +21,6 @@ const Page = ({ isHome }: { isHome?: boolean }) => {
         <Writing key="writing" />
         <Contact key="contact" />
       </LayoutGroup>
-      {isHome ? (
-        <h1 className="pageTitle">
-          Ryan Canfield
-          <span>Hands-in-code Engineering Leadership</span>
-        </h1>
-      ) : (
-        <Link to="/" className="pageTitle pageTitleHidden">
-          Ryan Canfield
-        </Link>
-      )}
-      <ThemeMenu />
     </>
   );
 };
@@ -41,7 +28,7 @@ const Page = ({ isHome }: { isHome?: boolean }) => {
 const Pages = () => {
   return (
     <Routes>
-      <Route path="/" element={<Page isHome />} />
+      <Route path="/" element={<Page />} />
       <Route path="/about" element={<Page />} />
       <Route path="/work" element={<Page />}>
         <Route path="/work/freightweb" element={<FreightWeb />} />

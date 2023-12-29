@@ -11,7 +11,6 @@
   border-bottom-left-radius: 12px;
   border: var(--spacing-unit) solid transparent;
   border-bottom: 0;
-  color: var(--unremarkable-medium-gray);
 
   .themeMenuHeader {
     display: flex;
@@ -19,6 +18,8 @@
     align-items: center;
     transform-origin: left top;
     font-size: var(--font-medium);
+    color: var(--unremarkable-darker-gray);
+    font-weight: 400;
     margin: 0;
     transform: rotate(-90deg) translateX(-50%);
     top: 50%;
@@ -32,14 +33,6 @@
 
   &:hover,
   &:focus-within {
-    &:not(.themeMenuActive) {
-      box-shadow: 0 0 6px 3px var(--unremarkable-semi-opaque-light-gray);
-    }
-  }
-
-  &:hover,
-  &:focus-within,
-  &.themeMenuActive {
     background-color: var(--unremarkable-light-gray);
     transform: translateX(0);
 
@@ -102,8 +95,7 @@
     }
 
     &:hover,
-    &:focus-within,
-    &.themeMenuActive {
+    &:focus-within {
       .themeMenuHeader {
         top: 0;
         left: 50%;
