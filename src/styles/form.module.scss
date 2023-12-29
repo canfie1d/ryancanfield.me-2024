@@ -25,6 +25,7 @@
   border-radius: var(--border-radius-medium);
   font-size: var(--font-medium);
   line-height: var(--line-height-tall);
+  border: 2px solid transparent;
 
   &:focus {
     outline: none;
@@ -47,7 +48,6 @@
   transition:
     background-color var(--transition-duration-quick) ease-out,
     color var(--transition-duration-super-quick) ease;
-  border-radius: var(--border-radius-medium);
   border: 2px solid transparent;
   display: block;
   margin: 0 auto 1rem;
@@ -62,4 +62,10 @@
   &:focus {
     border: 2px solid var(--unremarkable-semi-opaque-gray);
   }
+}
+
+.submitMessage {
+  max-width: 320px;
+  margin: auto;
+  text-align: center;
 }

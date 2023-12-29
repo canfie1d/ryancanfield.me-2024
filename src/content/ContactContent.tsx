@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
 import styles from "../styles/content.module.scss";
 import formStyles from "../styles/form.module.scss";
+import classNames from "classnames";
 
 type FormData = {
   "form-name": string;
@@ -16,21 +17,29 @@ const encode = (data: FormData) => {
     .join("&");
 };
 
-const ContactContent = () => {
-  const [formData, setFormData] = useState<FormData>({
-    "form-name": "contact",
-    name: "",
-    email: "",
-    message: "",
-  });
+const DEFAULT_FORM_DATA: FormData = {
+  "form-name": "contact",
+  name: "",
+  email: "",
+  message: "",
+};
 
-  const handleSubmit = () => {
+const ContactContent = () => {
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
+
+  const handleSubmit: FormEventHandler = (e) => {
+    e.preventDefault();
+
     fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: encode({ ...formData }),
     })
-      .then(() => alert("Success!"))
+      .then(() => {
+        setFormData(DEFAULT_FORM_DATA);
+        setFormSubmitted(true);
+      })
       .catch((error) => alert(error));
   };
 
@@ -46,54 +55,61 @@ const ContactContent = () => {
         I'm not seeking opportunites but I always like hearing from new (and
         familiar) people!
       </p>
-      <form
-        name="contact"
-        data-netlify={true}
-        netlify-honeypot="bot-field"
-        hidden
-      >
-        <input type="text" name="name" />
-        <input type="email" name="email" />
-        <textarea name="message"></textarea>
-      </form>
-      <form className={formStyles.form} onSubmit={handleSubmit}>
-        <input type="hidden" name="contact" value="contact" />
-        <label className={formStyles.label} htmlFor="name">
-          Name
-        </label>
-        <input
-          className={formStyles.input}
-          id="name"
-          type="text"
-          name="name"
-          onChange={handleChange}
-          value={formData.name}
-        />
-        <label className={formStyles.label} htmlFor="email">
-          Email Address
-        </label>
-        <input
-          id="email"
-          className={formStyles.input}
-          type="email"
-          name="email"
-          onChange={handleChange}
-          value={formData.email}
-        />
-        <label className={formStyles.label} htmlFor="message">
-          Message
-        </label>
-        <textarea
-          id="message"
-          className={formStyles.textarea}
-          name="message"
-          onChange={handleChange}
-          value={formData.message}
-        ></textarea>
-        <button className={formStyles.button} type="submit">
-          Send
-        </button>
-      </form>
+      {formSubmitted ? (
+        <p className={classNames(styles.p, formStyles.submitMessage)}>
+          Thanks for reaching out! I'll get back to you as soon as possible.
+        </p>
+      ) : (
+        <>
+          <form
+            name="contact"
+            data-netlify={true}
+            netlify-honeypot="bot-field"
+            hidden
+          >
+            <input type="text" name="name" />
+            <input type="email" name="email" />
+            <textarea name="message"></textarea>
+          </form>
+          <form className={formStyles.form} onSubmit={handleSubmit}>
+            <label className={formStyles.label} htmlFor="name">
+              Name
+            </label>
+            <input
+              className={formStyles.input}
+              id="name"
+              type="text"
+              name="name"
+              onChange={handleChange}
+              value={formData.name}
+            />
+            <label className={formStyles.label} htmlFor="email">
+              Email Address
+            </label>
+            <input
+              id="email"
+              className={formStyles.input}
+              type="email"
+              name="email"
+              onChange={handleChange}
+              value={formData.email}
+            />
+            <label className={formStyles.label} htmlFor="message">
+              Message
+            </label>
+            <textarea
+              id="message"
+              className={formStyles.textarea}
+              name="message"
+              onChange={handleChange}
+              value={formData.message}
+            ></textarea>
+            <button className={formStyles.button} type="submit">
+              Send
+            </button>
+          </form>
+        </>
+      )}
     </div>
   );
 };
