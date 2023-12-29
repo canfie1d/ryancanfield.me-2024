@@ -12,8 +12,7 @@
   --unremarkable-dark-gray: #787878;
   --unremarkable-semi-opaque-light-gray: rgba(30, 30, 30, 0.1);
   --unremarkable-semi-opaque-gray: rgba(30, 30, 30, 0.2);
-  --csdflkgjlknsdflkjngbkhjsfd: rgba(0, 0, 0, 0.1)
-    --another-unremarkable-semi-opaque-gray: rgba(30, 30, 30, 0.5);
+  --unremarkable-semi-opaque-dark-gray: rgba(30, 30, 30, 0.5);
   --border-radius-medium: 0.75rem;
   --border-radius-large: 1.25rem;
   --border-radius-small: 0.375rem;
@@ -189,7 +188,7 @@ span {
 
       &:focus {
         outline: none;
-        border: 2px solid var(--another-unremarkable-semi-opaque-gray);
+        border: 2px solid var(--unremarkable-semi-opaque-gray);
         border-radius: var(--border-radius-small);
       }
     }

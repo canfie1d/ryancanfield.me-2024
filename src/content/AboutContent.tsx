@@ -6,7 +6,12 @@ const AboutContent = () => {
       <p className={styles.p}>
         I'm a software engineering manager based in Seattle. I'm currently
         working at{" "}
-        <a className={styles.a} href="https://asmbl.digital/">
+        <a
+          className={styles.a}
+          href="https://asmbl.digital/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           ASMBL
         </a>{" "}
         on the custom solutions team.

@@ -25,6 +25,11 @@
   border-radius: var(--border-radius-medium);
   font-size: var(--font-medium);
   line-height: var(--line-height-tall);
+
+  &:focus {
+    outline: none;
+    border: 2px solid var(--unremarkable-semi-opaque-gray);
+  }
 }
 
 .textarea {
@@ -49,7 +54,7 @@
 
   &:hover,
   &:focus {
-    background-color: var(--another-unremarkable-semi-opaque-gray);
+    background-color: var(--unremarkable-semi-opaque-gray);
     outline: none;
     color: var(--white);
   }

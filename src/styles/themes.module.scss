@@ -3,7 +3,7 @@
   bottom: var(--spacing-unit);
   right: 0;
   transform: translateX(var(--full-minus-20));
-  width: calc(17.5% + 40px);
+  width: calc(20% + 30px);
   transition: all var(--transition-duration-quick) ease-out;
   background-color: transparent;
   padding: var(--spacing-unit);
@@ -97,7 +97,7 @@
 
     .themeMenuHeader {
       left: 50%;
-      top: calc(var(--spacing-unit) * -1);
+      top: calc((var(--spacing-unit) * 1.5) * -1);
       transform: rotate(0) translateX(-50%);
     }
 
