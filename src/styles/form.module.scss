@@ -34,7 +34,6 @@
 
 .button {
   border-radius: var(--border-radius-medium);
-  margin-bottom: 0.35rem;
   padding: 0.5rem;
   border: none;
   box-shadow: none;
@@ -45,6 +44,8 @@
     color var(--transition-duration-super-quick) ease;
   border-radius: var(--border-radius-medium);
   border: 2px solid transparent;
+  display: block;
+  margin: 0 auto 1rem;
 
   &:hover,
   &:focus {
