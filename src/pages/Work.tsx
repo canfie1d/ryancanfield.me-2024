@@ -35,7 +35,7 @@ const Work = () => {
           animate={!prefersReducedMotion ? { opacity: 1 } : {}}
           exit={!prefersReducedMotion ? { opacity: 0 } : {}}
           transition={{ ease: "easeOut", duration: 0.5 }}
-          style={{ height: "100%", overflow: "hidden" }}
+          className="h-full"
         >
           <PageContent
             pageName={pageName}
