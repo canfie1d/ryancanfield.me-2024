@@ -17,6 +17,16 @@
     <title>Ryan Canfield</title>
   </head>
   <body>
+    <form
+      name="contact"
+      data-netlify="{true}"
+      netlify-honeypot="bot-field"
+      hidden
+    >
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+    </form>
     <div id="root"></div>
     <script type="module" src="./src/main.tsx"></script>
   </body>

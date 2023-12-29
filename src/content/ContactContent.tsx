@@ -2,6 +2,7 @@ import { FormEventHandler, useState } from "react";
 import styles from "../styles/content.module.scss";
 import formStyles from "../styles/form.module.scss";
 import classNames from "classnames";
+import { useLocation } from "react-router-dom";
 
 type FormData = {
   "form-name": string;
@@ -25,24 +26,9 @@ const DEFAULT_FORM_DATA: FormData = {
 };
 
 const ContactContent = () => {
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const { search } = useLocation();
   const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
-
-  const handleSubmit: FormEventHandler = (e) => {
-    e.preventDefault();
-
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ ...formData }),
-    })
-      .then(() => {
-        setFormData(DEFAULT_FORM_DATA);
-        setFormSubmitted(true);
-      })
-      .catch((error) => alert(error));
-  };
-
+  const formSuccess = search.includes("success=true");
   const handleChange = (event: any) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -55,23 +41,19 @@ const ContactContent = () => {
         I'm not seeking opportunites but I always like hearing from new (and
         familiar) people!
       </p>
-      {formSubmitted ? (
+      {formSuccess ? (
         <p className={classNames(styles.p, formStyles.submitMessage)}>
           Thanks for reaching out! I'll get back to you as soon as possible.
         </p>
       ) : (
         <>
           <form
+            className={formStyles.form}
             name="contact"
-            data-netlify={true}
-            netlify-honeypot="bot-field"
-            hidden
+            method="post"
+            action="/contact?success=true"
           >
-            <input type="text" name="name" />
-            <input type="email" name="email" />
-            <textarea name="message"></textarea>
-          </form>
-          <form className={formStyles.form} onSubmit={handleSubmit}>
+            <input type="hidden" name="form-name" value="contact" />
             <label className={formStyles.label} htmlFor="name">
               Name
             </label>
