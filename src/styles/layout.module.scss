@@ -1,26 +1,28 @@
 .layout {
   display: flex;
+  flex-direction: column;
   flex-wrap: nowrap;
   align-items: stretch;
   height: 100svh;
-  padding: 10px;
+  padding: calc(var(--spacing-unit) / 2);
+
   @media (prefers-reduced-motion: no-preference) {
     transition: all linear var(--transition-duration);
   }
 
   &:last-child {
-    padding-bottom: 10px;
-    padding-right: 20px;
+    padding-bottom: calc(var(--spacing-unit) * 1.75);
+    padding-right: calc(var(--spacing-unit) / 2);
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) {
   .layout {
-    flex-direction: column;
+    flex-direction: row;
 
     &:last-child {
-      padding-bottom: 20px;
-      padding-right: 10px;
+      padding-bottom: calc(var(--spacing-unit) / 2);
+      padding-right: calc(var(--spacing-unit) * 1.75);
     }
   }
 }

@@ -1,6 +1,6 @@
 .pageWrapper {
   margin: 10px 0;
-  border-radius: 20px;
+  border-radius: var(--border-radius-large);
   box-shadow: 0 0 6px 4px rgba(6, 6, 6, 0.07);
   min-height: 100px;
   min-width: 100%;
@@ -14,7 +14,7 @@
   .pageWrapper {
     min-width: 100px;
     min-height: 100%;
-    margin: 0 10px;
+    margin: 0 calc(var(--spacing-unit) / 2);
 
     &.pageWrapperHome {
       min-width: 17.5%;

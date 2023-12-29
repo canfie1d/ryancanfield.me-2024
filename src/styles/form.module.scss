@@ -11,7 +11,7 @@
 .label {
   display: block;
   margin-bottom: 0.5rem;
-  font-size: 1.2rem;
+  font-size: var(--font-medium);
   font-weight: 700;
 }
 
@@ -20,10 +20,11 @@
   width: 100%;
   padding: 0.5rem;
   margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  font-size: 1.2rem;
-  line-height: 1.5;
+  border: none;
+  background-color: var(--unremarkable-semi-opaque-light-gray);
+  border-radius: var(--border-radius-medium);
+  font-size: var(--font-medium);
+  line-height: var(--line-height-tall);
 }
 
 .textarea {
@@ -32,14 +33,27 @@
 }
 
 .button {
-  display: block;
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  background-color: #fff;
-  font-size: 1.2rem;
-  font-weight: 700;
-  line-height: 1.5;
-  cursor: pointer;
-  color: inherit;
+  border-radius: var(--border-radius-medium);
+  margin-bottom: 0.35rem;
+  padding: 0.5rem;
+  border: none;
+  box-shadow: none;
+  width: 100%;
+  text-transform: capitalize;
+  transition:
+    background-color var(--transition-duration-quick) ease-out,
+    color var(--transition-duration-super-quick) ease;
+  border-radius: var(--border-radius-medium);
+  border: 2px solid transparent;
+
+  &:hover,
+  &:focus {
+    background-color: var(--another-unremarkable-semi-opaque-gray);
+    outline: none;
+    color: var(--white);
+  }
+
+  &:focus {
+    border: 2px solid var(--unremarkable-semi-opaque-gray);
+  }
 }

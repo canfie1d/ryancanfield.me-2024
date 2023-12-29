@@ -1,11 +1,11 @@
 .cardWrapper {
-  padding: 20px 0;
+  padding: var(--spacing-unit) 0;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  animation: fadeIn 300ms ease-out;
+  animation: fadeIn var(--transition-duration) ease-out;
   animation-fill-mode: forwards;
-  gap: 10px;
+  gap: calc(var(--spacing-unit) / 2);
 
   @media screen and (min-width: 769px) {
     flex-direction: row;
@@ -13,13 +13,13 @@
 }
 
 .card {
-  background-color: rgba(30, 30, 30, 0.1);
-  border-radius: 12px;
-  padding: 20px;
+  background-color: var(--unremarkable-semi-opaque-light-gray);
+  border-radius: var(--border-radius-medium);
+  padding: var(--spacing-unit);
   outline: 2px solid transparent;
 
   &:focus-within {
-    outline: 2px solid rgba(30, 30, 30, 0.5);
+    outline: 2px solid var(--another-unremarkable-semi-opaque-gray);
   }
 
   @media screen and (min-width: 769px) {

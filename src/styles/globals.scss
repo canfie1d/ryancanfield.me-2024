@@ -1,5 +1,30 @@
 :root {
+  --heading-font: "Yanone Kaffeesatz", sans-serif;
+  --body-font: "Nunito", sans-serif;
   --transition-duration: 500ms;
+  --transition-duration-quick: 200ms;
+  --transition-duration-super-quick: 150ms;
+  --transition-duration-slow: 800ms;
+  --white: #fff;
+  --off-white: #ebebeb;
+  --unremarkable-light-gray: #d3d3d3;
+  --unremarkable-medium-gray: #646464;
+  --unremarkable-dark-gray: #787878;
+  --unremarkable-semi-opaque-light-gray: rgba(30, 30, 30, 0.1);
+  --unremarkable-semi-opaque-gray: rgba(30, 30, 30, 0.2);
+  --csdflkgjlknsdflkjngbkhjsfd: rgba(0, 0, 0, 0.1)
+    --another-unremarkable-semi-opaque-gray: rgba(30, 30, 30, 0.5);
+  --border-radius-medium: 0.75rem;
+  --border-radius-large: 1.25rem;
+  --border-radius-small: 0.375rem;
+  --font-x-large: 2rem;
+  --font-large: 1.625rem;
+  --font-medium: 1.25rem;
+  --line-height-tall: 1.5;
+  --line-height: 1.25;
+  --spacing-unit: 1.25rem;
+  --full-minus-20: calc(100% - var(--spacing-unit));
+  --fifth-minus-20: calc(20% - var(--spacing-unit));
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -10,8 +35,8 @@
 
 body {
   margin: 0;
-  font-family: "Yanone Kaffeesatz", sans-serif;
-  background-color: #d3d3d3;
+  font-family: var(--heading-font);
+  background-color: var(--unremarkable-light-gray);
   overflow-x: clip;
 }
 
@@ -37,88 +62,88 @@ body {
 
 h1 {
   font-size: 2.5rem;
-  line-height: 1.5;
+  line-height: var(--line-height-tall);
 
   &::selection {
-    color: rgb(235, 235, 235);
-    background: rgba(23, 23, 23, 0.2);
+    color: var(--off-white);
+    background: var(--unremarkable-semi-opaque-gray);
   }
 }
 
 h2 {
-  font-size: 2rem;
-  line-height: 1.2;
+  font-size: var(--font-x-large);
+  line-height: var(--line-height);
 
   &::selection {
-    color: rgb(235, 235, 235);
-    background: rgba(23, 23, 23, 0.2);
+    color: var(--off-white);
+    background: var(--unremarkable-semi-opaque-gray);
   }
 }
 
 h3 {
   font-size: 1.75rem;
-  line-height: 1.2;
+  line-height: var(--line-height);
 
   &::selection {
-    color: rgb(235, 235, 235);
-    background: rgba(23, 23, 23, 0.2);
+    color: var(--off-white);
+    background: var(--unremarkable-semi-opaque-gray);
   }
 }
 
 h4 {
-  font-size: 1.5rem;
-  line-height: 1.2;
+  font-size: var(--font-large);
+  line-height: var(--line-height);
 
   &::selection {
-    color: rgb(235, 235, 235);
-    background: rgba(23, 23, 23, 0.2);
+    color: var(--off-white);
+    background: var(--unremarkable-semi-opaque-gray);
   }
 }
 
 p {
-  font-size: 1.2rem;
-  line-height: 1.2;
-  font-family: "Nunito", sans-serif;
+  font-size: var(--font-medium);
+  line-height: var(--line-height);
+  font-family: var(--body-font);
 
   &::selection {
-    color: rgb(235, 235, 235);
-    background: rgba(23, 23, 23, 0.2);
+    color: var(--off-white);
+    background: var(--unremarkable-semi-opaque-gray);
   }
 }
 
 span {
-  font-size: 1.2rem;
-  line-height: 1.2;
+  font-size: var(--font-medium);
+  line-height: var(--line-height);
 
   &::selection {
-    color: rgb(235, 235, 235);
-    background: rgba(23, 23, 23, 0.2);
+    color: var(--off-white);
+    background: var(--unremarkable-semi-opaque-gray);
   }
 }
 
 .pageTitle {
   position: fixed;
-  bottom: 20px;
-  left: 20px;
-  font-size: 2rem;
+  bottom: var(--spacing-unit);
+  left: var(--spacing-unit);
+  font-size: var(--font-x-large);
   font-weight: 600;
   margin: 0;
   padding: 5svh 0;
-  height: calc(20% - 20px);
-  width: calc(100% - 20px);
+  height: var(--fifth-minus-20);
+  width: var(--full-minus-20);
   letter-spacing: 1.6px;
-  color: #646464;
+  color: var(--unremarkable-medium-gray);
   z-index: -1;
   opacity: 0;
-  animation: fadeIn 800ms ease-out 200ms;
+  animation: fadeIn var(--transition-duration-slow) ease-out 200ms;
   animation-fill-mode: forwards;
-  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-family: var(--heading-font);
   font-weight: 400;
 
   &.pageTitleHidden {
     bottom: 7px;
-    left: 50px;
-    font-size: 1.2rem;
+    left: calc(var(--spacing-unit) * 2.5);
+    font-size: var(--font-medium);
     letter-spacing: normal;
     padding: 0;
     width: auto;
@@ -133,9 +158,9 @@ span {
 
   span {
     display: block;
-    padding-top: 10px;
-    color: #787878;
-    font-size: 1.2rem;
+    padding-top: calc(var(--spacing-unit) / 2);
+    color: var(--unremarkable-dark-gray);
+    font-size: var(--font-medium);
   }
 }
 
@@ -143,9 +168,9 @@ span {
   .pageTitle {
     bottom: 0;
     transform-origin: left;
-    left: calc(100% - (17.5% + 20px));
-    height: calc(100% - 20px);
-    width: calc(20% - 20px);
+    left: calc(100% - (17.5% + var(--spacing-unit)));
+    height: var(--full-minus-20);
+    width: var(--fifth-minus-20);
     padding: 0;
 
     &.pageTitleHidden {
@@ -155,13 +180,13 @@ span {
       right: 15px;
       transform: rotate(-90deg);
       transform-origin: right;
-      padding: 0.25rem 0.5rem;
+      padding: calc(var(--spacing-unit) / 4) calc(var(--spacing-unit) / 2);
       border: 2px solid transparent;
 
       &:focus {
         outline: none;
-        border: 2px solid rgba(30, 30, 30, 0.5);
-        border-radius: 6px;
+        border: 2px solid var(--another-unremarkable-semi-opaque-gray);
+        border-radius: var(--border-radius-small);
       }
     }
   }
