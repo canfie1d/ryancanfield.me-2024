@@ -36,6 +36,7 @@
   &:focus-within {
     background-color: var(--unremarkable-light-gray);
     transform: translateX(0);
+    box-shadow: 0 0 6px 4px rgba(6, 6, 6, 0.07);
 
     .themeMenuHeader {
       transform: rotate(0) translateX(-50%);
@@ -87,7 +88,6 @@
     right: var(--spacing-unit);
     transform: translateY(var(--full-minus-20));
     width: auto;
-    height: calc(17.5% + 45px);
 
     .themeMenuHeader {
       left: 50%;
