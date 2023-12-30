@@ -2,7 +2,7 @@ import { MouseEvent } from "react";
 import classNames from "classnames";
 import { useThemeContext } from "../contexts/useThemeProvider";
 import { ThemeTypes, themeConfig } from "../contexts/themeConfig";
-import Affiliate from "../icons/affiliate.svg?react";
+import Adjustments from "../icons/adjustments.svg?react";
 import styles from "../styles/themes.module.scss";
 
 const ThemeMenu = () => {
@@ -37,7 +37,7 @@ const ThemeMenu = () => {
   return (
     <footer className={classNames(styles.themeMenu)}>
       <span className={styles.themeMenuHeader}>
-        <Affiliate /> <span>Theme</span>
+        <Adjustments /> <span>Theme</span>
       </span>
       <ul>{renderThemeOptions()}</ul>
     </footer>

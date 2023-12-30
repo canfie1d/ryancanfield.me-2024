@@ -49,6 +49,11 @@ body {
   box-sizing: border-box;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -98,6 +103,12 @@ h4 {
     color: var(--off-white);
     background: var(--unremarkable-semi-opaque-gray);
   }
+}
+
+button {
+  font-family: var(--heading-font);
+  font-size: var(--font-medium);
+  color: var(--unremarkable-dark-gray);
 }
 
 p {

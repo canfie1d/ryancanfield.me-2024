@@ -51,7 +51,6 @@ const Work = () => {
                       </Link>
                     ),
                     title: caseStudy,
-                    // icon: <CodeCircle />,
                   }
                 : {
                     meta: "②",

@@ -67,7 +67,7 @@
   .contentBody {
     margin-inline: auto;
     max-width: 760px;
-    padding: 0 var(--spacing-unit);
+    padding: calc(var(--spacing-unit) * 2) var(--spacing-unit);
 
     .h2 {
       display: inline-block;
@@ -121,12 +121,20 @@
 
   .tag {
     background-color: var(--unremarkable-semi-opaque-gray);
-    border-radius: var(--border-radius-large);
+    border-radius: var(--border-radius-medium);
     padding: calc(var(--spacing-unit) / 2) var(--spacing-unit);
     margin-bottom: calc(var(--spacing-unit) / 2);
     margin-right: calc(var(--spacing-unit) / 2);
     display: inline-block;
     color: var(--white);
+
+    &:has(a) {
+      padding: 0;
+    }
+
+    a {
+      padding: calc(var(--spacing-unit) / 2) var(--spacing-unit);
+    }
   }
 }
 

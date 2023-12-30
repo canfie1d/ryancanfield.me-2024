@@ -27,7 +27,8 @@
     transition: all var(--transition-duration-super-quick) ease-out;
 
     span {
-      padding-left: calc(var(--spacing-unit) / 2);
+      padding-left: calc(var(--spacing-unit) / 4);
+      padding-top: 4px;
     }
   }
 

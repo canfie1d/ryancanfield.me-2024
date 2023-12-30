@@ -1,5 +1,6 @@
 import Card from "../components/Card";
 import cardStyles from "../styles/card.module.scss";
+import { OPEN_SOURCE, PROJECTS } from "../data/content";
 import styles from "../styles/content.module.scss";
 
 const WorkContent = () => {
@@ -11,34 +12,41 @@ const WorkContent = () => {
         few case studies available:
       </p>
       <div className={cardStyles.cardWrapper}>
-        <Card
-          title="Freightweb Logistics"
-          href="freightweb"
-          className={styles.caseStudy}
-        >
-          <h4 className={styles.h4}>Automated Freight Sourcing & Matching.</h4>
-          <div className={styles.tag}>UI/UX Design</div>
-          <div className={styles.tag}>Frontend Development</div>
-        </Card>
-        <Card
-          title="Carnival Ocean Compass"
-          href="carnival"
-          className={styles.caseStudy}
-        >
-          <h4 className={styles.h4}>
-            A reimagined Caribbean cruise experience.
-          </h4>
-          <div className={styles.tag}>UI Design</div>
-          <div className={styles.tag}>Frontend Development</div>
-        </Card>
-        <Card
-          title="Xinova Innovator Platform"
-          href="xinova"
-          className={styles.caseStudy}
-        >
-          <h4 className={styles.h4}>Networking platform for inventors.</h4>
-          <div className={styles.tag}>Frontend Development</div>
-        </Card>
+        {PROJECTS.map((project, i) => (
+          <Card
+            key={`project-${i}`}
+            title={project.title}
+            href={project.url}
+            className={styles.caseStudy}
+          >
+            <img src={project.image} alt="" />
+            <h4 className={styles.h4}>{project.description}</h4>
+            <div className={styles.tag}>UI/UX Design</div>
+            <div className={styles.tag}>Frontend Development</div>
+          </Card>
+        ))}
+      </div>
+      <h2 className={styles.h2}>Open Source</h2>
+      <div className={cardStyles.cardWrapper}>
+        {OPEN_SOURCE.map((item, i) => (
+          <Card
+            key={`item-${i}`}
+            title={item.title}
+            className={styles.caseStudy}
+          >
+            <h4 className={styles.h4}>{item.description}</h4>
+            {item.githubUrl && (
+              <div className={styles.tag}>
+                <a href={item.githubUrl}>Github</a>
+              </div>
+            )}
+            {item.npmUrl && (
+              <div className={styles.tag}>
+                <a href={item.npmUrl}>NPM</a>
+              </div>
+            )}
+          </Card>
+        ))}
       </div>
     </div>
   );
