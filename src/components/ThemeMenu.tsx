@@ -1,6 +1,6 @@
 import { MouseEvent } from "react";
 import classNames from "classnames";
-import { useThemeContext } from "../contexts/useThemeProvider";
+import { useThemeContext } from "../contexts/ThemeProvider";
 import { ThemeTypes, themeConfig } from "../contexts/themeConfig";
 import Adjustments from "../icons/adjustments.svg?react";
 import styles from "../styles/themes.module.scss";

@@ -26,9 +26,9 @@ export const useAnimate = () => {
       return { width: "100%" };
     } else {
       if (isSmall) {
-        return { height: "10%" };
+        return { height: "1%" };
       }
-      return { width: "10%" };
+      return { width: "1%" };
     }
   };
 

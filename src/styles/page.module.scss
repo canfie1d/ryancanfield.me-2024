@@ -1,24 +1,35 @@
 .pageWrapper {
-  margin: 10px 0;
+  margin: calc(var(--spacing-unit) / 2) 0;
   border-radius: var(--border-radius-large);
   box-shadow: 0 0 6px 4px rgba(6, 6, 6, 0.07);
   min-height: 80px;
   min-width: 100%;
+  transition:
+    min-width var(--transition-duration) ease-in-out,
+    min-height var(--transition-duration) ease-in-out,
+    width var(--transition-duration) ease-in-out,
+    height var(--transition-duration) ease-in-out,
+    margin var(--transition-duration) ease-in-out;
 
-  &.pageWrapperHome {
-    min-height: 17.5%;
+  // applies to all non-active pages
+  &.pageWrapperScrolled {
+    margin: 0 calc(var(--spacing-unit) / 4) 0;
+    min-height: 20px;
+    height: 20px;
   }
 }
 
 @media screen and (min-width: 769px) {
   .pageWrapper {
-    min-width: 100px;
     min-height: 100%;
+    min-width: 100px;
     margin: 0 calc(var(--spacing-unit) / 2);
 
-    &.pageWrapperHome {
-      min-width: 17.5%;
+    &.pageWrapperScrolled {
       min-height: 100%;
+      min-width: 20px;
+      width: 20px !important;
+      margin: 0 calc(var(--spacing-unit) / 4);
     }
   }
 }

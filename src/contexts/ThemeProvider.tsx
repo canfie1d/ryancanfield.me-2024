@@ -33,9 +33,9 @@ const reducer = (state: ThemeStateTypes, action: ThemeAction) => {
   }
 };
 
-export const useThemeContext = () => useContext(Theme);
+const Theme = createContext({} as ThemeStateTypes);
 
-export const Theme = createContext({} as ThemeStateTypes);
+export const useThemeContext = () => useContext(Theme);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, {} as ThemeStateTypes);

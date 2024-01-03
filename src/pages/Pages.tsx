@@ -13,14 +13,12 @@ const Page = () => {
   useShortcuts();
 
   return (
-    <>
-      <LayoutGroup>
-        <About key="about" />
-        <Work key="work" />
-        <Writing key="writing" />
-        <Contact key="contact" />
-      </LayoutGroup>
-    </>
+    <LayoutGroup>
+      <About key="about" />
+      <Work key="work" />
+      <Writing key="writing" />
+      <Contact key="contact" />
+    </LayoutGroup>
   );
 };
 
