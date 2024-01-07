@@ -1,0 +1,27 @@
+[build]
+  command = "yarn build"
+  functions = "functions"
+  publish = "dist/"
+
+[[redirects]]
+  from = '/api/*'
+  status = 200
+  to = '/.netlify/functions/:splat'
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  directory = "functions/"
+
+[dev]
+  targetPort = 3000
+  functionsPort = 8888
+  autoLaunch = false
+
+  [dev.https]
+    certFile = "net-fn.pem"
+    keyFile = "net-fn-key.pem"
