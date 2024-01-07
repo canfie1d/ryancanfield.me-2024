@@ -1,5 +1,7 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
+import { usePageScrollContext } from "../contexts/PageScrollProvider";
+import { useScroll } from "react-use";
 import { useAnimate } from "../hooks/useAnimate";
 import PagePreview from "../components/PagePreview";
 import PageContent from "../components/PageContent";
@@ -9,10 +11,14 @@ import CircleX from "../icons/circle-x.svg?react";
 import styles from "../styles/page.module.scss";
 import classNames from "classnames";
 import { caseStudies } from "../data/caseStudies";
-import { Suspense } from "react";
+import { Suspense, useRef } from "react";
 import Loader from "../components/Loader";
 
 const Work = () => {
+  const { scrolled, setScrolled } = usePageScrollContext();
+
+  const ref = useRef(null);
+  const { y } = useScroll(ref);
   const prefersReducedMotion = useReducedMotion();
   const { pathname } = useLocation();
   const pageName = "work";
@@ -21,13 +27,21 @@ const Work = () => {
   const { slide } = useAnimate();
   const caseStudy = pathname.split("/")[2];
 
+  if (ref.current) {
+    if (scrolled !== true && y > 50) {
+      setScrolled(true);
+    } else if (scrolled === true && y === 0) {
+      setScrolled(false);
+    }
+  }
+
   return (
     <motion.div
       key={pageName}
       animate={!prefersReducedMotion && slide(pageName)}
       className={classNames(
         styles.pageWrapper,
-        pathname === "/" && styles.pageWrapperHome
+        scrolled && !isCurrent && styles.pageWrapperScrolled
       )}
     >
       {isCurrent || isCaseStudy ? (
@@ -40,6 +54,7 @@ const Work = () => {
           className="h-full"
         >
           <PageContent
+            ref={ref}
             pageName={pageName}
             header={
               isCaseStudy
@@ -65,7 +80,7 @@ const Work = () => {
           </PageContent>
         </motion.div>
       ) : (
-        <PagePreview pageName={pageName} />
+        <PagePreview scrolled={scrolled} pageName={pageName} />
       )}
     </motion.div>
   );

@@ -3,7 +3,13 @@ import { useThemeContext } from "../contexts/ThemeProvider";
 import PreviewContent from "./PreviewContent";
 import styles from "../styles/preview.module.scss";
 
-const PagePreview = ({ pageName }: { pageName: string }) => {
+const PagePreview = ({
+  pageName,
+  scrolled,
+}: {
+  pageName: string;
+  scrolled: boolean;
+}) => {
   const { textColors, backgroundColors } = useThemeContext();
 
   return (
@@ -15,7 +21,7 @@ const PagePreview = ({ pageName }: { pageName: string }) => {
           ? backgroundColors[pageName]
           : "#89AAC0",
       }}
-      className={classNames(styles.preview)}
+      className={classNames(styles.preview, scrolled && styles.previewScrolled)}
     >
       <PreviewContent pageName={pageName} />
     </aside>

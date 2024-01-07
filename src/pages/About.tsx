@@ -1,19 +1,34 @@
+import { useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
+import { useScroll } from "react-use";
 import { useAnimate } from "../hooks/useAnimate";
+import { motion, useReducedMotion } from "framer-motion";
+import { usePageScrollContext } from "../contexts/PageScrollProvider";
+import classNames from "classnames";
 import PagePreview from "../components/PagePreview";
 import PageContent from "../components/PageContent";
 import AboutContent from "../content/AboutContent";
 import Atom from "../icons/atom.svg?react";
 import styles from "../styles/page.module.scss";
-import classNames from "classnames";
 
 const About = () => {
+  const { scrolled, setScrolled } = usePageScrollContext();
+
+  const ref = useRef(null);
+  const { y } = useScroll(ref);
   const prefersReducedMotion = useReducedMotion();
   const { pathname } = useLocation();
+  const { slide } = useAnimate();
   const pageName = "about";
   const isCurrent = pathname === `/${pageName}`;
-  const { slide } = useAnimate();
+
+  if (ref.current) {
+    if ((scrolled === false || scrolled === undefined) && y > 50) {
+      setScrolled(true);
+    } else if (scrolled === true && y === 0) {
+      setScrolled(false);
+    }
+  }
 
   return (
     <motion.div
@@ -21,11 +36,12 @@ const About = () => {
       animate={!prefersReducedMotion && slide(pageName)}
       className={classNames(
         styles.pageWrapper,
-        pathname === "/" && styles.pageWrapperHome
+        scrolled && !isCurrent && styles.pageWrapperScrolled
       )}
     >
       {isCurrent ? (
         <PageContent
+          ref={ref}
           pageName={pageName}
           header={{
             meta: "①",
@@ -36,7 +52,7 @@ const About = () => {
           <AboutContent />
         </PageContent>
       ) : (
-        <PagePreview pageName={pageName} />
+        <PagePreview scrolled={scrolled} pageName={pageName} />
       )}
     </motion.div>
   );
