@@ -113,6 +113,7 @@
   overflow: auto;
   margin: var(--spacing-unit);
   border-radius: var(--border-radius-large);
+  z-index: 1000;
 
   .modalHeader {
     position: sticky;
