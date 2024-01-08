@@ -2,10 +2,12 @@ import { MouseEvent, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { useThemeContext } from "../contexts/ThemeProvider";
 import { ThemeTypes, themeConfig } from "../contexts/themeConfig";
-import Adjustments from "../icons/adjustments.svg?react";
-import styles from "../styles/themes.module.scss";
-import { createPortal } from "react-dom";
 import { drawContributions } from "github-contributions-canvas";
+import { createPortal } from "react-dom";
+import Adjustments from "../icons/adjustments.svg?react";
+import CircleX from "../icons/circle-x.svg?react";
+import styles from "../styles/themes.module.scss";
+import Modal from "./Modal";
 
 const ThemeMenu = () => {
   const canvasRef = useRef(null);
@@ -61,38 +63,28 @@ const ThemeMenu = () => {
 
   return (
     <footer className={classNames(styles.themeMenu)}>
-      {ghData &&
-        createPortal(
-          <div
-            style={{
-              position: "fixed",
-              inset: 0,
-              background: "#fff",
-              overflow: "auto",
-              padding: "1rem",
-            }}
-          >
-            <button
-              style={{ position: "sticky", top: 0 }}
-              onClick={() => setGhData(null)}
-            >
-              X
-            </button>
-            <canvas ref={canvasRef} style={{ maxWidth: "100%" }} />
-          </div>,
-          document.body,
-          "gh-data"
-        )}
-      <span className={styles.themeMenuHeader}>
-        <button
-          style={{
-            background: "none",
-            padding: 0,
-            margin: 0,
-            border: 0,
-          }}
-          onClick={handleBonusClick}
+      {createPortal(
+        <Modal
+          show={!!ghData}
+          header={
+            <>
+              <h2>GitHub Contributions</h2>
+              <button
+                className={styles.hiddenButton}
+                onClick={() => setGhData(null)}
+              >
+                <CircleX />
+              </button>
+            </>
+          }
         >
+          <canvas ref={canvasRef} style={{ maxWidth: "100%" }} />
+        </Modal>,
+        document.body,
+        "gh-data"
+      )}
+      <span className={styles.themeMenuHeader}>
+        <button className={styles.hiddenButton} onClick={handleBonusClick}>
           <Adjustments />
         </button>{" "}
         <span>Theme</span>

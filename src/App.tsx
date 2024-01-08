@@ -1,10 +1,10 @@
-import { BrowserRouter as Router } from "react-router-dom";
-import Pages from "./pages/Pages";
-import Layout from "./components/Layout";
-import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeProvider";
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import { ThemeProvider } from "./contexts/ThemeProvider";
+import ErrorBoundary from "./components/ErrorBoundary";
+import Pages from "./pages/Pages";
+import Layout from "./components/Layout";
 import PageTitle from "./components/PageTitle";
 import ThemeMenu from "./components/ThemeMenu";
 import "./styles/globals.scss";
