@@ -1,10 +1,11 @@
 import { ReactNode, useState } from "react";
+import { Link } from "react-router-dom";
 import Atom from "../icons/atom.svg?react";
 import At from "../icons/at.svg?react";
 import Brain from "../icons/brain.svg?react";
 import CodeCircle from "../icons/code-circle.svg?react";
 import styles from "../styles/preview.module.scss";
-import { Link } from "react-router-dom";
+import classNames from "classnames";
 
 const InnerContent = ({
   icon,
@@ -20,8 +21,14 @@ const InnerContent = ({
   return (
     <>
       {icon}
-      <p className={styles.previewLinkContent}>
-        {isHovered ? hoverText : text}
+      <p className={styles.previewLinkContent}>{text}</p>
+      <p
+        className={classNames(
+          styles.previewLinkHoverContent,
+          isHovered && styles.previewLinkHoverContentHovered
+        )}
+      >
+        {hoverText}
       </p>
     </>
   );

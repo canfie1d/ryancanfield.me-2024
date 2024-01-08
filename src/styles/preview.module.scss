@@ -6,6 +6,10 @@
   height: 100%;
 }
 
+.previewLinkHoverContent {
+  display: none;
+}
+
 .previewLink {
   color: inherit;
   text-decoration: none;
@@ -68,5 +72,20 @@
 
   .previewContent {
     flex-direction: column;
+  }
+
+  .previewLinkHoverContent {
+    display: block;
+    position: absolute;
+    bottom: calc((var(--spacing-unit) / 4) * -1);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: var(--font-small);
+    transition: all var(--transition-duration) ease-in-out;
+    opacity: 0;
+
+    &.previewLinkHoverContentHovered {
+      opacity: 1;
+    }
   }
 }
