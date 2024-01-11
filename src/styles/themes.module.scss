@@ -105,3 +105,38 @@
     }
   }
 }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: var(--off-white);
+  overflow: auto;
+  margin: var(--spacing-unit);
+  border-radius: var(--border-radius-large);
+  z-index: 1000;
+
+  .modalHeader {
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--off-white);
+    padding: var(--spacing-unit);
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+  .modalContent {
+    padding: var(--spacing-unit);
+  }
+}
+
+.hiddenButton {
+  background: none;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}

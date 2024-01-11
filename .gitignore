@@ -4,3 +4,9 @@ node_modules
 /dist
 .vscode
 nextjs
+
+# Local Netlify folder
+.netlify
+
+net-fn-key.pem
+net-fn.pem
