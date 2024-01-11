@@ -15,7 +15,6 @@ export const handler: Handler = async (event, context) => {
     const data = await fetch(
       "https://github-contributions.vercel.app/api/v1/canfie1d"
     ).then((res) => res.json());
-    console.log("data: ", data);
     return {
       statusCode: 200,
       headers: headers,
