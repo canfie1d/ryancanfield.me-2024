@@ -20,6 +20,13 @@
   background-color: var(--unremarkable-semi-opaque-light-gray);
   border-radius: var(--border-radius-medium);
   outline: 2px solid transparent;
+  width: 100%;
+
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-medium);
+  }
 
   &:focus-within {
     outline: 2px solid var(--another-unremarkable-semi-opaque-gray);

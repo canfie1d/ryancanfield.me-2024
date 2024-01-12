@@ -1,13 +1,13 @@
+import { Suspense, useRef } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import { usePageScrollContext } from "../contexts/PageScrollProvider";
 import { useScroll } from "react-use";
+import { caseStudies } from "../data/caseStudies";
 import PageContent from "../components/PageContent";
 import WorkContent from "../content/WorkContent";
 import CodeCircle from "../icons/code-circle.svg?react";
 import CircleX from "../icons/circle-x.svg?react";
-import { caseStudies } from "../data/caseStudies";
-import { Suspense, useRef } from "react";
 import Loader from "../components/Loader";
 
 const Work = () => {
@@ -29,41 +29,40 @@ const Work = () => {
   }
 
   return (
-    <div ref={ref}>
-      <motion.div
-        key={pathname}
-        initial={!prefersReducedMotion ? { opacity: 0 } : {}}
-        animate={!prefersReducedMotion ? { opacity: 1 } : {}}
-        exit={!prefersReducedMotion ? { opacity: 0 } : {}}
-        transition={{ ease: "easeOut", duration: 0.5 }}
-        className="h-full"
+    <motion.div
+      key={pathname}
+      initial={!prefersReducedMotion ? { opacity: 0 } : {}}
+      animate={!prefersReducedMotion ? { opacity: 1 } : {}}
+      exit={!prefersReducedMotion ? { opacity: 0 } : {}}
+      transition={{ ease: "easeOut", duration: 0.5 }}
+      className="h-full"
+    >
+      <PageContent
+        ref={ref}
+        pageName="work"
+        header={
+          isCaseStudy
+            ? {
+                meta: (
+                  <Link to="/work">
+                    <CircleX />
+                    <span className="sr-only">Close</span>
+                  </Link>
+                ),
+                title: caseStudy,
+              }
+            : {
+                meta: "②",
+                title: "Work",
+                icon: <CodeCircle />,
+              }
+        }
       >
-        <PageContent
-          pageName="work"
-          header={
-            isCaseStudy
-              ? {
-                  meta: (
-                    <Link to="/work">
-                      <CircleX />
-                      <span className="sr-only">Close</span>
-                    </Link>
-                  ),
-                  title: caseStudy,
-                }
-              : {
-                  meta: "②",
-                  title: "Work",
-                  icon: <CodeCircle />,
-                }
-          }
-        >
-          <Suspense fallback={<Loader />}>
-            {isCaseStudy ? <Outlet /> : <WorkContent />}
-          </Suspense>
-        </PageContent>
-      </motion.div>
-    </div>
+        <Suspense fallback={<Loader />}>
+          {isCaseStudy ? <Outlet /> : <WorkContent />}
+        </Suspense>
+      </PageContent>
+    </motion.div>
   );
 };
 

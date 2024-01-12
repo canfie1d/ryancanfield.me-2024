@@ -18,18 +18,17 @@ const Contact = () => {
   }
 
   return (
-    <div ref={ref}>
-      <PageContent
-        pageName="contact"
-        header={{
-          meta: "④",
-          title: "Contact",
-          icon: <At />,
-        }}
-      >
-        <ContactContent />
-      </PageContent>
-    </div>
+    <PageContent
+      ref={ref}
+      pageName="contact"
+      header={{
+        meta: "④",
+        title: "Contact",
+        icon: <At />,
+      }}
+    >
+      <ContactContent />
+    </PageContent>
   );
 };
 

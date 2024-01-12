@@ -9,6 +9,7 @@ const Writing = () => {
   const ref = useRef(null);
   const { scrolled, setScrolled } = usePageScrollContext();
   const { y } = useScroll(ref);
+
   if (ref.current) {
     if ((scrolled === false || scrolled === undefined) && y > 50) {
       setScrolled(true);
@@ -18,14 +19,13 @@ const Writing = () => {
   }
 
   return (
-    <div ref={ref}>
-      <PageContent
-        pageName="writing"
-        header={{ meta: "③", title: "Writing", icon: <Brain /> }}
-      >
-        <WritingContent />
-      </PageContent>
-    </div>
+    <PageContent
+      ref={ref}
+      pageName="writing"
+      header={{ meta: "③", title: "Writing", icon: <Brain /> }}
+    >
+      <WritingContent />
+    </PageContent>
   );
 };
 

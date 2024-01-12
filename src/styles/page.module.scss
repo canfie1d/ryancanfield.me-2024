@@ -4,12 +4,7 @@
   box-shadow: 0 0 6px 4px rgba(6, 6, 6, 0.07);
   min-height: 80px;
   min-width: 100%;
-  transition:
-    min-width var(--transition-duration) ease-in-out,
-    min-height var(--transition-duration) ease-in-out,
-    width var(--transition-duration) ease-in-out,
-    height var(--transition-duration) ease-in-out,
-    margin var(--transition-duration) ease-in-out;
+  transition: all var(--transition-duration) ease-in-out;
 
   // applies to all non-active pages
   &.pageWrapperScrolled {

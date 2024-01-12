@@ -1,11 +1,12 @@
-import { Suspense, lazy } from "react";
+import classNames from "classnames";
+import { Suspense, lazy, useEffect } from "react";
 import { LayoutGroup, motion, useReducedMotion } from "framer-motion";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useShortcuts } from "../hooks/useShortcuts";
-import PagePreview from "../components/PagePreview";
-import classNames from "classnames";
-import styles from "../styles/page.module.scss";
 import { useAnimate } from "../hooks/useAnimate";
+import { usePageScrollContext } from "../contexts/PageScrollProvider";
+import PagePreview from "../components/PagePreview";
+import styles from "../styles/page.module.scss";
 
 const About = lazy(() => import("./About"));
 const Work = lazy(() => import("./Work"));
@@ -15,9 +16,14 @@ const CaseStudy = lazy(() => import("./CaseStudy"));
 
 const Page = () => {
   const prefersReducedMotion = useReducedMotion();
+  const { scrolled, setScrolled } = usePageScrollContext();
   const { pathname } = useLocation();
   const { slide } = useAnimate();
   useShortcuts();
+
+  useEffect(() => {
+    setScrolled(false);
+  }, [pathname]);
 
   const layout = () => {
     switch (pathname) {
@@ -29,30 +35,51 @@ const Page = () => {
               animate={!prefersReducedMotion && slide("about")}
               className={classNames(styles.pageWrapper)}
             >
-              <Suspense fallback={<PagePreview key="about" pageName="about" />}>
+              <Suspense
+                fallback={
+                  <PagePreview key="about" pageName="about" scrolled={false} />
+                }
+              >
                 <About key="about" />
               </Suspense>
             </motion.div>
             <motion.div
               key="work-page"
               animate={!prefersReducedMotion && slide("work")}
-              className={classNames(styles.pageWrapper)}
+              className={classNames(
+                styles.pageWrapper,
+                scrolled && styles.pageWrapperScrolled
+              )}
             >
-              <PagePreview key="work" pageName="work" />
+              <PagePreview key="work" pageName="work" scrolled={scrolled} />
             </motion.div>
             <motion.div
               key="writing-page"
               animate={!prefersReducedMotion && slide("writing")}
-              className={classNames(styles.pageWrapper)}
+              className={classNames(
+                styles.pageWrapper,
+                scrolled && styles.pageWrapperScrolled
+              )}
             >
-              <PagePreview key="writing" pageName="writing" />
+              <PagePreview
+                key="writing"
+                pageName="writing"
+                scrolled={scrolled}
+              />
             </motion.div>
             <motion.div
               key="contact-page"
               animate={!prefersReducedMotion && slide("contact")}
-              className={classNames(styles.pageWrapper)}
+              className={classNames(
+                styles.pageWrapper,
+                scrolled && styles.pageWrapperScrolled
+              )}
             >
-              <PagePreview key="contact" pageName="contact" />
+              <PagePreview
+                key="contact"
+                pageName="contact"
+                scrolled={scrolled}
+              />
             </motion.div>
           </>
         );
@@ -65,32 +92,53 @@ const Page = () => {
             <motion.div
               key="about-page"
               animate={!prefersReducedMotion && slide("about")}
-              className={classNames(styles.pageWrapper)}
+              className={classNames(
+                styles.pageWrapper,
+                scrolled && styles.pageWrapperScrolled
+              )}
             >
-              <PagePreview key="about" pageName="about" />
+              <PagePreview key="about" pageName="about" scrolled={scrolled} />
             </motion.div>
             <motion.div
               key="work-page"
               animate={!prefersReducedMotion && slide("work")}
               className={classNames(styles.pageWrapper)}
             >
-              <Suspense fallback={<PagePreview key="work" pageName="work" />}>
+              <Suspense
+                fallback={
+                  <PagePreview key="work" pageName="work" scrolled={false} />
+                }
+              >
                 <Work key="work" />
               </Suspense>
             </motion.div>
             <motion.div
               key="writing-page"
               animate={!prefersReducedMotion && slide("writing")}
-              className={classNames(styles.pageWrapper)}
+              className={classNames(
+                styles.pageWrapper,
+                scrolled && styles.pageWrapperScrolled
+              )}
             >
-              <PagePreview key="writing" pageName="writing" />
+              <PagePreview
+                key="writing"
+                pageName="writing"
+                scrolled={scrolled}
+              />
             </motion.div>
             <motion.div
               key="contact-page"
               animate={!prefersReducedMotion && slide("contact")}
-              className={classNames(styles.pageWrapper)}
+              className={classNames(
+                styles.pageWrapper,
+                scrolled && styles.pageWrapperScrolled
+              )}
             >
-              <PagePreview key="contact" pageName="contact" />
+              <PagePreview
+                key="contact"
+                pageName="contact"
+                scrolled={scrolled}
+              />
             </motion.div>
           </>
         );
@@ -100,16 +148,22 @@ const Page = () => {
             <motion.div
               key="about-page"
               animate={!prefersReducedMotion && slide("about")}
-              className={classNames(styles.pageWrapper)}
+              className={classNames(
+                styles.pageWrapper,
+                scrolled && styles.pageWrapperScrolled
+              )}
             >
-              <PagePreview key="about" pageName="about" />
+              <PagePreview key="about" pageName="about" scrolled={scrolled} />
             </motion.div>
             <motion.div
               key="work-page"
               animate={!prefersReducedMotion && slide("work")}
-              className={classNames(styles.pageWrapper)}
+              className={classNames(
+                styles.pageWrapper,
+                scrolled && styles.pageWrapperScrolled
+              )}
             >
-              <PagePreview key="work" pageName="work" />
+              <PagePreview key="work" pageName="work" scrolled={scrolled} />
             </motion.div>
             <motion.div
               key="writing-page"
@@ -117,7 +171,13 @@ const Page = () => {
               className={classNames(styles.pageWrapper)}
             >
               <Suspense
-                fallback={<PagePreview key="writing" pageName="writing" />}
+                fallback={
+                  <PagePreview
+                    key="writing"
+                    pageName="writing"
+                    scrolled={false}
+                  />
+                }
               >
                 <Writing key="writing" />
               </Suspense>
@@ -125,9 +185,16 @@ const Page = () => {
             <motion.div
               key="contact-page"
               animate={!prefersReducedMotion && slide("contact")}
-              className={classNames(styles.pageWrapper)}
+              className={classNames(
+                styles.pageWrapper,
+                scrolled && styles.pageWrapperScrolled
+              )}
             >
-              <PagePreview key="contact" pageName="contact" />
+              <PagePreview
+                key="contact"
+                pageName="contact"
+                scrolled={scrolled}
+              />
             </motion.div>
           </>
         );
@@ -137,23 +204,36 @@ const Page = () => {
             <motion.div
               key="about-page"
               animate={!prefersReducedMotion && slide("about")}
-              className={classNames(styles.pageWrapper)}
+              className={classNames(
+                styles.pageWrapper,
+                scrolled && styles.pageWrapperScrolled
+              )}
             >
-              <PagePreview key="about" pageName="about" />
+              <PagePreview key="about" pageName="about" scrolled={scrolled} />
             </motion.div>
             <motion.div
               key="work-page"
               animate={!prefersReducedMotion && slide("work")}
-              className={classNames(styles.pageWrapper)}
+              className={classNames(
+                styles.pageWrapper,
+                scrolled && styles.pageWrapperScrolled
+              )}
             >
-              <PagePreview key="work" pageName="work" />
+              <PagePreview key="work" pageName="work" scrolled={scrolled} />
             </motion.div>
             <motion.div
               key="writing-page"
               animate={!prefersReducedMotion && slide("about")}
-              className={classNames(styles.pageWrapper)}
+              className={classNames(
+                styles.pageWrapper,
+                scrolled && styles.pageWrapperScrolled
+              )}
             >
-              <PagePreview key="writing" pageName="writing" />
+              <PagePreview
+                key="writing"
+                pageName="writing"
+                scrolled={scrolled}
+              />
             </motion.div>
             <motion.div
               key="contact-page"
@@ -161,7 +241,13 @@ const Page = () => {
               className={classNames(styles.pageWrapper)}
             >
               <Suspense
-                fallback={<PagePreview key="contact" pageName="contact" />}
+                fallback={
+                  <PagePreview
+                    key="contact"
+                    pageName="contact"
+                    scrolled={false}
+                  />
+                }
               >
                 <Contact key="contact" />
               </Suspense>
@@ -177,28 +263,28 @@ const Page = () => {
               animate={!prefersReducedMotion && slide("about")}
               className={classNames(styles.pageWrapper)}
             >
-              <PagePreview key="about" pageName="about" />
+              <PagePreview key="about" pageName="about" scrolled={false} />
             </motion.div>
             <motion.div
               key="work-page"
               animate={!prefersReducedMotion && slide("work")}
               className={classNames(styles.pageWrapper)}
             >
-              <PagePreview key="work" pageName="work" />
+              <PagePreview key="work" pageName="work" scrolled={false} />
             </motion.div>
             <motion.div
               key="writing-page"
               animate={!prefersReducedMotion && slide("writing")}
               className={classNames(styles.pageWrapper)}
             >
-              <PagePreview key="writing" pageName="writing" />
+              <PagePreview key="writing" pageName="writing" scrolled={false} />
             </motion.div>
             <motion.div
               key="contact-page"
               animate={!prefersReducedMotion && slide("contact")}
               className={classNames(styles.pageWrapper)}
             >
-              <PagePreview key="contact" pageName="contact" />
+              <PagePreview key="contact" pageName="contact" scrolled={false} />
             </motion.div>
           </>
         );

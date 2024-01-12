@@ -18,18 +18,17 @@ const About = () => {
   }
 
   return (
-    <div ref={ref}>
-      <PageContent
-        pageName="about"
-        header={{
-          meta: "①",
-          title: "About",
-          icon: <Atom />,
-        }}
-      >
-        <AboutContent />
-      </PageContent>
-    </div>
+    <PageContent
+      ref={ref}
+      pageName="about"
+      header={{
+        meta: "①",
+        title: "About",
+        icon: <Atom />,
+      }}
+    >
+      <AboutContent />
+    </PageContent>
   );
 };
 
