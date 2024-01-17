@@ -136,7 +136,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (locTheme) {
-      if (typeof JSON.parse(locTheme) === "string") {
+      if (typeof locTheme === "string") {
         dispatch({ type: "SET_THEME", payload: themeConfig[0] });
         setLocTheme(JSON.stringify(themeConfig[0]));
       } else if (!state.name) {
