@@ -143,8 +143,14 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     if (!themeNames.includes(locTheme as ThemeNames)) {
       localStorage.setItem("theme", JSON.stringify(themeConfig[0]));
     }
-    if (locTheme && !state.name) {
-      dispatch({ type: "SET_THEME", payload: JSON.parse(locTheme) });
+    if (locTheme) {
+      if (typeof JSON.parse(locTheme) === "string") {
+        dispatch({ type: "SET_THEME", payload: themeConfig[0] });
+        setLocTheme(JSON.stringify(themeConfig[0]));
+      }
+      if (!state.name) {
+        dispatch({ type: "SET_THEME", payload: JSON.parse(locTheme) });
+      }
     }
 
     if (locLockedColors && !state.lockedColors) {
