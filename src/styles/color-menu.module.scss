@@ -1,0 +1,76 @@
+.colorMenu {
+  display: none;
+
+  &.colorMenuVisible {
+    display: block;
+  }
+}
+
+.previewSaveCheckbox {
+  display: none;
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+
+  @media screen and (min-width: 769px) {
+    display: block;
+  }
+}
+
+.previewSaveLabel {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  cursor: pointer;
+  display: block;
+  padding: 0.5rem;
+  height: 44px;
+  border: 2px solid transparent;
+
+  svg {
+    display: block;
+    margin: auto;
+  }
+}
+
+.previewColorPicker {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  z-index: 100;
+  background-color: transparent;
+
+  &.previewColorPickerActive {
+    opacity: 1;
+    height: 200px;
+    width: 200px;
+    padding: unset;
+    margin-top: 44px;
+    margin-left: -100px;
+    overflow: auto;
+  }
+}
+
+.previewColorLabel {
+  background-color: transparent;
+  display: block;
+  width: 100%;
+  color: inherit;
+  cursor: pointer;
+  padding: 0.5rem;
+  height: 44px;
+  border: 2px solid transparent;
+  border-radius: var(--border-radius-large);
+}
+
+.previewColorPicker:focus + .previewColorLabel,
+.previewSaveCheckbox:focus + .previewSaveLabel {
+  outline: none;
+  border: 2px solid var(--unremarkable-semi-opaque-dark-gray);
+  border-radius: var(--border-radius-large);
+}

@@ -7,6 +7,7 @@
   --transition-duration-slow: 800ms;
   --white: #fff;
   --off-white: #ebebeb;
+  --off-black: #1e1e1e;
   --unremarkable-light-gray: #d3d3d3;
   --unremarkable-medium-gray: #787878;
   --unremarkable-dark-gray: #646464;
@@ -135,4 +136,15 @@ span {
 
 .h-full {
   height: 100%;
+}
+
+.hidden-button {
+  background: none;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+a {
+  color: inherit;
 }

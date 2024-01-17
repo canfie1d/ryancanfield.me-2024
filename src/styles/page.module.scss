@@ -8,9 +8,13 @@
 
   // applies to all non-active pages
   &.pageWrapperScrolled {
-    margin: 0 calc(var(--spacing-unit) / 4) 0;
+    margin: calc(var(--spacing-unit) / 4) 0;
     min-height: 20px;
     height: 20px;
+
+    @media screen and (min-width: 769px) {
+      margin: 0 calc(var(--spacing-unit) / 4);
+    }
   }
 }
 

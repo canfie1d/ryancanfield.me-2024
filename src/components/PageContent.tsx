@@ -1,6 +1,7 @@
 import { ForwardedRef, ReactNode, forwardRef } from "react";
 import classNames from "classnames";
 import { useThemeContext } from "../contexts/ThemeProvider";
+import { PageNames, pageNames } from "../data/themeConfig";
 import styles from "../styles/content.module.scss";
 
 const PageContent = forwardRef(
@@ -15,20 +16,21 @@ const PageContent = forwardRef(
         title: string;
         icon?: ReactNode;
       };
-      pageName: string;
+      pageName: PageNames;
       children: ReactNode;
     },
     ref: ForwardedRef<HTMLDivElement>
   ) => {
     const { textColors, backgroundColors } = useThemeContext();
 
+    const indexOfPage = pageNames.indexOf(pageName);
     return (
       <main
         ref={ref}
         style={{
-          color: textColors ? textColors[pageName] : "#89AAC0",
+          color: textColors ? textColors[indexOfPage] : "#89AAC0",
           backgroundColor: backgroundColors
-            ? backgroundColors[pageName]
+            ? backgroundColors[indexOfPage]
             : "#89AAC0",
         }}
         className={classNames(styles.main)}

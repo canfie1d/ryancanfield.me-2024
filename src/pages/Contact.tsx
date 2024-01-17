@@ -9,10 +9,11 @@ const Contact = () => {
   const ref = useRef(null);
   const { scrolled, setScrolled } = usePageScrollContext();
   const { y } = useScroll(ref);
+
   if (ref.current) {
-    if ((scrolled === false || scrolled === undefined) && y > 50) {
+    if ((scrolled === false || scrolled === undefined) && y > 100) {
       setScrolled(true);
-    } else if (scrolled === true && y === 0) {
+    } else if (scrolled === true && y <= 100) {
       setScrolled(false);
     }
   }

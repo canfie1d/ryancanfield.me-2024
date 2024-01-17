@@ -22,8 +22,8 @@ const App = () => {
         <PageScrollProvider>
           <Layout>
             <Router>
-              <Pages />
               <PageTitle />
+              <Pages />
               <ThemeMenu />
             </Router>
           </Layout>

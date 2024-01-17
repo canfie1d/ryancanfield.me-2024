@@ -21,9 +21,9 @@ const Work = () => {
   const caseStudy = pathname.split("/")[2];
 
   if (ref.current) {
-    if (scrolled !== true && y > 50) {
+    if ((scrolled === false || scrolled === undefined) && y > 100) {
       setScrolled(true);
-    } else if (scrolled === true && y === 0) {
+    } else if (scrolled === true && y <= 100) {
       setScrolled(false);
     }
   }

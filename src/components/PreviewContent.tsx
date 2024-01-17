@@ -6,6 +6,7 @@ import Brain from "../icons/brain.svg?react";
 import CodeCircle from "../icons/code-circle.svg?react";
 import styles from "../styles/preview.module.scss";
 import classNames from "classnames";
+import { usePageScrollContext } from "../contexts/PageScrollProvider";
 
 const InnerContent = ({
   icon,
@@ -18,6 +19,8 @@ const InnerContent = ({
   hoverText: string;
   isHovered?: boolean;
 }) => {
+  const { scrolled } = usePageScrollContext();
+
   return (
     <>
       {icon}
@@ -25,7 +28,7 @@ const InnerContent = ({
       <p
         className={classNames(
           styles.previewLinkHoverContent,
-          isHovered && styles.previewLinkHoverContentHovered
+          isHovered && !scrolled && styles.previewLinkHoverContentHovered
         )}
       >
         {hoverText}
@@ -36,6 +39,7 @@ const InnerContent = ({
 
 const PreviewContent = ({ pageName }: { pageName: string }) => {
   const [isHovered, setIsHovered] = useState(false);
+
   const handleMouseOver = () => {
     setIsHovered(true);
   };
