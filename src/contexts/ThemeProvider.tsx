@@ -1,11 +1,6 @@
 import { useContext, useEffect } from "react";
 import { ReactNode, createContext, useReducer } from "react";
-import {
-  themeConfig,
-  ThemeNames,
-  ThemeType,
-  themeNames,
-} from "../data/themeConfig";
+import { themeConfig, ThemeType } from "../data/themeConfig";
 import useLocalStorage from "react-use-localstorage";
 
 type LockedColorType = { hex: string; position: number };
