@@ -140,24 +140,29 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
-    if (!themeNames.includes(locTheme as ThemeNames)) {
-      localStorage.setItem("theme", JSON.stringify(themeConfig[0]));
-    }
     if (locTheme) {
       if (typeof JSON.parse(locTheme) === "string") {
         dispatch({ type: "SET_THEME", payload: themeConfig[0] });
         setLocTheme(JSON.stringify(themeConfig[0]));
-      }
-      if (!state.name) {
+      } else if (!state.name) {
         dispatch({ type: "SET_THEME", payload: JSON.parse(locTheme) });
       }
     }
 
-    if (locLockedColors && !state.lockedColors) {
-      dispatch({
-        type: "SET_LOCKED_COLORS",
-        payload: JSON.parse(locLockedColors),
-      });
+    if (locLockedColors) {
+      if (
+        JSON.parse(locLockedColors).some(
+          (lockedColor: any) => typeof lockedColor === "string"
+        )
+      ) {
+        dispatch({ type: "SET_LOCKED_COLORS", payload: [] });
+        setLocLockedColors(JSON.stringify([]));
+      } else if (!state.lockedColors) {
+        dispatch({
+          type: "SET_LOCKED_COLORS",
+          payload: JSON.parse(locLockedColors),
+        });
+      }
     }
   }, []);
 

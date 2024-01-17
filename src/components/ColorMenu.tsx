@@ -120,6 +120,7 @@ const ColorMenu = ({
           <button
             onClick={() => setColorPickerActive(true)}
             className={classNames(styles.previewColorLabel)}
+            aria-label="Edit color"
           >
             <Edit />
           </button>

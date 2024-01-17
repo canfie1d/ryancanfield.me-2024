@@ -35,6 +35,7 @@ const PageTitle = () => {
             rel="noopener noreferrer"
             target="_blank"
             href="https://github.com/canfie1d/ryancanfield.me-2024"
+            aria-label="Website Github repo"
           >
             <GithubIcon />
           </a>
@@ -42,6 +43,7 @@ const PageTitle = () => {
             rel="noopener noreferrer"
             target="_blank"
             href="https://www.linkedin.com/in/ryanmcanfield"
+            aria-label="LinkedIn Profile"
           >
             <LinkedinIcon />
           </a>
@@ -58,6 +60,7 @@ const PageTitle = () => {
       <Link
         to="/"
         className={classNames(styles.pageTitle, styles.pageTitleMinimized)}
+        aria-label="Home"
       >
         Ryan Canfield
       </Link>
