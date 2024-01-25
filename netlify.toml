@@ -1,8 +1,3 @@
-[build]
-  command = "yarn build"
-  functions = "functions"
-  publish = "dist/"
-
 [[redirects]]
   from = '/api/*'
   status = 200

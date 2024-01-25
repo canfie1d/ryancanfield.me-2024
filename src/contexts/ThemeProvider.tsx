@@ -135,6 +135,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
+    // Self healing local storage
     if (locTheme) {
       if (typeof locTheme === "string") {
         dispatch({ type: "SET_THEME", payload: themeConfig[0] });
@@ -145,9 +146,11 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     }
 
     if (locLockedColors) {
+      // Self healing local storage
       if (
         JSON.parse(locLockedColors).some(
-          (lockedColor: any) => typeof lockedColor === "string"
+          (lockedColor: LockedColorType | string) =>
+            typeof lockedColor === "string"
         )
       ) {
         dispatch({ type: "SET_LOCKED_COLORS", payload: [] });

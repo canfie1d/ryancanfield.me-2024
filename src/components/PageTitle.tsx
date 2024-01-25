@@ -8,26 +8,28 @@ const PageTitle = () => {
   const { pathname } = useLocation();
 
   return pathname === "/" ? (
-    <main className={styles.pageTitleWrapper}>
-      <h1 className={styles.pageTitle}>Ryan Canfield</h1>
-      <h2 className={styles.pageSubtitle}>
-        Hands-in-code
-        <br />
-        Engineering Leadership
-      </h2>
+    <main className={styles.pageWrapper}>
+      <div className={styles.pageTitleWrapper}>
+        <h1 className={styles.pageTitle}>Ryan Canfield</h1>
+        <h2 className={styles.pageSubtitle}>
+          Hands-in-code
+          <br />
+          Engineering Leadership
+        </h2>
+      </div>
       <div className={styles.pageContent}>
         <p className={styles.pageDescription}>
           {/* I'm a software engineer and engineering leader with a passion for
           building great products and teams. */}
         </p>
         <p className={styles.pageDescription}>
-          Theme builder feature inspired by{" "}
+          Theme builder feature inspired by &amp; utilizes&nbsp;
           <a
             rel="noopener noreferrer"
             target="_blank"
-            href="https://coolors.co"
+            href="http://colormind.io"
           >
-            coolors.co
+            colormind.io
           </a>
         </p>
         <div className={styles.pageLinks}>
@@ -52,10 +54,7 @@ const PageTitle = () => {
     </main>
   ) : (
     <header
-      className={classNames(
-        styles.pageTitleWrapper,
-        styles.pageTitleWrapperMinimized
-      )}
+      className={classNames(styles.pageWrapper, styles.pageWrapperMinimized)}
     >
       <Link
         to="/"

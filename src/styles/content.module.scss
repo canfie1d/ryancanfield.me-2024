@@ -77,6 +77,10 @@
 
     .p {
       padding-bottom: var(--spacing-unit);
+
+      .aInline {
+        font-size: var(--font-small);
+      }
     }
 
     .h2 + .p {

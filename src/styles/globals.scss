@@ -118,6 +118,11 @@ p {
   line-height: var(--line-height);
   font-family: var(--body-font);
 
+  strong {
+    font-family: var(--heading-font);
+    font-weight: 600;
+  }
+
   &::selection {
     color: var(--off-white);
     background: var(--unremarkable-semi-opaque-gray);

@@ -8,6 +8,7 @@ import Pages from "./pages/Pages";
 import Layout from "./components/Layout";
 import PageTitle from "./components/PageTitle";
 import ThemeMenu from "./components/ThemeMenu";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./styles/globals.scss";
 
 if (process.env.NODE_ENV !== "production") {
@@ -16,19 +17,23 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const App = () => {
+  const queryClient = new QueryClient();
+
   return (
     <ErrorBoundary>
-      <ThemeProvider>
-        <PageScrollProvider>
-          <Layout>
-            <Router>
-              <PageTitle />
-              <Pages />
-              <ThemeMenu />
-            </Router>
-          </Layout>
-        </PageScrollProvider>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <PageScrollProvider>
+            <Layout>
+              <Router>
+                <PageTitle />
+                <Pages />
+                <ThemeMenu />
+              </Router>
+            </Layout>
+          </PageScrollProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 };

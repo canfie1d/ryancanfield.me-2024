@@ -68,24 +68,8 @@ const ColorMenu = ({
         visible && styles.colorMenuVisible
       )}
     >
-      <p
-        style={{
-          paddingTop: "1rem",
-          margin: 0,
-          width: "100%",
-          textAlign: "center",
-          fontSize: "1rem",
-        }}
-      >
-        {backgroundColor}
-      </p>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          margin: "0 .5rem",
-        }}
-      >
+      <p>{backgroundColor}</p>
+      <div>
         <div>
           <input
             id={`save-checkbox-${backgroundColor}`}

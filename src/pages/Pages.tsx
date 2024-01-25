@@ -34,6 +34,7 @@ const Page = () => {
               key="about-page"
               animate={!prefersReducedMotion && slide("about")}
               className={classNames(styles.pageWrapper)}
+              initial={false}
             >
               <Suspense
                 fallback={
@@ -103,6 +104,7 @@ const Page = () => {
               key="work-page"
               animate={!prefersReducedMotion && slide("work")}
               className={classNames(styles.pageWrapper)}
+              initial={false}
             >
               <Suspense
                 fallback={
@@ -169,6 +171,7 @@ const Page = () => {
               key="writing-page"
               animate={!prefersReducedMotion && slide("writing")}
               className={classNames(styles.pageWrapper)}
+              initial={false}
             >
               <Suspense
                 fallback={
@@ -239,6 +242,7 @@ const Page = () => {
               key="contact-page"
               animate={!prefersReducedMotion && slide("contact")}
               className={classNames(styles.pageWrapper)}
+              initial={false}
             >
               <Suspense
                 fallback={

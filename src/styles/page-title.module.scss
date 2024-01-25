@@ -1,17 +1,24 @@
-.pageTitleWrapper {
+.pageWrapper {
   position: fixed;
+  display: flex;
   bottom: calc(var(--spacing-unit) * 2.5);
-  left: var(--spacing-unit);
+  left: calc(var(--spacing-unit) / 2);
+  right: calc(var(--spacing-unit) / 2);
   z-index: 1;
   opacity: 0;
   animation: fadeIn var(--transition-duration-slow) ease-out 200ms;
   animation-fill-mode: forwards;
 
-  &.pageTitleWrapperMinimized {
+  .pageTitleWrapper {
+    flex: 1 1 50%;
+  }
+
+  &.pageWrapperMinimized {
     bottom: 7px;
   }
 
   @media screen and (min-width: 769px) {
+    flex-direction: column;
     top: var(--spacing-unit);
     right: var(--spacing-unit);
     bottom: var(--spacing-unit);
@@ -19,7 +26,7 @@
     width: calc(17.5% + var(--spacing-unit));
     transform-origin: right;
 
-    &.pageTitleWrapperMinimized {
+    &.pageWrapperMinimized {
       transform: rotate(-90deg);
       width: auto;
       height: 19px;
@@ -27,7 +34,9 @@
   }
 }
 
+// column one
 .pageTitle {
+  flex: 1 1 auto;
   font-size: var(--font-x-large);
   font-weight: 600;
   letter-spacing: 1.6px;
@@ -55,14 +64,18 @@
   }
 }
 
+// column two
 .pageSubtitle {
+  flex: 1 1 50%;
   padding-top: calc(var(--spacing-unit) / 2);
   color: var(--unremarkable-dark-gray);
   font-size: var(--font-medium);
   margin: 0;
 }
 
+// column three
 .pageContent {
+  flex: 1 1 50%;
   display: flex;
   flex-direction: column;
   height: calc(100% - 100px);
