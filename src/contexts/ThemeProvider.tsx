@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { ReactNode, createContext, useReducer } from "react";
 import { themeConfig, ThemeType } from "../data/themeConfig";
 import useLocalStorage from "react-use-localstorage";
+import { getTextColor } from "../helpers/getTextColor";
 
 type LockedColorType = { hex: string; position: number };
 
@@ -44,6 +45,7 @@ type ThemeStateTypes = {
     newColor: LockedColorType
   ) => void;
   setTheme: (newTheme: ThemeType) => void;
+  buildCustomTheme: (theme: ThemeType) => ThemeType;
 };
 
 const reducer = (
@@ -146,7 +148,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     }
 
     if (locLockedColors) {
-      // Self healing local storage
       if (
         JSON.parse(locLockedColors).some(
           (lockedColor: LockedColorType | string) =>
@@ -161,6 +162,10 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
           payload: JSON.parse(locLockedColors),
         });
       }
+
+      // Restore saved theme
+      const newTheme = buildCustomTheme(JSON.parse(locTheme));
+      handleSetTheme(newTheme);
     }
   }, []);
 
@@ -219,6 +224,49 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: "REPLACE_LOCKED_COLOR", payload: { oldColor, newColor } });
   };
 
+  const buildCustomTheme = (theme: ThemeType) => {
+    let newBgColors: ThemeType["backgroundColors"] = [];
+    let newTextColors: ThemeType["textColors"] = [];
+
+    theme.backgroundColors.forEach((color: string, index: number) => {
+      if (
+        JSON.parse(locLockedColors).some(
+          (lockedColor: LockedColorType) => lockedColor.position === index
+        )
+      ) {
+        const lockedColor = JSON.parse(locLockedColors).find(
+          (lockedColor: LockedColorType) => lockedColor.position === index
+        );
+        newBgColors.push(lockedColor!.hex);
+      } else {
+        newBgColors.push(color);
+      }
+    });
+
+    theme.textColors.forEach((color: string, index: number) => {
+      if (
+        JSON.parse(locLockedColors).some(
+          (lockedColor: LockedColorType) => lockedColor.position === index
+        )
+      ) {
+        const lockedColor = JSON.parse(locLockedColors).find(
+          (lockedColor: LockedColorType) => lockedColor.position === index
+        );
+        newTextColors.push(getTextColor(lockedColor!.hex));
+      } else {
+        newTextColors.push(getTextColor(color));
+      }
+    });
+
+    const customTheme: ThemeType = {
+      name: "custom",
+      backgroundColors: newBgColors,
+      textColors: newTextColors,
+    };
+
+    return customTheme;
+  };
+
   return (
     <Theme.Provider
       value={{
@@ -230,6 +278,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         replaceLockedColor: handleReplaceLockedColor,
         resetLockedColors: handleResetLockedColors,
         setTheme: handleSetTheme,
+        buildCustomTheme: buildCustomTheme,
       }}
     >
       <div className={`${state.name}`}>{children}</div>

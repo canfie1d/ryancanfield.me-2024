@@ -40,43 +40,14 @@ const ThemeMenu = () => {
     },
   });
 
-  const { name, backgroundColors, setTheme, lockedColors, resetLockedColors } =
-    useThemeContext();
-
-  const buildCustomTheme = (theme: ThemeType) => {
-    let newBgColors: ThemeType["backgroundColors"] = [];
-    let newTextColors: ThemeType["textColors"] = [];
-
-    theme.backgroundColors.forEach((color: string, index: number) => {
-      if (lockedColors.some((lockedColor) => lockedColor.position === index)) {
-        const lockedColor = lockedColors.find(
-          (lockedColor) => lockedColor.position === index
-        );
-        newBgColors.push(lockedColor!.hex);
-      } else {
-        newBgColors.push(color);
-      }
-    });
-
-    theme.textColors.forEach((color: string, index: number) => {
-      if (lockedColors.some((lockedColor) => lockedColor.position === index)) {
-        const lockedColor = lockedColors.find(
-          (lockedColor) => lockedColor.position === index
-        );
-        newTextColors.push(getTextColor(lockedColor!.hex));
-      } else {
-        newTextColors.push(getTextColor(color));
-      }
-    });
-
-    const customTheme: ThemeType = {
-      name: "custom",
-      backgroundColors: newBgColors,
-      textColors: newTextColors,
-    };
-
-    return customTheme;
-  };
+  const {
+    name,
+    backgroundColors,
+    setTheme,
+    lockedColors,
+    resetLockedColors,
+    buildCustomTheme,
+  } = useThemeContext();
 
   const handleSelectKnownTheme = (index: number) => {
     let newTheme = themeConfig[index];
@@ -121,35 +92,6 @@ const ThemeMenu = () => {
 
     colorApi.mutate(body);
   };
-  // try {
-  //   // const bgResponse = await fetch("/api/theme-picker", {
-  //   //   method: "POST",
-  //   //   body: body,
-  //   // });
-
-  //   const rgbColors = await bgResponse.json();
-
-  //   if (rgbColors.msg) throw new Error(rgbColors.msg);
-
-  //   const hexColors = rgbColors.result
-  //     .map((color: [r: string, g: string, b: string]) => rgbToHex(color))
-  //     .toReversed();
-
-  //   let newTheme: ThemeType = {
-  //     name: "random",
-  //     backgroundColors: hexColors,
-  //     textColors: hexColors.map((color: string) => getTextColor(color)),
-  //   };
-
-  //   if (lockedColors?.length) {
-  //     newTheme = buildCustomTheme(newTheme);
-  //   }
-
-  //   setTheme(newTheme);
-  // } catch (e) {
-  //   console.error(e);
-  // }
-  // };
 
   const renderThemeOptions = () => {
     const themeOptions = themeConfig.map((theme, i) => {
