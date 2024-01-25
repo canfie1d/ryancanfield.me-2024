@@ -12,6 +12,7 @@
   "dependencies": {
     "@netlify/functions": "^2.4.1",
     "@tanstack/react-query": "^5.17.19",
+    "@vitejs/plugin-react-swc": "^3.5.0",
     "classnames": "^2.4.0",
     "framer-motion": "^10.16.16",
     "github-contributions-canvas": "^0.7.0",

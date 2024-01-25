@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react-swc";
 import svgr from "vite-plugin-svgr";
 import Sitemap from "vite-plugin-sitemap";
 import { VitePWA } from "vite-plugin-pwa";
@@ -7,7 +7,15 @@ import { VitePWA } from "vite-plugin-pwa";
 import path from "path";
 
 export default defineConfig({
-  plugins: [react(), svgr(), Sitemap(), VitePWA() /*mkcert()*/],
+  plugins: [
+    react(),
+    svgr(),
+    Sitemap({
+      dynamicRoutes: ["/", "/about", "/work", "/writing", "/contact"],
+      generateRobotsTxt: true,
+    }),
+    VitePWA() /*mkcert()*/,
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "/src"),
