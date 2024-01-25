@@ -6,40 +6,8 @@ import { hexToRgb } from "../helpers/hexToRgb";
 import { getTextColor } from "../helpers/getTextColor";
 import { rgbToHex } from "../helpers/rgbToHex";
 import styles from "../styles/themes.module.scss";
-// import { useMutation } from "@tanstack/react-query";
-
-// const getColors = async (payload?: string) => {
-//   const body = { input: payload && JSON.parse(payload), model: "ui" };
-//   return await fetch("http://colormind.io/api/", {
-//     method: "POST",
-//     body: JSON.stringify(body),
-//   }).then((res) => res.json());
-// };
 
 const ThemeMenu = () => {
-  // const colorApi = useMutation({
-  //   mutationFn: getColors,
-  //   onSuccess: (resp) => {
-  //     if (resp.msg) throw new Error(resp.msg);
-
-  //     const hexColors = resp.result
-  //       .map((color: [r: string, g: string, b: string]) => rgbToHex(color))
-  //       .toReversed();
-
-  //     let newTheme: ThemeType = {
-  //       name: "random",
-  //       backgroundColors: hexColors,
-  //       textColors: hexColors.map((color: string) => getTextColor(color)),
-  //     };
-
-  //     if (lockedColors?.length) {
-  //       newTheme = buildCustomTheme(newTheme);
-  //     }
-
-  //     setTheme(newTheme);
-  //   },
-  // });
-
   const {
     name,
     backgroundColors,
@@ -77,6 +45,18 @@ const ThemeMenu = () => {
     let body = lockedColors?.length
       ? JSON.stringify(lockedColorPayload)
       : undefined;
+
+    if (
+      // temporary fix for bug where lockedColors is an array of "N"
+      // instead of an empty array when all colors are unlocked
+      body &&
+      JSON.parse(body)?.filter((color: string) => {
+        return color !== "N";
+      }).length === 0
+    ) {
+      resetLockedColors();
+      body = undefined;
+    }
 
     try {
       const bgResponse = await fetch("/api/theme-picker", {
