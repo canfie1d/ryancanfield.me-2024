@@ -1,14 +1,14 @@
+import { useRef, useState } from "react";
+import { HexColorPicker } from "react-colorful";
 import classNames from "classnames";
 import { useThemeContext } from "../contexts/ThemeProvider";
 import { getTextColor } from "../helpers/getTextColor";
+import { ThemeType } from "../data/themeConfig";
+import useClickOutside from "../hooks/useClickOutside";
 import Lock from "../icons/lock.svg?react";
 import Unlock from "../icons/unlock.svg?react";
 import Edit from "../icons/edit.svg?react";
 import styles from "../styles/color-menu.module.scss";
-import { ThemeType } from "../data/themeConfig";
-import { HexColorPicker } from "react-colorful";
-import { useRef, useState } from "react";
-import useClickOutside from "../hooks/useClickOutside";
 
 const ColorMenu = ({
   backgroundColor,
@@ -35,10 +35,8 @@ const ColorMenu = ({
     (lockedColor) => lockedColor.hex === backgroundColor
   );
   const [colorPickerActive, setColorPickerActive] = useState(false);
-  // const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const handleColorChange = (value: string) => {
-    // const value = e.target.value;
 
+  const handleColorChange = (value: string) => {
     const indexToReplace = backgroundColors.indexOf(backgroundColor);
 
     replaceLockedColor(
@@ -76,14 +74,12 @@ const ColorMenu = ({
             type="checkbox"
             className={styles.previewSaveCheckbox}
             checked={isLocked || false}
+            aria-label="Lock color"
             onChange={() =>
               setLockedColor({ hex: backgroundColor, position: index })
             }
           />
-          <label
-            htmlFor={`save-checkbox-${backgroundColor}`}
-            className={classNames(styles.previewSaveLabel)}
-          >
+          <label className={classNames(styles.previewSaveLabel)}>
             {isLocked ? <Lock /> : <Unlock />}
           </label>
         </div>

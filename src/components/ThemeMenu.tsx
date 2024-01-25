@@ -6,39 +6,39 @@ import { hexToRgb } from "../helpers/hexToRgb";
 import { getTextColor } from "../helpers/getTextColor";
 import { rgbToHex } from "../helpers/rgbToHex";
 import styles from "../styles/themes.module.scss";
-import { useMutation } from "@tanstack/react-query";
+// import { useMutation } from "@tanstack/react-query";
 
-const getColors = async (payload?: string) => {
-  const body = { input: payload && JSON.parse(payload), model: "ui" };
-  return await fetch("http://colormind.io/api/", {
-    method: "POST",
-    body: JSON.stringify(body),
-  }).then((res) => res.json());
-};
+// const getColors = async (payload?: string) => {
+//   const body = { input: payload && JSON.parse(payload), model: "ui" };
+//   return await fetch("http://colormind.io/api/", {
+//     method: "POST",
+//     body: JSON.stringify(body),
+//   }).then((res) => res.json());
+// };
 
 const ThemeMenu = () => {
-  const colorApi = useMutation({
-    mutationFn: getColors,
-    onSuccess: (resp) => {
-      if (resp.msg) throw new Error(resp.msg);
+  // const colorApi = useMutation({
+  //   mutationFn: getColors,
+  //   onSuccess: (resp) => {
+  //     if (resp.msg) throw new Error(resp.msg);
 
-      const hexColors = resp.result
-        .map((color: [r: string, g: string, b: string]) => rgbToHex(color))
-        .toReversed();
+  //     const hexColors = resp.result
+  //       .map((color: [r: string, g: string, b: string]) => rgbToHex(color))
+  //       .toReversed();
 
-      let newTheme: ThemeType = {
-        name: "random",
-        backgroundColors: hexColors,
-        textColors: hexColors.map((color: string) => getTextColor(color)),
-      };
+  //     let newTheme: ThemeType = {
+  //       name: "random",
+  //       backgroundColors: hexColors,
+  //       textColors: hexColors.map((color: string) => getTextColor(color)),
+  //     };
 
-      if (lockedColors?.length) {
-        newTheme = buildCustomTheme(newTheme);
-      }
+  //     if (lockedColors?.length) {
+  //       newTheme = buildCustomTheme(newTheme);
+  //     }
 
-      setTheme(newTheme);
-    },
-  });
+  //     setTheme(newTheme);
+  //   },
+  // });
 
   const {
     name,
@@ -78,19 +78,34 @@ const ThemeMenu = () => {
       ? JSON.stringify(lockedColorPayload)
       : undefined;
 
-    if (
-      // temporary fix for bug where lockedColors is an array of "N"
-      // instead of an empty array when all colors are unlocked
-      body &&
-      JSON.parse(body)?.filter((color: string) => {
-        return color !== "N";
-      }).length === 0
-    ) {
-      resetLockedColors();
-      body = undefined;
-    }
+    try {
+      const bgResponse = await fetch("/api/theme-picker", {
+        method: "POST",
+        body: body,
+      });
 
-    colorApi.mutate(body);
+      const rgbColors = await bgResponse.json();
+
+      if (rgbColors.msg) throw new Error(rgbColors.msg);
+
+      const hexColors = rgbColors.result
+        .map((color: [r: string, g: string, b: string]) => rgbToHex(color))
+        .toReversed();
+
+      let newTheme: ThemeType = {
+        name: "random",
+        backgroundColors: hexColors,
+        textColors: hexColors.map((color: string) => getTextColor(color)),
+      };
+
+      if (lockedColors?.length) {
+        newTheme = buildCustomTheme(newTheme);
+      }
+
+      setTheme(newTheme);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const renderThemeOptions = () => {
@@ -144,6 +159,7 @@ const ThemeMenu = () => {
             padding: ".5rem 1rem",
             margin: "1rem -1rem .5rem",
             background: "#eee",
+            borderRadius: "var(--border-radius-medium)",
           }}
         >
           To change your theme unlock at least one color.
