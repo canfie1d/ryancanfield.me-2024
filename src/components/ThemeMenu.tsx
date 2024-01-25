@@ -8,8 +8,8 @@ import { rgbToHex } from "../helpers/rgbToHex";
 import styles from "../styles/themes.module.scss";
 import { useMutation } from "@tanstack/react-query";
 
-const getColors = async (payload: any) => {
-  const body = { ...payload, model: "ui" };
+const getColors = async (payload?: string) => {
+  const body = { input: payload && JSON.parse(payload), model: "ui" };
   return await fetch("http://colormind.io/api/", {
     method: "POST",
     body: JSON.stringify(body),
