@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import styles from "../styles/themes.module.scss";
+import styles from "../styles/modal.module.scss";
 
 const Modal = ({
   show,

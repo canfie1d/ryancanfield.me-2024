@@ -3,10 +3,14 @@
   border-radius: var(--border-radius-large);
   height: 100%;
   width: 100%;
+
   transition:
-    width var(--transition-duration) ease-in-out,
     color var(--transition-duration-quick) ease-out,
     background-color var(--transition-duration-quick) ease-out;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: width var(--transition-duration) ease-in-out;
+  }
 }
 
 @media screen and (min-width: 769px) {
@@ -94,10 +98,10 @@
     .a {
       color: inherit;
       text-decoration: underline;
-      transition: color var(--transition-duration-quick) ease-out;
       margin: calc((var(--spacing-unit) / 4) * -1)
         calc((var(--spacing-unit) / 2) * -1);
       padding: calc(var(--spacing-unit) / 4) calc(var(--spacing-unit) / 2);
+      transition: color var(--transition-duration-quick) ease-out;
 
       &:hover,
       &:focus {

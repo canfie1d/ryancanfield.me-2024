@@ -45,12 +45,12 @@
   box-shadow: none;
   width: 100%;
   text-transform: capitalize;
-  transition:
-    background-color var(--transition-duration-quick) ease-out,
-    color var(--transition-duration-super-quick) ease;
   border: 2px solid transparent;
   display: block;
   margin: 0 auto 1rem;
+  transition:
+    background-color var(--transition-duration-quick) ease-out,
+    color var(--transition-duration-super-quick) ease;
 
   &:hover,
   &:focus {

@@ -5,6 +5,7 @@ import Adjustments from "../icons/adjustments.svg?react";
 import { hexToRgb } from "../helpers/hexToRgb";
 import { getTextColor } from "../helpers/getTextColor";
 import { rgbToHex } from "../helpers/rgbToHex";
+import LockIcon from "../icons/lock.svg?react";
 import styles from "../styles/themes.module.scss";
 
 const ThemeMenu = () => {
@@ -47,7 +48,7 @@ const ThemeMenu = () => {
       : undefined;
 
     if (
-      // temporary fix for bug where lockedColors is an array of "N"
+      // Fixes bug where lockedColors is an array of "N"
       // instead of an empty array when all colors are unlocked
       body &&
       JSON.parse(body)?.filter((color: string) => {
@@ -133,15 +134,8 @@ const ThemeMenu = () => {
         <span>Theme</span>
       </span>
       {lockedColors?.length >= 4 && (
-        <p
-          style={{
-            fontSize: "1rem",
-            padding: ".5rem 1rem",
-            margin: "1rem -1rem .5rem",
-            background: "#eee",
-            borderRadius: "var(--border-radius-medium)",
-          }}
-        >
+        <p className={styles.themeMenuMessage}>
+          <LockIcon />
           To change your theme unlock at least one color.
         </p>
       )}

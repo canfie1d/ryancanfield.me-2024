@@ -18,7 +18,7 @@ export const handler: Handler = async (event) => {
       method: "POST",
       body: JSON.stringify({
         model: "ui",
-        input: JSON.stringify(colors),
+        input: colors,
       }),
     });
 

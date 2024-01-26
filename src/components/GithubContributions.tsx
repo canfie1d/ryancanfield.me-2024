@@ -1,73 +1,107 @@
-import { useState, useEffect, useRef } from "react";
+import { useRef, useEffect, useReducer } from "react";
 import { createPortal } from "react-dom";
-import { useQuery } from "@tanstack/react-query";
 import { drawContributions } from "github-contributions-canvas";
 import Modal from "../components/Modal";
 import CircleX from "../icons/circle-x.svg?react";
+import Loader from "./Loader";
+
+type StateType = {
+  isPending: boolean;
+  data: any;
+  showData: boolean;
+};
+
+const reducer = (state: StateType, action: { type: string; payload: any }) => {
+  switch (action.type) {
+    case "setIsPending":
+      return { ...state, isPending: action.payload };
+    case "setShowData":
+      return { ...state, showData: action.payload };
+    case "setData":
+      return action.payload;
+    default:
+      throw new Error();
+  }
+};
+const DEFAULT_STATE: StateType = {
+  isPending: false,
+  data: null,
+  showData: false,
+};
 
 const GithubContributions = () => {
-  const [getData, setGetData] = useState(false);
-
-  const {
-    isPending,
-    error,
-    data: ghData,
-  } = useQuery({
-    enabled: getData,
-    queryKey: ["ghData"],
-    queryFn: async () => {
-      return await fetch(
-        "https://github-contributions.vercel.app/api/v1/canfie1d"
-      ).then((res) => {
-        console.log(res);
-        return res.json();
-      });
-    },
-  });
-
-  if (error) {
-    console.error(error);
-  }
+  const [state, dispatch] = useReducer(reducer, DEFAULT_STATE);
 
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    if (canvasRef.current && ghData) {
+    if (canvasRef.current && state.data) {
       drawContributions(canvasRef.current, {
-        data: ghData.data,
+        data: state.data,
         username: "canfie1d",
         themeName: "standard",
         fontFace: "Nunito",
       });
     }
-  }, [ghData]);
+  }, [state.data]);
+
+  const handleGetData = async () => {
+    if (state.data) {
+      dispatch({ type: "setShowData", payload: true });
+    } else {
+      dispatch({ type: "setIsPending", payload: true });
+
+      try {
+        const response = await fetch("/api/github-contributions");
+        const data = await response.json();
+
+        dispatch({
+          type: "setData",
+          payload: { isPending: false, data: data.data, showData: true },
+        });
+      } catch (error) {
+        console.error(error);
+        dispatch({
+          type: "setIsPending",
+          payload: { isPending: false },
+        });
+      }
+    }
+  };
 
   return (
     <>
       {createPortal(
         <Modal
-          show={!!ghData}
+          show={state.showData}
           header={
             <>
               <h2>GitHub Contributions</h2>
               <button
                 className="hidden-button"
-                onClick={() => setGetData(false)}
+                onClick={() =>
+                  dispatch({ type: "setShowData", payload: false })
+                }
               >
                 <CircleX />
               </button>
             </>
           }
         >
-          <canvas ref={canvasRef} style={{ maxWidth: "100%" }} />
+          {state.isPending ? (
+            <Loader />
+          ) : (
+            <canvas ref={canvasRef} style={{ maxWidth: "100%" }} />
+          )}
         </Modal>,
         document.body,
         "gh-data"
       )}
-      <button onClick={() => setGetData(true)} disabled={getData && isPending}>
-        {getData && isPending
-          ? "Getting Latest Contributions from Github..."
-          : "View Github Contributions"}
+      <button
+        onClick={handleGetData}
+        disabled={state.showData || state.isPending}
+      >
+        Open Github Contribution Graph
       </button>
     </>
   );

@@ -1,5 +1,5 @@
 import { OPEN_SOURCE, PROJECTS } from "../data/content";
-// import GithubContributions from "../components/GithubContributions";
+import GithubContributions from "../components/GithubContributions";
 import Card from "../components/Card";
 import styles from "../styles/content.module.scss";
 import cardStyles from "../styles/card.module.scss";
@@ -49,7 +49,7 @@ const WorkContent = () => {
           </Card>
         ))}
       </div>
-      {/* <GithubContributions /> */}
+      <GithubContributions />
     </div>
   );
 };
