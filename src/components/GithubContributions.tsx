@@ -43,7 +43,7 @@ const GithubContributions = () => {
         fontFace: "Nunito",
       });
     }
-  }, [state.data]);
+  }, [state.data, state.showData]);
 
   const handleGetData = async () => {
     if (state.data) {
