@@ -79,7 +79,10 @@ const ColorMenu = ({
               setLockedColor({ hex: backgroundColor, position: index })
             }
           />
-          <label className={classNames(styles.previewSaveLabel)}>
+          <label
+            htmlFor={`save-checkbox-${backgroundColor}`}
+            className={classNames(styles.previewSaveLabel)}
+          >
             {isLocked ? <Lock /> : <Unlock />}
           </label>
         </div>
