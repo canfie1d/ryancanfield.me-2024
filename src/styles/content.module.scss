@@ -50,7 +50,7 @@
       display: inline-block;
 
       &:hover,
-      &:focus {
+      &:focus-visible {
         background-color: var(--another-unremarkable-semi-opaque-gray);
       }
     }
@@ -104,7 +104,7 @@
       transition: color var(--transition-duration-quick) ease-out;
 
       &:hover,
-      &:focus {
+      &:focus-visible {
         outline: none;
         background-color: var(--unremarkable-semi-opaque-light-gray);
       }

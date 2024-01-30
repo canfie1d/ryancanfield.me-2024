@@ -27,7 +27,7 @@
   line-height: var(--line-height-tall);
   border: 2px solid transparent;
 
-  &:focus {
+  &:focus-visible {
     outline: none;
     border: 2px solid var(--unremarkable-semi-opaque-gray);
   }
@@ -53,13 +53,13 @@
     color var(--transition-duration-super-quick) ease;
 
   &:hover,
-  &:focus {
+  &:focus-visible {
     background-color: var(--unremarkable-semi-opaque-gray);
     outline: none;
     color: var(--white);
   }
 
-  &:focus {
+  &:focus-visible {
     border: 2px solid var(--unremarkable-semi-opaque-gray);
   }
 }

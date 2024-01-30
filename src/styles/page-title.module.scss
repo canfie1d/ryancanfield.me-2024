@@ -55,7 +55,7 @@
       padding: calc(var(--spacing-unit) / 4) calc(var(--spacing-unit) / 2);
       border: 2px solid transparent;
 
-      &:focus {
+      &:focus-visible {
         outline: none;
         border: 2px solid var(--unremarkable-semi-opaque-gray);
         border-radius: var(--border-radius-small);

@@ -45,7 +45,7 @@
     border: 2px solid transparent;
     border-radius: var(--border-radius-medium);
 
-    &:focus {
+    &:focus-visible {
       outline: none;
       border: 2px solid var(--unremarkable-semi-opaque-dark-gray);
     }

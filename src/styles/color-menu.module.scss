@@ -90,8 +90,8 @@
   border-radius: var(--border-radius-large);
 }
 
-.previewColorPicker:focus + .previewColorLabel,
-.previewSaveCheckbox:focus + .previewSaveLabel {
+.previewColorPicker:focus-visible + .previewColorLabel,
+.previewSaveCheckbox:focus-visible + .previewSaveLabel {
   outline: none;
   border: 2px solid var(--unremarkable-semi-opaque-dark-gray);
   border-radius: var(--border-radius-large);

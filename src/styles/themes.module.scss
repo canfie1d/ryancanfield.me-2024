@@ -89,14 +89,14 @@
       color var(--transition-duration-super-quick) ease;
 
     &:hover,
-    &:focus,
+    &:focus-visible,
     &.themeButtonActive {
       background-color: var(--unremarkable-semi-opaque-gray);
       outline: none;
       color: var(--white);
     }
 
-    &:focus {
+    &:focus-visible {
       border: 2px solid var(--unremarkable-semi-opaque-gray);
     }
   }
