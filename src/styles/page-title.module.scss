@@ -1,12 +1,12 @@
 .pageWrapper {
   position: fixed;
   display: flex;
-  bottom: calc(var(--spacing-unit) * 2.5);
-  left: calc(var(--spacing-unit) / 2);
-  right: calc(var(--spacing-unit) / 2);
-  z-index: 1;
+  top: calc(80% + var(--spacing-unit) / 2);
+  height: var(--fifth-minus-20);
+  width: var(--full-minus-20);
+  padding: 0 calc(var(--spacing-unit) / 2);
   opacity: 0;
-  animation: fadeIn var(--transition-duration-slow) ease-out 200ms;
+  animation: fadeIn var(--transition-duration-slow) ease-in 250ms;
   animation-fill-mode: forwards;
 
   .pageTitleWrapper {
@@ -14,21 +14,31 @@
   }
 
   &.pageWrapperMinimized {
-    bottom: 7px;
+    width: auto;
+    top: auto;
+    left: var(--spacing-unit);
+    bottom: calc(var(--spacing-unit) / 2);
+    right: auto;
+    padding: 0;
+    height: var(--spacing-unit);
   }
 
   @media screen and (min-width: 769px) {
     flex-direction: column;
-    top: var(--spacing-unit);
-    right: var(--spacing-unit);
+    top: calc(var(--spacing-unit) / 2);
+    right: calc(var(--spacing-unit) * 2);
     bottom: var(--spacing-unit);
     left: auto;
-    width: calc(17.5% + var(--spacing-unit));
+    height: var(--full-minus-20);
+    width: var(--fifth-minus-20);
     transform-origin: right;
+    padding: calc(var(--spacing-unit) / 2) 0;
 
     &.pageWrapperMinimized {
       transform: rotate(-90deg);
-      width: auto;
+      right: var(--spacing-unit);
+      bottom: auto;
+      left: auto;
       height: 35px;
     }
   }
@@ -45,6 +55,7 @@
   font-weight: 400;
   line-height: var(--line-height);
   margin: 0;
+  background: transparent;
 
   &.pageTitleMinimized {
     font-size: var(--font-medium);
@@ -79,7 +90,6 @@
   display: flex;
   flex-direction: column;
   height: calc(100% - 100px);
-  align-items: space-between;
   justify-content: space-between;
 
   .pageDescription {
@@ -92,15 +102,26 @@
     + .pageDescription {
       flex: 0 0 auto;
       padding-top: 0;
-      font-style: italic;
-      text-align: center;
+      text-align: right;
       padding-bottom: calc(var(--spacing-unit) / 2);
+
+      @media screen and (min-width: 769px) {
+        text-align: left;
+      }
     }
   }
 
   .pageLinks {
     display: flex;
-    justify-content: space-around;
+    justify-content: end;
+
+    @media screen and (min-width: 769px) {
+      justify-content: start;
+    }
+
+    a:first-child {
+      margin-right: calc(var(--spacing-unit) / 2);
+    }
   }
 }
 

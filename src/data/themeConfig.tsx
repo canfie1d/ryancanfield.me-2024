@@ -23,16 +23,16 @@ export const themeConfig: ThemeConfigType = [
   {
     name: "sampico",
     backgroundColors: ["#20b2aa", "#ffc0cb", "#f08080", "#add8e6", "#d3d3d3"],
-    textColors: ["#135b57", "#927177", "#8f4d4d", "#547c89", "#646464"],
+    textColors: ["#135b57", "#6e5156", "#8f4d4d", "#3d5a63", "#646464"],
   },
   {
     name: "kim",
-    backgroundColors: ["#bcb8b1", "#f4f3ee", "#e0afa0", "#b7b7a4", "#8a817c"],
-    textColors: ["#463F3A", "#463F3A", "#463F3A", "#463F3A", "#463F3A"],
+    backgroundColors: ["#e0afa0", "#bcb8b1", "#b7b7a4", "#8a817c", "#f4f3ee"],
+    textColors: ["#463F3A", "#463F3A", "#463F3A", "#dbcdc5", "#463F3A"],
   },
   {
     name: "léon",
-    backgroundColors: ["#2E4165", "#415A77", "#566D8A", "#778DA9", "#1B263B"],
+    backgroundColors: ["#1B263B", "#2E4165", "#415A77", "#566D8A", "#9dbbe0"],
     textColors: ["#E0E1DD", "#E0E1DD", "#E0E1DD", "#E0E1DD", "#E0E1DD"],
   },
 ];

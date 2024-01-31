@@ -23,7 +23,8 @@ const PageTitle = () => {
           building great products and teams. */}
         </p>
         <p className={styles.pageDescription}>
-          Theme builder feature inspired by &amp; utilizes&nbsp;
+          Theme builder feature utilizes &amp;
+          <br /> inspired by&nbsp;
           <a
             rel="noopener noreferrer"
             target="_blank"

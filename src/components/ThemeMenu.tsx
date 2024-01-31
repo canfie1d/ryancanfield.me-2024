@@ -131,7 +131,7 @@ const ThemeMenu = () => {
     <footer className={classNames(styles.themeMenu)}>
       <span className={styles.themeMenuHeader}>
         <Adjustments />
-        <span>Theme</span>
+        <span>Themes</span>
       </span>
       {lockedColors?.length >= 4 && (
         <p className={styles.themeMenuMessage}>
