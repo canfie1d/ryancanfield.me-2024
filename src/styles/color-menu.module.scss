@@ -1,12 +1,13 @@
 .colorMenu {
   display: none;
   padding-top: 0;
+  animation: fadeIn var(--transition-duration) ease-in;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   &.colorMenuVisible {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
 
   @media screen and (min-width: 769px) {
@@ -95,4 +96,13 @@
   outline: none;
   border: 2px solid var(--unremarkable-semi-opaque-dark-gray);
   border-radius: var(--border-radius-large);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
