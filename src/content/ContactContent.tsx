@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import classNames from "classnames";
 import styles from "../styles/content.module.scss";
 import formStyles from "../styles/form.module.scss";
-import classNames from "classnames";
-import { useLocation } from "react-router-dom";
 
 type FormData = {
   "form-name": string;
@@ -31,7 +31,10 @@ const ContactContent = () => {
 
   return (
     <div className={styles.contentBody}>
-      <p className={styles.p}>
+      <p
+        style={{ maxWidth: "35ch", textAlign: "center", margin: "auto" }}
+        className={styles.p}
+      >
         I'm not seeking opportunites but I always like hearing from new (and
         familiar) people!
       </p>
