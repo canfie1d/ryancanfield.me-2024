@@ -152,4 +152,29 @@ span {
 
 a {
   color: inherit;
+
+  &::selection {
+    color: var(--off-white);
+    background: var(--unremarkable-semi-opaque-gray);
+  }
+}
+
+.modal-trigger {
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  margin: var(--spacing-unit) auto 0;
+  background-color: var(--unremarkable-semi-opaque-gray);
+  border-radius: var(--border-radius-large);
+  padding: var(--spacing-unit) calc(var(--spacing-unit) * 2);
+  color: var(--white);
+
+  svg {
+    margin-right: calc(var(--spacing-unit) / 2);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--unremarkable-dark-gray);
+  }
 }

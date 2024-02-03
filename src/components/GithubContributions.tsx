@@ -2,7 +2,7 @@ import { useRef, useEffect, useReducer } from "react";
 import { createPortal } from "react-dom";
 import { drawContributions } from "github-contributions-canvas";
 import Modal from "../components/Modal";
-import CircleX from "../icons/circle-x.svg?react";
+import GithubIcon from "../icons/github.svg?react";
 import Loader from "./Loader";
 
 type StateType = {
@@ -75,17 +75,12 @@ const GithubContributions = () => {
         <Modal
           show={state.showData}
           header={
-            <>
-              <h2>GitHub Contributions</h2>
-              <button
-                className="hidden-button"
-                onClick={() =>
-                  dispatch({ type: "setShowData", payload: false })
-                }
-              >
-                <CircleX />
-              </button>
-            </>
+            <Modal.Header
+              title="Github Contributions per day"
+              subtitle="current to 2012"
+              icon={<GithubIcon />}
+              onClose={() => dispatch({ type: "setShowData", payload: false })}
+            />
           }
         >
           {state.isPending ? (
@@ -99,9 +94,11 @@ const GithubContributions = () => {
       )}
       <button
         onClick={handleGetData}
+        className="modal-trigger"
         disabled={state.showData || state.isPending}
       >
-        Open Github Contribution Graph
+        <GithubIcon />
+        {state.isPending ? "Loading..." : "Github Contribution Graph"}
       </button>
     </>
   );

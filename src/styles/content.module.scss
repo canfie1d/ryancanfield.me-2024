@@ -136,11 +136,17 @@
     display: inline-block;
     color: var(--white);
 
+    &::selection {
+      color: var(--off-white);
+      background: var(--unremarkable-semi-opaque-gray);
+    }
+
     &:has(a) {
       padding: 0;
     }
 
     a {
+      user-select: none;
       padding: calc(var(--spacing-unit) / 2) var(--spacing-unit);
     }
   }

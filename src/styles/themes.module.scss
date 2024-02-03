@@ -1,9 +1,8 @@
 .themeMenu {
   position: fixed;
-  bottom: calc(50% - 150px);
+  top: calc(50% - 150px);
   right: 0;
   transform: translateX(calc(var(--full-minus-20) - var(--spacing-unit)));
-  width: calc(20% + 20px);
   background-color: transparent;
   padding: var(--spacing-unit) var(--spacing-unit) 0;
   border-top-left-radius: 12px;
@@ -74,7 +73,6 @@
     max-width: 195px;
     padding: 0.5rem 1rem;
     margin: 1rem auto 0.5rem;
-    background: var(--off-white);
     border-radius: var(--border-radius-medium);
     font-size: 1rem;
 
@@ -98,6 +96,10 @@
       border: 1px solid transparent;
       background-color: transparent;
     }
+
+    .themeMenuMessage {
+      background: var(--off-white);
+    }
   }
 
   ul {
@@ -108,28 +110,26 @@
 }
 
 .themeButton {
-  border-radius: var(--border-radius-medium);
   margin-bottom: 0.35rem;
   padding: calc(var(--spacing-unit) / 2);
-  border: none;
   box-shadow: none;
   width: 100%;
   text-transform: capitalize;
-  border-radius: var(--border-radius-medium);
   border: 2px solid transparent;
+  border-radius: var(--border-radius-medium);
+  background-color: var(--unremarkable-semi-opaque-gray);
+  color: var(--white);
   transition:
     background-color var(--transition-duration-quick) ease-out,
     color var(--transition-duration-super-quick) ease;
 
   &:hover,
-  &:focus-visible,
   &.themeButtonActive {
-    background-color: var(--unremarkable-semi-opaque-gray);
+    background-color: var(--unremarkable-dark-gray);
     outline: none;
-    color: var(--white);
   }
 
   &:focus-visible {
-    border: 2px solid var(--unremarkable-semi-opaque-gray);
+    outline: 2px solid var(--unremarkable-dark-gray);
   }
 }

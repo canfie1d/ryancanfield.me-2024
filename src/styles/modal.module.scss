@@ -9,13 +9,52 @@
     position: sticky;
     top: 0;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     background: var(--off-white);
-    padding: var(--spacing-unit);
+    padding: 0 var(--spacing-unit);
+
+    @media screen and (min-width: 768px) {
+      padding: 0 calc(var(--spacing-unit) * 2);
+    }
+
+    .modalHeaderIcon {
+      display: none;
+      flex: 0 0 24px;
+
+      @media screen and (min-width: 768px) {
+        display: block;
+        flex: 0 0 0;
+      }
+    }
 
     h2 {
-      margin: 0;
+      flex: 1;
+
+      @media screen and (min-width: 768px) {
+        padding-left: var(--spacing-unit);
+      }
+
+      span {
+        display: block;
+        font-family: var(--body-font);
+
+        @media screen and (min-width: 768px) {
+          &:first-child {
+            font-size: var(--font-x-large);
+          }
+        }
+        &:last-child {
+          font-size: var(--font-small);
+
+          @media screen and (min-width: 768px) {
+            font-size: var(--font-medium);
+          }
+        }
+      }
+    }
+
+    button {
+      flex: 0 0 34px;
     }
   }
 
