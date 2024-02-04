@@ -23,8 +23,11 @@ const getContrast = (f: string, b: string) => {
 };
 
 export const getTextColor = (bgColor: string) => {
+  console.log("bgColor: ", bgColor);
   const whiteContrast = getContrast(bgColor, "#ffffff");
+  console.log("whiteContrast: ", whiteContrast);
   const blackContrast = getContrast(bgColor, "#000000");
+  console.log("blackContrast: ", blackContrast);
 
-  return whiteContrast > blackContrast ? "#ebebeb" : "#1e1e1e";
+  return whiteContrast > blackContrast ? "#ebebeb" : "#363636";
 };

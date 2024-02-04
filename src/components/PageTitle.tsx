@@ -7,56 +7,37 @@ import styles from "../styles/page-title.module.scss";
 const PageTitle = () => {
   const { pathname } = useLocation();
 
+  const renderPageLinks = () => (
+    <div className={styles.pageLinks}>
+      <a
+        target="_blank"
+        href="https://github.com/canfie1d/ryancanfield.me-2024"
+        aria-label="Website Github repo"
+      >
+        <GithubIcon />
+      </a>
+      <a
+        target="_blank"
+        href="https://www.linkedin.com/in/ryanmcanfield"
+        aria-label="LinkedIn Profile"
+      >
+        <LinkedinIcon />
+      </a>
+    </div>
+  );
+
   return pathname === "/" ? (
     <main className={styles.pageWrapper}>
       <div className={styles.pageTitleWrapper}>
         <h1 className={styles.pageTitle}>Ryan Canfield</h1>
         <h2 className={styles.pageSubtitle}>
-          Hands-in-code
-          <br />
-          Engineering Leadership
+          Hands-in-code Software Engineering Leader
         </h2>
       </div>
-      <div className={styles.pageContent}>
-        <p className={styles.pageDescription}>
-          {/* I'm a software engineer and engineering leader with a passion for
-          building great products and teams. */}
-        </p>
-        <p className={styles.pageDescription}>
-          Theme builder feature utilizes &amp;
-          <br /> inspired by&nbsp;
-          <a
-            rel="noopener noreferrer"
-            target="_blank"
-            href="http://colormind.io"
-          >
-            colormind.io
-          </a>
-        </p>
-        <div className={styles.pageLinks}>
-          <a
-            rel="noopener noreferrer"
-            target="_blank"
-            href="https://github.com/canfie1d/ryancanfield.me-2024"
-            aria-label="Website Github repo"
-          >
-            <GithubIcon />
-          </a>
-          <a
-            rel="noopener noreferrer"
-            target="_blank"
-            href="https://www.linkedin.com/in/ryanmcanfield"
-            aria-label="LinkedIn Profile"
-          >
-            <LinkedinIcon />
-          </a>
-        </div>
-      </div>
+      {renderPageLinks()}
     </main>
   ) : (
-    <header
-      className={classNames(styles.pageWrapper, styles.pageWrapperMinimized)}
-    >
+    <header className={classNames(styles.pageHeader)}>
       <Link
         to="/"
         className={classNames(styles.pageTitle, styles.pageTitleMinimized)}
@@ -64,6 +45,7 @@ const PageTitle = () => {
       >
         Ryan Canfield
       </Link>
+      {renderPageLinks()}
     </header>
   );
 };

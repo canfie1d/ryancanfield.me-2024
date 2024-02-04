@@ -19,11 +19,7 @@ const Card = ({
   return (
     <div className={classNames(styles.card, className)}>
       {href ? (
-        <Link
-          to={href as string}
-          rel="noopener noreferrer"
-          target={opensInNewPage ? "_blank" : "_self"}
-        >
+        <Link to={href as string} target={opensInNewPage ? "_blank" : "_self"}>
           <h3 className={styles.h3}>{title}</h3>
           {children}
         </Link>

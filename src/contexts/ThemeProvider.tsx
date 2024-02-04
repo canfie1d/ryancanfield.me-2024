@@ -254,7 +254,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         );
         newTextColors.push(getTextColor(lockedColor!.hex));
       } else {
-        newTextColors.push(getTextColor(color));
+        newTextColors.push(color);
       }
     });
 

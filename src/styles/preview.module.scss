@@ -44,26 +44,18 @@
   }
 }
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 .previewContent {
   display: flex;
   align-items: center;
   width: 100%;
   justify-content: end;
-  font-weight: 600;
+  font-weight: var(--weight-bold);
   font-size: var(--font-medium);
   letter-spacing: 2px;
   margin: 0;
 
   &::selection {
+    color: var(--off-white);
     background: var(--unremarkable-semi-opaque-gray);
   }
 
@@ -133,5 +125,14 @@
     &.previewLinkHoverContentHovered {
       opacity: 1;
     }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

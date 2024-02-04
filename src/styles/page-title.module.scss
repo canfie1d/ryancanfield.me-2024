@@ -1,58 +1,55 @@
 .pageWrapper {
   position: fixed;
-  display: flex;
-  top: calc(80% + var(--spacing-unit) / 2);
+  bottom: var(--spacing-unit);
   height: var(--fifth-minus-20);
   width: var(--full-minus-20);
-  padding: 0 calc(var(--spacing-unit) / 2);
+  padding: 0 var(--spacing-unit-half);
   opacity: 0;
   animation: fadeIn var(--transition-duration-slow) ease-in 250ms;
   animation-fill-mode: forwards;
 
-  .pageTitleWrapper {
-    flex: 1 1 50%;
-  }
-
-  &.pageWrapperMinimized {
-    width: auto;
-    top: auto;
-    left: var(--spacing-unit);
-    bottom: calc(var(--spacing-unit) / 2);
-    right: auto;
-    padding: 0;
-    height: var(--spacing-unit);
-  }
-
   @media screen and (min-width: 769px) {
-    flex-direction: column;
-    top: calc(var(--spacing-unit) / 2);
-    right: calc(var(--spacing-unit) * 2);
+    top: var(--spacing-unit-half);
+    right: var(--spacing-unit-double);
     bottom: var(--spacing-unit);
     left: auto;
     height: var(--full-minus-20);
     width: var(--fifth-minus-20);
     transform-origin: right;
-    padding: calc(var(--spacing-unit) / 2) 0;
-
-    &.pageWrapperMinimized {
-      transform: rotate(-90deg);
-      right: var(--spacing-unit);
-      bottom: auto;
-      left: auto;
-      height: 35px;
-    }
+    padding: var(--spacing-unit-half) 0;
   }
 }
 
-// column one
+.pageHeader {
+  position: fixed;
+  top: auto;
+  right: var(--spacing-unit-half);
+  bottom: 0;
+  left: var(--spacing-unit);
+  width: calc(100% - var(--spacing-unit));
+  height: 35px;
+  padding: 0;
+  opacity: 0;
+  animation: fadeIn var(--transition-duration-slow) ease-in 250ms;
+  animation-fill-mode: forwards;
+
+  @media screen and (min-width: 769px) {
+    width: calc(100dvh - var(--spacing-unit));
+    transform: rotate(-90deg);
+    transform-origin: top right;
+    left: auto; // actually top
+    top: var(--spacing-unit); // actually right
+    right: 35px; // actually bottom
+    bottom: var(--spacing-unit); // actually left
+  }
+}
+
 .pageTitle {
-  flex: 1 1 auto;
   font-size: var(--font-x-large);
-  font-weight: 600;
+  font-weight: var(--weight-bold);
   letter-spacing: 1.6px;
   color: var(--unremarkable-darker-gray);
   font-family: var(--heading-font);
-  font-weight: 400;
   line-height: var(--line-height);
   margin: 0;
   background: transparent;
@@ -63,7 +60,7 @@
     text-decoration: none;
 
     @media screen and (min-width: 769px) {
-      padding: calc(var(--spacing-unit) / 4) calc(var(--spacing-unit) / 2);
+      padding: var(--spacing-unit-quarter) var(--spacing-unit-half);
       border: 2px solid transparent;
 
       &:focus-visible {
@@ -75,53 +72,30 @@
   }
 }
 
-// column two
 .pageSubtitle {
-  flex: 1 1 50%;
-  padding-top: calc(var(--spacing-unit) / 2);
+  padding-top: var(--spacing-unit-half);
   color: var(--unremarkable-dark-gray);
   font-size: var(--font-medium);
   margin: 0;
 }
 
-// column three
-.pageContent {
-  flex: 1 1 50%;
-  display: flex;
-  flex-direction: column;
-  height: calc(100% - 100px);
-  justify-content: space-between;
+.pageLinks {
+  margin-top: var(--spacing-unit-half);
 
-  .pageDescription {
-    flex: 1 1 auto;
-    padding-top: calc(var(--spacing-unit) / 2);
-    color: var(--unremarkable-dark-gray);
-    font-size: var(--font-small);
-    margin: 0;
+  a {
+    display: inline-block;
+  }
 
-    + .pageDescription {
-      flex: 0 0 auto;
-      padding-top: 0;
-      text-align: right;
-      padding-bottom: calc(var(--spacing-unit) / 2);
-
-      @media screen and (min-width: 769px) {
-        text-align: left;
-      }
+  @media screen and (min-width: 769px) {
+    .pageHeader & {
+      position: fixed;
+      top: calc(var(--spacing-unit-half) * -1);
+      right: 0;
     }
   }
 
-  .pageLinks {
-    display: flex;
-    justify-content: end;
-
-    @media screen and (min-width: 769px) {
-      justify-content: start;
-    }
-
-    a:first-child {
-      margin-right: calc(var(--spacing-unit) / 2);
-    }
+  a:first-child {
+    margin-right: var(--spacing-unit-half);
   }
 }
 

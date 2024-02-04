@@ -5,7 +5,7 @@
   flex-wrap: nowrap;
   align-items: stretch;
   height: 100svh;
-  padding: calc(var(--spacing-unit) / 2);
+  padding: var(--spacing-unit-half);
 
   @media (prefers-reduced-motion: no-preference) {
     transition: all var(--transition-duration) linear;
@@ -13,7 +13,7 @@
 
   &:last-child {
     padding-bottom: calc(var(--spacing-unit) * 1.75);
-    padding-right: calc(var(--spacing-unit) / 2);
+    padding-right: var(--spacing-unit-half);
   }
 }
 
@@ -22,7 +22,7 @@
     flex-direction: row;
 
     &:last-child {
-      padding-bottom: calc(var(--spacing-unit) / 2);
+      padding-bottom: var(--spacing-unit-half);
       padding-right: calc(var(--spacing-unit) * 1.75);
     }
   }

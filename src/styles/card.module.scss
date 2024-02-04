@@ -5,7 +5,7 @@
   flex-direction: column;
   animation: fadeIn var(--transition-duration) ease-out;
   animation-fill-mode: forwards;
-  gap: calc(var(--spacing-unit) / 2);
+  gap: var(--spacing-unit-half);
 
   &:last-child {
     padding-bottom: 0;

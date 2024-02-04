@@ -7,7 +7,14 @@ import cardStyles from "../styles/card.module.scss";
 const WorkContent = () => {
   return (
     <div className={styles.contentBody}>
-      <h2 className={styles.h2}>Case Studies</h2>
+      <h2 className={styles.h2}>case studies</h2>
+      <p className={styles.p}>
+        Portfolio sites often showcase the work that was performed without
+        providing additional context for the thinking that led to that outcome.
+        These case studies break down my understanding of the problem that the
+        software should solve, how I think about turning business objectives
+        into user value, and the result of that work.
+      </p>
       <p className={styles.p}>
         While most of my work is either behind a login or under NDA, I do have a
         few case studies available:
@@ -21,13 +28,13 @@ const WorkContent = () => {
             className={styles.caseStudy}
           >
             <img src={project.image} alt="" />
-            <h4 className={styles.h4}>{project.description}</h4>
+            <p className={styles.p}>{project.description}</p>
             <div className={styles.tag}>UI/UX Design</div>
             <div className={styles.tag}>Frontend Development</div>
           </Card>
         ))}
       </div>
-      <h2 className={styles.h2}>Open Source</h2>
+      <h2 className={styles.h2}>open source</h2>
       <div className={cardStyles.cardWrapper}>
         {OPEN_SOURCE.map((item, i) => (
           <Card
@@ -35,7 +42,7 @@ const WorkContent = () => {
             title={item.title}
             className={styles.caseStudy}
           >
-            <h4 className={styles.h4}>{item.description}</h4>
+            <p className={styles.p}>{item.description}</p>
             {item.githubUrl && (
               <div className={styles.tag}>
                 <a href={item.githubUrl}>Github</a>

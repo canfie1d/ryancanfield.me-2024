@@ -8,7 +8,9 @@ import useClickOutside from "../hooks/useClickOutside";
 import Lock from "../icons/lock.svg?react";
 import Unlock from "../icons/unlock.svg?react";
 import Edit from "../icons/edit.svg?react";
+import Copy from "../icons/copy.svg?react";
 import styles from "../styles/color-menu.module.scss";
+import { useLocation } from "react-router-dom";
 
 const ColorMenu = ({
   backgroundColor,
@@ -20,6 +22,7 @@ const ColorMenu = ({
   index: number;
 }) => {
   const ref = useRef(null);
+  const { pathname } = useLocation();
   useClickOutside(ref, () => setColorPickerActive(false));
 
   const {
@@ -59,6 +62,10 @@ const ColorMenu = ({
     setTheme(newTheme);
   };
 
+  const copyColor = () => {
+    navigator.clipboard.writeText(backgroundColor);
+  };
+
   return (
     <div
       className={classNames(
@@ -67,7 +74,19 @@ const ColorMenu = ({
       )}
     >
       <p>{backgroundColor}</p>
-      <div>
+      <div
+        className={classNames(
+          styles.colorOptions,
+          pathname !== "/" && styles.colorOptionsVertical
+        )}
+      >
+        <button
+          onClick={copyColor}
+          className={classNames(styles.previewColorLabel)}
+          aria-label="Edit color"
+        >
+          <Copy />
+        </button>
         <div>
           <input
             id={`save-checkbox-${backgroundColor}`}

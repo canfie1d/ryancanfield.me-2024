@@ -1,10 +1,13 @@
+import { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useThemeContext } from "../contexts/ThemeProvider";
+import { useWindowSize } from "../hooks/useWindowSize";
+import { useLocation } from "react-router-dom";
 import { ThemeType, themeConfig } from "../data/themeConfig";
-import Adjustments from "../icons/adjustments.svg?react";
 import { hexToRgb } from "../helpers/hexToRgb";
 import { getTextColor } from "../helpers/getTextColor";
 import { rgbToHex } from "../helpers/rgbToHex";
+import PaletteIcon from "../icons/palette.svg?react";
 import LockIcon from "../icons/lock.svg?react";
 import styles from "../styles/themes.module.scss";
 
@@ -17,6 +20,17 @@ const ThemeMenu = () => {
     resetLockedColors,
     buildCustomTheme,
   } = useThemeContext();
+  const { pathname } = useLocation();
+  const { width } = useWindowSize();
+  const [themeMenuActive, setThemeMenuActive] = useState(false);
+
+  useEffect(() => {
+    if (pathname === "/" && width > 768) {
+      setThemeMenuActive(true);
+    } else {
+      setThemeMenuActive(false);
+    }
+  }, [pathname]);
 
   const handleSelectKnownTheme = (index: number) => {
     let newTheme = themeConfig[index];
@@ -119,7 +133,7 @@ const ThemeMenu = () => {
           disabled={lockedColors?.length >= 4}
           onClick={handleSelectNewTheme}
         >
-          {lockedColors?.length ? "Update Theme" : "New Theme"}
+          {lockedColors?.length ? "Update" : "New"}
         </button>
       </li>
     );
@@ -128,9 +142,15 @@ const ThemeMenu = () => {
   };
 
   return (
-    <footer className={classNames(styles.themeMenu)}>
+    <footer
+      className={classNames(
+        styles.themeMenu,
+        themeMenuActive && styles.themeMenuActive
+      )}
+    >
       <span className={styles.themeMenuHeader}>
-        <Adjustments />
+        {/* <Adjustments /> */}
+        <PaletteIcon />
         <span>Themes</span>
       </span>
       {lockedColors?.length >= 4 && (

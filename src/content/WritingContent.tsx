@@ -6,7 +6,12 @@ import cardStyles from "../styles/card.module.scss";
 const WritingContent = () => {
   return (
     <div className={styles.contentBody}>
-      <h2 className={styles.h2}>Selected Medium Articles</h2>
+      <p className={styles.p}>
+        Although I don't have as many opportunities to write as I'd like, I do
+        have a few articles that I've written that I'm proud of. Here are a few
+        of my favorites:
+      </p>
+      <h2 className={styles.h2}>selected articles</h2>
       <div className={cardStyles.cardWrapper}>
         {ARTICLE_LINKS.map((article, i) => (
           <Card
@@ -17,7 +22,7 @@ const WritingContent = () => {
             opensInNewPage
           >
             <img src={article.imageUrl} alt="" />
-            <h4 className={styles.h4}>{article.description}</h4>
+            <p className={styles.p}>{article.description}</p>
             <div className={styles.tag}>{article.length}</div>
           </Card>
         ))}

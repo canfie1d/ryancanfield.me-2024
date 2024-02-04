@@ -10,16 +10,16 @@
 
 .label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-unit-half);
   font-size: var(--font-medium);
-  font-weight: 700;
+  font-weight: var(--weight-bold);
 }
 
 .input,
 .textarea {
   width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
+  padding: var(--spacing-unit-half);
+  margin-bottom: var(--spacing-unit);
   border: none;
   background-color: var(--unremarkable-semi-opaque-light-gray);
   border-radius: var(--border-radius-medium);
@@ -40,14 +40,14 @@
 
 .button {
   border-radius: var(--border-radius-medium);
-  padding: 0.5rem;
+  padding: var(--spacing-unit-half);
   border: none;
   box-shadow: none;
   width: 100%;
   text-transform: capitalize;
   border: 2px solid transparent;
   display: block;
-  margin: 0 auto 1rem;
+  margin: 0 auto var(--spacing-unit);
   transition:
     background-color var(--transition-duration-quick) ease-out,
     color var(--transition-duration-super-quick) ease;
