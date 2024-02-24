@@ -1,19 +1,35 @@
-import PageContent from "../components/PageContent";
-import AboutContent from "../content/AboutContent";
-import Atom from "../icons/atom.svg?react";
 import { useScroll } from "react-use";
 import { usePageScrollContext } from "../contexts/PageScrollProvider";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useAchievementContext } from "../contexts/AchievementProvider";
+import { useGameModeContext } from "../contexts/GameModeProvider";
+import PageContent from "../content/PageContent";
+import AboutContent from "../content/AboutContent";
+import AboutGameContent from "../content/AboutGameContent";
+import { useGetPageMeta } from "../hooks/getPageMetaData";
 
 const About = () => {
   const ref = useRef(null);
   const { scrolled, setScrolled } = usePageScrollContext();
   const { y } = useScroll(ref);
 
+  const metaData = useGetPageMeta("about");
+  const { activeGameModes } = useGameModeContext();
+  const gameModeActive = activeGameModes?.about;
+
+  const { loadingAchievements, hasAchievement, addAchievement } =
+    useAchievementContext();
+
+  useEffect(() => {
+    if (!loadingAchievements && !hasAchievement("about_face")) {
+      addAchievement("about_face");
+    }
+  }, [loadingAchievements]);
+
   if (ref.current) {
-    if ((scrolled === false || scrolled === undefined) && y > 100) {
+    if (!scrolled && y > 100) {
       setScrolled(true);
-    } else if (scrolled === true && y <= 100) {
+    } else if (scrolled && y <= 100) {
       setScrolled(false);
     }
   }
@@ -22,13 +38,15 @@ const About = () => {
     <PageContent
       ref={ref}
       pageName="about"
+      scrolled={scrolled}
       header={{
         meta: "①",
-        title: "About",
-        icon: <Atom />,
+        title: metaData.title,
+        subtitle: metaData.subtitle,
+        icon: metaData.icon,
       }}
     >
-      <AboutContent />
+      {gameModeActive ? <AboutGameContent /> : <AboutContent />}
     </PageContent>
   );
 };

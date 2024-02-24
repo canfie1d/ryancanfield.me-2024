@@ -33,11 +33,17 @@ type ReplaceLockedColorAction = {
   };
 };
 
+// type SetLoreThemeActiveAction = {
+//   type: "SET_LORE_THEME_ACTIVE";
+//   payload: string;
+// };
+
 type ThemeStateTypes = {
   name: ThemeType["name"];
   backgroundColors: ThemeType["backgroundColors"];
   textColors: ThemeType["textColors"];
   lockedColors: LockedColorType[];
+  // loreThemeActive: string;
   resetLockedColors: () => void;
   setLockedColor: (color: LockedColorType) => void;
   replaceLockedColor: (
@@ -46,6 +52,7 @@ type ThemeStateTypes = {
   ) => void;
   setTheme: (newTheme: ThemeType) => void;
   buildCustomTheme: (theme: ThemeType) => ThemeType;
+  // setLoreThemeActive: (code: string) => void;
 };
 
 const reducer = (
@@ -56,8 +63,14 @@ const reducer = (
     | ReplaceLockedColorAction
     | SetLockedColorsAction
     | ResetLockedColorsAction
+  // | SetLoreThemeActiveAction
 ) => {
   switch (action.type) {
+    // case "SET_LORE_THEME_ACTIVE":
+    //   return {
+    //     ...state,
+    //     loreThemeActive: action.payload,
+    //   };
     case "SET_THEME":
       return {
         ...state,
@@ -135,8 +148,16 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     "lockedColors",
     JSON.stringify([])
   );
+  // const [locLoreThemeActive, setLocLoreThemeActive] = useLocalStorage(
+  //   "loreThemeActive",
+  //   ""
+  // );
 
   useEffect(() => {
+    // if (locLoreThemeActive === import.meta.env.VITE_LORE_PASSWORD) {
+    //   setLoreThemeActive(locLoreThemeActive);
+    // }
+
     // Self healing local storage
     if (locTheme) {
       if (typeof locTheme === "string") {
@@ -178,6 +199,15 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: "RESET_LOCKED_COLORS" });
     setLocLockedColors(JSON.stringify([]));
   };
+
+  // const setLoreThemeActive = (code: string) => {
+  //   if (code === import.meta.env.VITE_LORE_PASSWORD) {
+  //     dispatch({ type: "SET_LORE_THEME_ACTIVE", payload: code });
+  //     if (locLoreThemeActive !== code) {
+  //       setLocLoreThemeActive(code);
+  //     }
+  //   }
+  // };
 
   const handleSetLockedColor = (color: LockedColorType) => {
     if (
@@ -274,11 +304,13 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         backgroundColors: state.backgroundColors,
         textColors: state.textColors,
         lockedColors: state.lockedColors,
+        // loreThemeActive: state.loreThemeActive,
         setLockedColor: handleSetLockedColor,
         replaceLockedColor: handleReplaceLockedColor,
         resetLockedColors: handleResetLockedColors,
         setTheme: handleSetTheme,
         buildCustomTheme: buildCustomTheme,
+        // setLoreThemeActive: setLoreThemeActive,
       }}
     >
       <div className={`${state.name}`}>{children}</div>

@@ -1,0 +1,102 @@
+// if home page
+.pageWrapper {
+  position: fixed;
+  bottom: var(--spacing-unit);
+  height: var(--fifth-minus-20);
+  width: var(--full-minus-20);
+  padding: 0 var(--spacing-unit-half);
+
+  @media (prefers-reduced-motion: no-preference) {
+    opacity: 0;
+    animation: fadeIn var(--transition-duration-slow) ease-in 250ms;
+    animation-fill-mode: forwards;
+  }
+
+  @media screen and (min-width: 769px) {
+    top: var(--spacing-unit-half);
+    right: var(--spacing-unit-double);
+    bottom: var(--spacing-unit);
+    left: auto;
+    height: var(--full-minus-20);
+    width: var(--fifth-minus-20);
+    transform-origin: right; // used in js
+    padding: var(--spacing-unit-half) 0;
+  }
+}
+
+// if not home page
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: auto;
+  right: var(--spacing-unit-half);
+  bottom: 0;
+  left: var(--spacing-unit-half);
+  width: calc(100% - var(--spacing-unit-double));
+  height: 44px;
+  padding: 0;
+
+  @media (prefers-reduced-motion: no-preference) {
+    opacity: 0;
+    animation: fadeIn var(--transition-duration-slow) ease-in 250ms;
+    animation-fill-mode: forwards;
+  }
+
+  // rotate 90deg on large screens
+  @media screen and (min-width: 769px) {
+    width: calc(100dvh - (var(--spacing-unit) * 1.75));
+    transform: rotate(-90deg);
+    transform-origin: top right;
+    left: auto; // actually top
+    top: var(--spacing-unit); // actually right
+    right: 44px; // actually bottom
+    bottom: var(--spacing-unit); // actually left
+  }
+}
+
+.pageTitle {
+  margin: 0;
+  border-radius: var(--border-radius-medium);
+  background: transparent;
+  font-size: var(--font-x-large);
+  font-weight: var(--weight-bold);
+  color: var(--unremarkable-darker-gray);
+  font-family: var(--body-font);
+  line-height: var(--line-height-tight);
+
+  .pageWrapper & {
+    // home page
+    margin-bottom: var(--spacing-unit-half);
+  }
+
+  .pageHeader & {
+    // other pages
+    font-size: var(--font-medium);
+    text-decoration: none;
+    white-space: nowrap;
+
+    @media screen and (min-width: 769px) {
+      padding: var(--spacing-unit-quarter) var(--spacing-unit-half);
+      position: relative;
+      top: 3px;
+      border: 2px solid transparent;
+
+      &:focus-visible {
+        outline: none;
+        border: 2px solid var(--unremarkable-semi-opaque-gray);
+        border-radius: var(--border-radius-small);
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

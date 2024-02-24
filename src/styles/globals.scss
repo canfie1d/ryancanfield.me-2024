@@ -1,44 +1,11 @@
-@use "./typography" as t;
-
-:root {
-  --transition-duration: 500ms;
-  --transition-duration-quick: 200ms;
-  --transition-duration-super-quick: 150ms;
-  --transition-duration-slow: 800ms;
-  --border-radius-medium: 0.75rem;
-  --border-radius-large: 1.25rem;
-  --border-radius-small: 0.375rem;
-
-  // Colors
-  --white: #fff;
-  --off-white: #ebebeb;
-  --off-black: #363636;
-  --unremarkable-light-gray: #d3d3d3;
-  --unremarkable-medium-gray: #787878;
-  --unremarkable-dark-gray: #646464;
-  --unremarkable-darker-gray: #454545;
-  --unremarkable-semi-opaque-light-gray: rgba(54, 54, 54, 0.1);
-  --unremarkable-semi-opaque-gray: rgba(54, 54, 54, 0.2);
-  --unremarkable-semi-opaque-dark-gray: rgba(54, 54, 54, 0.5);
-
-  // Margin and padding
-  --spacing-unit: 1.25rem;
-  --spacing-unit-double: calc(var(--spacing-unit) * 2);
-  --spacing-unit-quad: calc(var(--spacing-unit) * 4);
-  --spacing-unit-half: calc(var(--spacing-unit) / 2);
-  --spacing-unit-quarter: calc(var(--spacing-unit) / 4);
-  --full-minus-20: calc(100% - var(--spacing-unit));
-  --fifth-minus-20: calc(20% - var(--spacing-unit));
-}
+@use "./variables";
+@use "./typography";
+@use "./inputs";
 
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
   }
-}
-
-button {
-  cursor: pointer;
 }
 
 body {
@@ -57,49 +24,49 @@ body {
   box-sizing: border-box;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-
 .h-full {
   height: 100%;
 }
 
-.hidden-button {
-  background: none;
-  padding: 0;
-  margin: 0;
-  border: 0;
+img {
+  max-width: 100%;
+  height: auto;
+  user-select: none;
+  border-radius: var(--border-radius-medium);
 }
 
-.modal-trigger {
-  cursor: pointer;
-  border: none;
-  display: flex;
-  align-items: center;
-  margin: var(--spacing-unit) auto 0;
-  background-color: var(--unremarkable-semi-opaque-gray);
-  border-radius: var(--border-radius-large);
-  padding: var(--spacing-unit) calc(var(--spacing-unit) * 2);
-  color: var(--white);
+.sr-only {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
 
-  svg {
-    margin-right: calc(var(--spacing-unit) / 2);
+.fallingText {
+  display: inline-block;
+}
+
+@for $i from 1 through 10 {
+  .fallingText-#{$i + 1} {
+    transform: rotate(#{3deg * $i + 1}) translate(#{(1px * $i) * $i + 1});
   }
+}
 
-  &:focus-visible {
-    outline: 2px solid var(--unremarkable-dark-gray);
+.contentBody {
+  margin-inline: auto;
+  max-width: 760px;
+  padding: 0 var(--spacing-unit) var(--spacing-unit-double);
+
+  .contentBodyHeader {
+    display: flex;
+    gap: var(--spacing-unit-half);
+    margin-bottom: var(--spacing-unit);
+
+    > div {
+      flex: 1 1 calc(33% - var(--spacing-unit));
+    }
   }
 }

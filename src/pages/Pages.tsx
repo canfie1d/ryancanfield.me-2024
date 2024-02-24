@@ -5,14 +5,17 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { useShortcuts } from "../hooks/useShortcuts";
 import { useAnimate } from "../hooks/useAnimate";
 import { usePageScrollContext } from "../contexts/PageScrollProvider";
-import PagePreview from "../components/PagePreview";
-import styles from "../styles/page.module.scss";
+import PagePreview from "../components/Preview/PagePreview";
+import NotFound from "./NotFound";
+import styles from "./Pages.module.scss";
+import ThemePanel from "../components/ThemePanel";
 
 const About = lazy(() => import("./About"));
 const Work = lazy(() => import("./Work"));
 const Writing = lazy(() => import("./Writing"));
 const Contact = lazy(() => import("./Contact"));
 const CaseStudy = lazy(() => import("./CaseStudy"));
+const JourneysEnd = lazy(() => import("./JourneysEnd"));
 
 const Page = () => {
   const prefersReducedMotion = useReducedMotion();
@@ -298,6 +301,30 @@ const Page = () => {
   return <LayoutGroup>{layout()}</LayoutGroup>;
 };
 
+const LorePage = () => {
+  const prefersReducedMotion = useReducedMotion();
+  const { slide } = useAnimate();
+  return (
+    <motion.div
+      key="journeys-end"
+      animate={!prefersReducedMotion && slide("journeys-end")}
+      className={classNames(styles.pageWrapper)}
+    >
+      <Suspense
+        fallback={
+          <PagePreview
+            key="journeys-end"
+            pageName="journeys-end"
+            scrolled={false}
+          />
+        }
+      >
+        <JourneysEnd />
+      </Suspense>
+    </motion.div>
+  );
+};
+
 const Pages = () => {
   return (
     <Routes>
@@ -313,6 +340,8 @@ const Pages = () => {
       </Route>
       <Route path="/writing" element={<Page />} />
       <Route path="/contact" element={<Page />} />
+      <Route path="/journeys-end" element={<LorePage />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

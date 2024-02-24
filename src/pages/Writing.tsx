@@ -1,14 +1,30 @@
-import PageContent from "../components/PageContent";
+import PageContent from "../content/PageContent";
 import WritingContent from "../content/WritingContent";
-import Brain from "../icons/brain.svg?react";
 import { useScroll } from "react-use";
 import { usePageScrollContext } from "../contexts/PageScrollProvider";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useAchievementContext } from "../contexts/AchievementProvider";
+import { useGetPageMeta } from "../hooks/getPageMetaData";
+import { useGameModeContext } from "../contexts/GameModeProvider";
+import WritingGameContent from "../content/WritingGameContent";
 
 const Writing = () => {
   const ref = useRef(null);
   const { scrolled, setScrolled } = usePageScrollContext();
   const { y } = useScroll(ref);
+
+  const metaData = useGetPageMeta("writing");
+  const { activeGameModes } = useGameModeContext();
+  const gameModeActive = activeGameModes?.writing;
+
+  const { loadingAchievements, hasAchievement, addAchievement } =
+    useAchievementContext();
+
+  useEffect(() => {
+    if (!loadingAchievements && !hasAchievement("writers_block")) {
+      addAchievement("writers_block");
+    }
+  }, [loadingAchievements]);
 
   if (ref.current) {
     if ((scrolled === false || scrolled === undefined) && y > 100) {
@@ -22,9 +38,15 @@ const Writing = () => {
     <PageContent
       ref={ref}
       pageName="writing"
-      header={{ meta: "③", title: "Writing", icon: <Brain /> }}
+      scrolled={scrolled}
+      header={{
+        meta: "③",
+        title: metaData.title,
+        subtitle: metaData.subtitle,
+        icon: metaData.icon,
+      }}
     >
-      <WritingContent />
+      {gameModeActive ? <WritingGameContent /> : <WritingContent />}
     </PageContent>
   );
 };

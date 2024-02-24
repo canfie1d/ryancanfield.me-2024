@@ -1,0 +1,65 @@
+.iconMenu {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+
+  &.iconMenuLeft {
+    justify-content: flex-start;
+  }
+
+  &.iconMenuRight {
+    justify-content: flex-end;
+  }
+
+  &.iconMenuStart {
+    justify-content: flex-start;
+  }
+
+  &.iconMenuCenter {
+    justify-content: center;
+  }
+
+  &.iconMenuEnd {
+    justify-content: flex-end;
+  }
+
+  &.iconMenuVertical {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .iconMenuAction {
+    .iconMenuLink,
+    .iconMenuButton,
+    .iconMenuCheckbox {
+      display: block;
+      border: 2px solid transparent;
+      border-radius: var(--border-radius-medium);
+      padding: var(--spacing-unit-quarter);
+      color: inherit;
+      cursor: pointer;
+      margin: 0;
+
+      &.iconMenuLinkRotated,
+      &.iconMenuButtonRotated,
+      &.iconMenuCheckboxRotated {
+        transform: rotate(90deg);
+      }
+    }
+
+    &.iconMenuActionActive {
+      .iconMenuLink,
+      .iconMenuButton,
+      .iconMenuCheckbox {
+        border: 2px solid var(--off-white);
+        color: var(--off-white);
+        background-color: var(--unremarkable-semi-opaque-gray);
+        cursor: default;
+      }
+    }
+
+    .iconMenuCheckbox:hover {
+      background-color: var(--unremarkable-semi-opaque-light-gray);
+    }
+  }
+}
