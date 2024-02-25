@@ -21,7 +21,6 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
   const { hasAchievement, addAchievement } = useAchievementContext();
 
   const handleSelectKnownTheme = (index: number) => {
-    console.log("handleSelectKnownTheme");
     if (!hasAchievement("fresh_coat")) {
       addAchievement("fresh_coat");
     }
@@ -33,7 +32,6 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
     }
 
     let newTheme = themeConfig[index];
-    console.log("newTheme: ", newTheme);
 
     if (lockedColors?.length) {
       newTheme = buildCustomTheme(themeConfig[index]);

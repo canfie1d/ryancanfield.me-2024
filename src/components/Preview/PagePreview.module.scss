@@ -4,10 +4,29 @@
   height: 100%;
   display: flex;
   flex-direction: row-reverse;
-  transition: all var(--transition-duration) ease-in-out;
+  transition: all var(--transition-duration) var(--animation-timing);
+
+  > div {
+    padding-right: var(--spacing-unit);
+  }
+
+  > a {
+    padding-left: var(--spacing-unit);
+  }
 
   @media screen and (min-width: 769px) {
     flex-direction: column;
+
+    > div {
+      padding-right: 0;
+      padding-top: var(--spacing-unit);
+    }
+
+    > a {
+      padding-left: 0;
+      padding-right: 0;
+      padding-bottom: var(--spacing-unit);
+    }
   }
 
   &.pagePreviewScrolled {

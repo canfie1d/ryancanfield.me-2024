@@ -15,9 +15,10 @@
   color: inherit;
   text-decoration: none;
   cursor: pointer;
-  animation: fadeIn var(--transition-duration) linear;
+  transition: all var(--transition-duration-quick) var(--animation-timing);
+  animation: fadeIn var(--transition-duration) var(--animation-timing) 250ms;
   animation-fill-mode: forwards;
-  transition: all var(--transition-duration-quick) ease-in-out;
+  opacity: 0;
 
   @media screen and (min-width: 769px) {
     padding: var(--spacing-unit);
@@ -67,7 +68,7 @@
   // icon
   div {
     opacity: 1;
-    transition: all var(--transition-duration-quick) ease-in-out;
+    transition: all var(--transition-duration-quick) var(--animation-timing);
   }
 
   // title
@@ -75,7 +76,7 @@
     position: relative;
     margin: 0;
     padding: 0;
-    transition: all var(--transition-duration-quick) ease-in-out;
+    transition: all var(--transition-duration-quick) var(--animation-timing);
   }
 
   .previewContentLinkScrolled & {

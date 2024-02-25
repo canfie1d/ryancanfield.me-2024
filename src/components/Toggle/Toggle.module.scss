@@ -28,7 +28,7 @@
       border-radius: var(--border-radius-large);
       background-color: var(--off-black);
       box-shadow: var(--box-shadow);
-      transition: all var(--transition-duration-quick) ease-in-out;
+      transition: all var(--transition-duration-quick) var(--animation-timing);
 
       &.toggleHandleChecked {
         left: calc(100% - 29px);

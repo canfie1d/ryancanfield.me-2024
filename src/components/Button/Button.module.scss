@@ -11,7 +11,7 @@
   border: 2px solid transparent;
   margin: 0 auto var(--spacing-unit);
   transition:
-    background-color var(--transition-duration-quick) ease-out,
+    background-color var(--transition-duration-quick) var(--animation-timing),
     color var(--transition-duration-super-quick) ease;
   gap: var(--spacing-unit-half);
 
@@ -57,7 +57,8 @@
   }
 
   &.button-transparent {
-    transition: background-color var(--transition-duration-super-quick) ease;
+    transition: background-color var(--transition-duration-super-quick)
+      var(--animation-timing);
 
     &:hover,
     &:focus-visible {

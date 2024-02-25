@@ -1,0 +1,25 @@
+.pageWrapper {
+  margin: var(--spacing-unit-quarter) 0;
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--box-shadow);
+  min-height: 80px;
+  min-width: 100%;
+  transition: all var(--transition-duration) var(--animation-timing);
+
+  // applies to all non-active pages
+  &.pageWrapperScrolled {
+    min-height: 20px;
+    height: 20px;
+  }
+
+  @media screen and (min-width: 769px) {
+    min-height: 100%;
+    min-width: 100px;
+    margin: 0 var(--spacing-unit-quarter);
+
+    &.pageWrapperScrolled {
+      min-width: 20px;
+      width: 20px !important;
+    }
+  }
+}

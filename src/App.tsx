@@ -1,18 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
+import { IdentityContextProvider } from "react-netlify-identity";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PageScrollProvider } from "./contexts/PageScrollProvider";
-import { ThemeProvider } from "./contexts/ThemeProvider";
 import { AchievementProvider } from "./contexts/AchievementProvider";
-import ErrorBoundary from "./components/ErrorBoundary";
-import Pages from "./pages/Pages";
-import Layout from "./components/Layout/Layout";
-import PageTitle from "./components/PageTitle/PageTitle";
-import ThemePanel from "./components/ThemePanel";
-import "./styles/globals.scss";
 import { GameModeProvider } from "./contexts/GameModeProvider";
-import { IdentityContextProvider } from "react-netlify-identity";
+import { ThemeProvider } from "./contexts/ThemeProvider";
+import ErrorBoundary from "./components/ErrorBoundary";
+import Layout from "./components/Layout/Layout";
+import Pages from "./pages/Pages";
+import PageTitle from "./components/PageTitle/PageTitle";
+import "./styles/globals.scss";
 
 if (import.meta.env.NODE_ENV !== "production") {
   let { default: axe } = await import("@axe-core/react");

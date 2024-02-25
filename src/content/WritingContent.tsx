@@ -22,9 +22,9 @@ const WritingContent = () => {
   return (
     <div className="contentBody">
       <p className={styles.p}>
-        Although I don't have as many opportunities to write as I'd like, I do
-        have a few articles that I've written that I'm proud of. Here are a few
-        of my favorites:
+        Although I don't have as many opportunities to write as I'd like these
+        days, I do have a few articles that I've written that I'm proud of. Here
+        are a few of my favorites:
       </p>
       <Card.Wrapper>
         {ARTICLE_LINKS.map((article, i) => (

@@ -17,7 +17,6 @@
   &.modalSmall {
     --maxW: max(50px, 5dvw);
     --maxH: max(50px, 5dvh);
-    height: auto;
 
     @media screen and (min-width: 769px) {
       --maxW: max(150px, 25dvw);

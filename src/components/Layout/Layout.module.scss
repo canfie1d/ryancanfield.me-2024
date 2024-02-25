@@ -6,7 +6,7 @@
   align-items: stretch;
   height: 100svh;
   padding: var(--spacing-unit-half);
-  transition: all var(--transition-duration) linear;
+  transition: all var(--transition-duration) var(--animation-timing);
 
   &:last-child {
     padding-bottom: var(--spacing-unit-double);

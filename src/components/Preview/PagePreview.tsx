@@ -45,23 +45,21 @@ const PagePreview = ({
         scrolled && styles.previewScrolled
       )}
     >
-      {!gameModeActive && (
-        <ColorMenu
-          index={indexOfPage}
-          hidden={scrolled}
-          backgroundColor={backgroundColor}
-          vertical={pathname !== "/" && !isSmallScreen}
-          hideLabel={isSmallScreen}
-          extraPadded={pathname === "/" && isSmallScreen}
-          colorPickerlocation={
-            !isSmallScreen
-              ? { top: "200px", left: "-50px" }
-              : pathname === "/"
-                ? { top: "95px", left: "95px" }
-                : { top: "60px", left: "95px" }
-          } // @todo add html popover api
-        />
-      )}
+      <ColorMenu
+        index={indexOfPage}
+        hidden={scrolled || gameModeActive}
+        backgroundColor={backgroundColor}
+        vertical={pathname !== "/" && !isSmallScreen}
+        hideLabel={isSmallScreen}
+        extraPadded={pathname === "/" && isSmallScreen}
+        colorPickerlocation={
+          !isSmallScreen
+            ? { top: "200px", left: "-50px" }
+            : pathname === "/"
+              ? { top: "95px", left: "95px" }
+              : { top: "60px", left: "95px" }
+        } // @todo add html popover api
+      />
       <PreviewContent
         scrolled={scrolled}
         metaData={metaData}

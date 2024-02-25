@@ -28,9 +28,9 @@ export const useAnimate = () => {
       return { width: "100%" };
     } else {
       if (isSmallScreen) {
-        return { height: "1%" };
+        return { height: "1%", width: "100%" };
       }
-      return { width: "1%" };
+      return { width: "1%", height: "100%" };
     }
   };
 

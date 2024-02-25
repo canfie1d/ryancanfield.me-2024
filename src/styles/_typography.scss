@@ -83,7 +83,7 @@ a {
   margin: calc(var(--spacing-unit-quarter) * -1)
     calc(var(--spacing-unit-half) * -1);
   padding: var(--spacing-unit-quarter) var(--spacing-unit-half);
-  transition: color var(--transition-duration-quick) ease-out;
+  transition: color var(--transition-duration-quick) var(--animation-timing);
   border-radius: var(--border-radius-small);
   &:hover,
   &:focus-visible {

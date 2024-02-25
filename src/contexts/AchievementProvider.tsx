@@ -72,6 +72,7 @@ export const AchievementProvider = ({ children }: { children: ReactNode }) => {
     reducer,
     initialState as AchievementStateTypes
   );
+  console.log("achievements: ", state.achievements);
   const [toast, setToast] = useState({ open: false, title: "", message: "" });
 
   useEffect(() => {
@@ -80,6 +81,7 @@ export const AchievementProvider = ({ children }: { children: ReactNode }) => {
       const data = await response.json();
       setAchievements(data);
     };
+
     getAchievements();
   }, []);
 
@@ -101,26 +103,23 @@ export const AchievementProvider = ({ children }: { children: ReactNode }) => {
       (achievement) => achievement.id === achievementId
     ) as AchievementType; // Cooerced bc TS is mad about the possibility of .find not returning something. Fair enough.
 
-    const hasAchievement = state.achievements.some(
-      (achievement: AchievementType) => achievement.id === achievementId
-    );
-
-    if (!achievement || hasAchievement) return;
+    if (!achievement || hasAchievement(achievementId)) return;
 
     achievement.collectedDate = new Date().toISOString();
+    if (!state.loadingAchievements) {
+      await fetch("/api/add-achievement", {
+        method: "POST",
+        body: JSON.stringify([...state.achievements, achievement]),
+      }).then(async () => {
+        setAchievements([...state.achievements, achievement]);
 
-    await fetch("/api/add-achievement", {
-      method: "POST",
-      body: JSON.stringify([...state.achievements, achievement]),
-    }).then(async () => {
-      setAchievements([...state.achievements, achievement]);
-
-      setToast({
-        open: true,
-        title: achievement.title,
-        message: achievement.description,
+        setToast({
+          open: true,
+          title: achievement.title,
+          message: achievement.description,
+        });
       });
-    });
+    }
   };
 
   const resetAchievements = async () => {

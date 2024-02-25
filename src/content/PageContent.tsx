@@ -10,6 +10,7 @@ import ColorMenu from "../components/ColorMenu";
 import Icon from "../components/Icon";
 import styles from "./Content.module.scss";
 import { useWindowSize } from "react-use";
+import { useGameModeContext } from "../contexts/GameModeProvider";
 
 const PageContent = forwardRef(
   (
@@ -31,6 +32,9 @@ const PageContent = forwardRef(
     },
     ref: ForwardedRef<HTMLDivElement>
   ) => {
+    const { activeGameModes } = useGameModeContext();
+    const gameModeActive =
+      activeGameModes?.[pageName as keyof typeof activeGameModes];
     const { width } = useWindowSize();
     const isSmallScreen = width <= 768;
     const { textColors, backgroundColors } = useThemeContext();
@@ -50,16 +54,21 @@ const PageContent = forwardRef(
       >
         <div className={styles.pageContentWrapper}>
           <div className={styles.content}>
-            <div className={styles.contentMeta}>
+            <div
+              className={classNames(
+                styles.contentMeta,
+                scrolled && styles.contentMetaHidden
+              )}
+            >
               <span>{header.meta}</span>
               {pagesUsingThemeColor.includes(pageName as string) && (
                 <ColorMenu
                   index={indexOfPage}
+                  hidden={scrolled || gameModeActive}
                   backgroundColor={backgroundColors[indexOfPage]}
                   colorPickerlocation={{ top: "25px", left: "-210px" }}
                   hideLabel={isSmallScreen}
                   vertical={!isSmallScreen}
-                  hidden={scrolled}
                   collapsed
                   alignRight
                 />

@@ -21,6 +21,12 @@ export const useShortcuts = () => {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      const formFocused = Array.from(document.forms).some((form) => {
+        return form.contains(document.activeElement);
+      });
+      if (formFocused) return;
+
+      if (e.ctrlKey || e.metaKey) return;
       if (!hasAchievement("konami_code")) {
         setKCode((prevCode) => {
           let key = e.key;

@@ -7,7 +7,7 @@
   background-color: var(--off-white);
   box-shadow: var(--box-shadow);
   padding: var(--spacing-unit);
-  transition: all var(--transition-duration-quick) ease-out;
+  transition: all var(--transition-duration-quick) var(--animation-timing);
 }
 
 .themeMenu {
@@ -59,7 +59,8 @@
   font-weight: var(--weight-bold);
   font-family: var(--body-font);
   color: var(--unremarkable-darker-gray);
-  transition: transform var(--transition-duration-super-quick) ease-out;
+  transition: transform var(--transition-duration-super-quick)
+    var(--animation-timing);
 
   span {
     padding-left: var(--spacing-unit-quarter);
@@ -72,8 +73,7 @@
 }
 
 .themeMenuMessage {
-  display: flex;
-  justify-content: space-between;
+  text-align: center;
   max-width: 195px;
   background: var(--off-white);
   padding: var(--spacing-unit-half);
@@ -81,6 +81,6 @@
   font-size: var(--font-small);
 
   div {
-    margin-right: var(--spacing-unit-half);
+    margin: auto;
   }
 }

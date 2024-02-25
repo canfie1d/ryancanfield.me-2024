@@ -2,14 +2,10 @@
   position: relative;
   display: flex;
   align-items: center;
-  padding-right: var(--spacing-unit-half);
-  animation: fadeIn var(--transition-duration) ease-in-out;
-  transition: all var(--transition-duration) ease-in;
-
-  &.colorMenuExtraPadded {
-    // for small screens
-    padding-right: var(--spacing-unit-double);
-  }
+  animation: fadeIn var(--transition-duration) var(--animation-timing) 250ms;
+  animation-fill-mode: forwards;
+  opacity: 0;
+  transition: all var(--transition-duration) var(--animation-timing);
 
   &.colorMenuHidden {
     opacity: 0;
@@ -21,29 +17,25 @@
 
   @media screen and (min-width: 769px) {
     flex-direction: column;
-    padding-right: 0;
-    margin-left: var(--spacing-unit-half);
-
-    &.colorMenuAlignRight {
-      margin-right: var(--spacing-unit-half);
-    }
-
-    &:not(.colorMenuCollapsed) {
-      padding-top: var(--spacing-unit);
-    }
   }
 
   .colorMenuLabel {
     margin: 0;
+    color: inherit;
     padding: var(--spacing-unit-quarter);
     text-align: center;
     font-size: var(--font-x-small);
-    transition: all var(--transition-duration-quick) ease-in-out;
+    transition: all var(--transition-duration) var(--animation-timing);
+    animation: fadeIn var(--transition-duration) var(--animation-timing) 250ms;
+    animation-fill-mode: forwards;
+    opacity: 0;
 
     &.colorMenuLabelHidden {
+      opacity: 0;
       width: 0;
       height: 0;
       overflow: hidden;
+      padding: 0;
     }
   }
 }
@@ -53,7 +45,7 @@
   display: none;
   opacity: 0;
   z-index: 1000;
-  transition: opacity var(--transition-duration) ease-in;
+  transition: opacity var(--transition-duration) var(--animation-timing);
 
   &.previewColorPickerActive {
     display: block;

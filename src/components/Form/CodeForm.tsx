@@ -1,9 +1,9 @@
-import { useRef } from "react";
+import { MutableRefObject, useRef } from "react";
 import { useAchievementContext } from "../../contexts/AchievementProvider";
 import Button from "../Button";
 import styles from "./Form.module.scss";
 
-type InputType = React.MutableRefObject<HTMLInputElement>;
+type InputType = MutableRefObject<HTMLInputElement>;
 
 const CodeForm = ({
   setLoreButtonActive,

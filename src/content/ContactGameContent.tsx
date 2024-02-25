@@ -1,14 +1,6 @@
 import ContactGameForm from "../components/Form/ContactGameForm";
-import { useAchievementContext } from "../contexts/AchievementProvider";
 
 const ContactGameContent = () => {
-  const { hasAchievement, addAchievement } = useAchievementContext();
-  console.log(
-    "hasAchievement, addAchievement: ",
-    hasAchievement,
-    addAchievement
-  );
-
   return (
     <div className="contentBody">
       <p style={{ maxWidth: "45ch", textAlign: "center", margin: "auto" }}>

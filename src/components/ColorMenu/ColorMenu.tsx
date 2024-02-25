@@ -5,8 +5,8 @@ import { useAchievementContext } from "../../contexts/AchievementProvider";
 import { useThemeContext } from "../../contexts/ThemeProvider";
 import IconMenu from "../IconMenu";
 import ColorPicker from "../ColorPicker";
-import styles from "./ColorMenu.module.scss";
 import Button from "../Button";
+import styles from "./ColorMenu.module.scss";
 
 const ColorMenu = ({
   index,
@@ -59,15 +59,15 @@ const ColorMenu = ({
         extraPadded && styles.colorMenuExtraPadded
       )}
     >
-      <Button onClick={copyColor} variant="transparent">
-        <div
-          className={classNames(
-            styles.colorMenuLabel,
-            hideLabel && styles.colorMenuLabelHidden
-          )}
-        >
-          {backgroundColor}
-        </div>
+      <Button
+        className={classNames(
+          styles.colorMenuLabel,
+          hideLabel && styles.colorMenuLabelHidden
+        )}
+        onClick={copyColor}
+        variant="transparent"
+      >
+        {backgroundColor}
       </Button>
       <IconMenu
         vertical={vertical}

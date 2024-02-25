@@ -7,7 +7,7 @@ import CodeForm from "../components/Form/CodeForm";
 import PageContent from "../content/PageContent";
 import Button from "../components/Button";
 import Icon from "../components/Icon";
-import styles from "./Pages.module.scss";
+import styles from "./JourneysEnd.module.scss";
 
 const JourneysEnd = () => {
   const ref = useRef<HTMLDivElement>(null);

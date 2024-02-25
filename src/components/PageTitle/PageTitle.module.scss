@@ -5,9 +5,10 @@
   height: var(--fifth-minus-20);
   width: var(--full-minus-20);
   padding: 0 var(--spacing-unit-half);
-  opacity: 0;
-  animation: fadeIn var(--transition-duration-slow) ease-in 250ms;
+  animation: fadeIn var(--transition-duration-slow) var(--animation-timing)
+    250ms;
   animation-fill-mode: forwards;
+  opacity: 0;
 
   @media screen and (min-width: 769px) {
     top: var(--spacing-unit-half);
@@ -28,30 +29,25 @@
   right: var(--spacing-unit-half);
   bottom: 0;
   left: var(--spacing-unit-half);
-
-  // display: flex;
-  // justify-content: space-between;
   display: grid;
   align-items: center;
   grid-template-columns: 1fr min-content;
-
-  // width: calc(100% - var(--spacing-unit-double));
-  // width: auto;
   height: 44px;
   padding: 0;
-  opacity: 0;
-  animation: fadeIn var(--transition-duration-slow) ease-in 250ms;
+  animation: fadeIn var(--transition-duration-slow) var(--animation-timing)
+    250ms;
   animation-fill-mode: forwards;
+  opacity: 0;
 
   // rotate 90deg on large screens
   @media screen and (min-width: 769px) {
-    // width: calc(100dvh - (var(--spacing-unit) * 1.75));
+    width: calc(100dvh - var(--spacing-unit));
     transform: rotate(-90deg);
-    transform-origin: top right;
-    left: auto; // actually top
-    top: var(--spacing-unit); // actually right
-    right: 44px; // actually bottom
-    bottom: var(--spacing-unit); // actually left
+    transform-origin: bottom right;
+    left: auto;
+    right: 0;
+    bottom: 0;
+    top: -30px;
   }
 }
 
