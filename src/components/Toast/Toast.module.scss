@@ -9,10 +9,7 @@
   border-radius: var(--border-radius-small);
   box-shadow: var(--box-shadow);
   z-index: 1001;
-
-  @media (prefers-reduced-motion: no-preference) {
-    animation: slideIn 2400ms ease-in-out;
-  }
+  animation: slideIn 2400ms ease-in-out;
 
   &.achievementToast {
     display: flex;

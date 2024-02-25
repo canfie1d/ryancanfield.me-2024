@@ -74,7 +74,7 @@ const IconMenu = ({
               <input
                 id={`checkbox-${i + 1}`}
                 type="checkbox"
-                className="sr-only"
+                className="visually-hidden"
                 checked={action.checked || false}
                 aria-label="Lock color"
                 onChange={action.onChange}

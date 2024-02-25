@@ -65,7 +65,7 @@ const Work = () => {
                 meta: (
                   <Link to="/work">
                     <Icon name="circle-x" />
-                    <span className="sr-only">Close</span>
+                    <span className="visually-hidden">Close</span>
                   </Link>
                 ),
                 title: caseStudy.title,

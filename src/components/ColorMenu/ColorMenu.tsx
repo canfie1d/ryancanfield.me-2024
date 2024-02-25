@@ -6,6 +6,7 @@ import { useThemeContext } from "../../contexts/ThemeProvider";
 import IconMenu from "../IconMenu";
 import ColorPicker from "../ColorPicker";
 import styles from "./ColorMenu.module.scss";
+import Button from "../Button";
 
 const ColorMenu = ({
   index,
@@ -58,14 +59,16 @@ const ColorMenu = ({
         extraPadded && styles.colorMenuExtraPadded
       )}
     >
-      <p
-        className={classNames(
-          styles.colorMenuLabel,
-          hideLabel && styles.colorMenuLabelHidden
-        )}
-      >
-        {backgroundColor}
-      </p>
+      <Button onClick={copyColor} variant="transparent">
+        <div
+          className={classNames(
+            styles.colorMenuLabel,
+            hideLabel && styles.colorMenuLabelHidden
+          )}
+        >
+          {backgroundColor}
+        </div>
+      </Button>
       <IconMenu
         vertical={vertical}
         justify="center"

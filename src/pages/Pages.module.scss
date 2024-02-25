@@ -4,10 +4,7 @@
   box-shadow: var(--box-shadow);
   min-height: 80px;
   min-width: 100%;
-
-  @media (prefers-reduced-motion: no-preference) {
-    transition: all var(--transition-duration) ease-in-out;
-  }
+  transition: all var(--transition-duration) ease-in-out;
 
   // applies to all non-active pages
   &.pageWrapperScrolled {

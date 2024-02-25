@@ -70,6 +70,13 @@ span {
   line-height: var(--line-height);
 }
 
+label {
+  font-size: var(--font-medium);
+  line-height: var(--line-height-tall);
+  font-family: var(--body-font);
+  font-weight: var(--weight-bold);
+}
+
 a {
   color: inherit;
   text-decoration: underline;

@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useWindowSize } from "../../hooks/useWindowSize";
 import SettingsPanel from "../SettingsModal";
 import IconMenu from "../IconMenu";
-import styles from "./PageTitle.module.scss";
 import ThemeModal from "../ThemeModal";
 import ThemePanel from "../ThemePanel";
+import styles from "./PageTitle.module.scss";
 
 const PageTitle = () => {
   const { pathname } = useLocation();

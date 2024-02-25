@@ -5,12 +5,9 @@
   height: var(--fifth-minus-20);
   width: var(--full-minus-20);
   padding: 0 var(--spacing-unit-half);
-
-  @media (prefers-reduced-motion: no-preference) {
-    opacity: 0;
-    animation: fadeIn var(--transition-duration-slow) ease-in 250ms;
-    animation-fill-mode: forwards;
-  }
+  opacity: 0;
+  animation: fadeIn var(--transition-duration-slow) ease-in 250ms;
+  animation-fill-mode: forwards;
 
   @media screen and (min-width: 769px) {
     top: var(--spacing-unit-half);
@@ -26,27 +23,29 @@
 
 // if not home page
 .pageHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: fixed;
   top: auto;
   right: var(--spacing-unit-half);
   bottom: 0;
   left: var(--spacing-unit-half);
-  width: calc(100% - var(--spacing-unit-double));
+
+  // display: flex;
+  // justify-content: space-between;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr min-content;
+
+  // width: calc(100% - var(--spacing-unit-double));
+  // width: auto;
   height: 44px;
   padding: 0;
-
-  @media (prefers-reduced-motion: no-preference) {
-    opacity: 0;
-    animation: fadeIn var(--transition-duration-slow) ease-in 250ms;
-    animation-fill-mode: forwards;
-  }
+  opacity: 0;
+  animation: fadeIn var(--transition-duration-slow) ease-in 250ms;
+  animation-fill-mode: forwards;
 
   // rotate 90deg on large screens
   @media screen and (min-width: 769px) {
-    width: calc(100dvh - (var(--spacing-unit) * 1.75));
+    // width: calc(100dvh - (var(--spacing-unit) * 1.75));
     transform: rotate(-90deg);
     transform-origin: top right;
     left: auto; // actually top
@@ -80,7 +79,6 @@
     @media screen and (min-width: 769px) {
       padding: var(--spacing-unit-quarter) var(--spacing-unit-half);
       position: relative;
-      top: 3px;
       border: 2px solid transparent;
 
       &:focus-visible {
