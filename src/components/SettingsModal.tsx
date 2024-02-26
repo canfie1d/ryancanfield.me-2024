@@ -55,9 +55,7 @@ const SettingsModal = ({
         <Modal
           show={open}
           onClose={handleCloseClick}
-          transformOrigin={
-            width < 769 ? "50% 250%" : "calc(200% - 75px) calc(-100% + 75px)"
-          }
+          transformOrigin={width < 769 ? "120% 105%" : "180% -15%"}
           small
           header={
             <Modal.Header

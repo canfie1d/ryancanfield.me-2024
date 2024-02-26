@@ -5,10 +5,11 @@
   position: fixed;
   bottom: auto;
   right: auto;
-  top: var(--maxH);
-  left: var(--maxW);
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
   width: calc(100% - (var(--maxW) * 2));
-  height: calc(100% - (var(--maxH) * 2));
+  max-height: calc(100% - (var(--maxH) * 2));
   background: var(--off-white);
   overflow: auto;
   z-index: 1001;
@@ -19,8 +20,8 @@
     --maxH: max(50px, 5dvh);
 
     @media screen and (min-width: 769px) {
-      --maxW: max(150px, 25dvw);
-      --maxH: max(150px, 25dvh);
+      --maxW: max(150px, 30dvw);
+      --maxH: 0;
     }
   }
 }

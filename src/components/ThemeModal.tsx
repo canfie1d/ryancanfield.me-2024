@@ -19,9 +19,7 @@ const ThemeModal = ({
         <Modal
           show={open}
           onClose={handleCloseClick}
-          transformOrigin={
-            isSmallScreen ? "50% 250%" : "calc(200% - 75px) calc(-100% + 75px)"
-          }
+          transformOrigin={width < 769 ? "100% 190%" : "180% -80%"}
           small
           header={
             <Modal.Header
