@@ -1,18 +1,12 @@
-import { useScroll } from "react-use";
-import { usePageScrollContext } from "../contexts/PageScrollProvider";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useAchievementContext } from "../contexts/AchievementProvider";
 import { useGameModeContext } from "../contexts/GameModeProvider";
+import { useGetPageMeta } from "../hooks/getPageMetaData";
 import PageContent from "../content/PageContent";
 import AboutContent from "../content/AboutContent";
 import AboutGameContent from "../content/AboutGameContent";
-import { useGetPageMeta } from "../hooks/getPageMetaData";
 
 const About = () => {
-  const ref = useRef(null);
-  const { scrolled, setScrolled } = usePageScrollContext();
-  const { y } = useScroll(ref);
-
   const metaData = useGetPageMeta("about");
   const { activeGameModes } = useGameModeContext();
   const gameModeActive = activeGameModes?.about;
@@ -26,19 +20,9 @@ const About = () => {
     }
   }, [loadingAchievements]);
 
-  if (ref.current) {
-    if (!scrolled && y > 100) {
-      setScrolled(true);
-    } else if (scrolled && y <= 100) {
-      setScrolled(false);
-    }
-  }
-
   return (
     <PageContent
-      ref={ref}
       pageName="about"
-      scrolled={scrolled}
       header={{
         meta: "①",
         title: metaData.title,

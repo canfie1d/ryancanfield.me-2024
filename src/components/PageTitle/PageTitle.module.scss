@@ -2,17 +2,15 @@
 .pageWrapper {
   position: fixed;
   bottom: var(--spacing-unit);
-  height: var(--fifth-minus-20);
   width: var(--full-minus-20);
   padding: 0 var(--spacing-unit-half);
-  animation: fadeIn var(--transition-duration-slow) var(--animation-timing)
-    250ms;
+  animation: fadeIn var(--transition-duration-slow) var(--animation-timing);
   animation-fill-mode: forwards;
   opacity: 0;
 
   @media screen and (min-width: 769px) {
     top: var(--spacing-unit-half);
-    right: var(--spacing-unit-double);
+    right: var(--spacing-unit);
     bottom: var(--spacing-unit);
     left: auto;
     height: var(--full-minus-20);
@@ -27,15 +25,14 @@
   position: fixed;
   top: auto;
   right: var(--spacing-unit-half);
-  bottom: 0;
+  bottom: var(--spacing-unit-half);
   left: var(--spacing-unit-half);
   display: grid;
   align-items: center;
   grid-template-columns: 1fr min-content;
   height: 44px;
   padding: 0;
-  animation: fadeIn var(--transition-duration-slow) var(--animation-timing)
-    250ms;
+  animation: fadeIn var(--transition-duration-slow) var(--animation-timing);
   animation-fill-mode: forwards;
   opacity: 0;
 
@@ -45,7 +42,7 @@
     transform: rotate(-90deg);
     transform-origin: bottom right;
     left: auto;
-    right: 0;
+    right: var(--spacing-unit-half);
     bottom: 0;
     top: -30px;
   }

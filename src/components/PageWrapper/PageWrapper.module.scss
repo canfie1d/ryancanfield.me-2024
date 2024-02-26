@@ -1,25 +1,39 @@
+// lots of !important in here to combat js generated styles
 .pageWrapper {
-  margin: var(--spacing-unit-quarter) 0;
   border-radius: var(--border-radius-large);
   box-shadow: var(--box-shadow);
-  min-height: 80px;
-  min-width: 100%;
   transition: all var(--transition-duration) var(--animation-timing);
 
-  // applies to all non-active pages
-  &.pageWrapperScrolled {
-    min-height: 20px;
-    height: 20px;
+  @media screen and (max-width: 768px) {
+    width: 100% !important;
+    min-height: 100px;
+
+    &:not(.pageWrapperCurrent):not(.pageWrapperHome) {
+      height: 100px !important;
+    }
+
+    // applies to all non-active pages
+    :global(.layoutScrolled) & {
+      &:not(.pageWrapperCurrent) {
+        min-height: 24px;
+        height: 24px !important;
+      }
+    }
   }
 
   @media screen and (min-width: 769px) {
-    min-height: 100%;
     min-width: 100px;
-    margin: 0 var(--spacing-unit-quarter);
+    height: 100% !important;
 
-    &.pageWrapperScrolled {
-      min-width: 20px;
-      width: 20px !important;
+    &:not(.pageWrapperCurrent):not(.pageWrapperHome) {
+      width: 100px !important;
+    }
+
+    :global(.layoutScrolled) & {
+      &:not(.pageWrapperCurrent) {
+        min-width: 24px;
+        width: 24px !important;
+      }
     }
   }
 }

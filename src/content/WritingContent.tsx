@@ -4,7 +4,6 @@ import { isElementInViewport } from "../helpers/isElementInViewport";
 import { ARTICLE_LINKS } from "../data/content";
 import Card from "../components/Card/Card";
 import Tag from "../components/Tag";
-import styles from "./Content.module.scss";
 
 const WritingContent = () => {
   const viewed = useRef<boolean>(false);
@@ -21,7 +20,7 @@ const WritingContent = () => {
 
   return (
     <div className="contentBody">
-      <p className={styles.p}>
+      <p>
         Although I don't have as many opportunities to write as I'd like these
         days, I do have a few articles that I've written that I'm proud of. Here
         are a few of my favorites:
@@ -47,7 +46,7 @@ const WritingContent = () => {
             }
           >
             <img src={article.imageUrl} alt="" />
-            <p className={styles.p}>{article.description}</p>
+            <p>{article.description}</p>
           </Card>
         ))}
       </Card.Wrapper>

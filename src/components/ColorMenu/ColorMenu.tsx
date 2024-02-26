@@ -54,7 +54,6 @@ const ColorMenu = ({
       className={classNames(
         styles.colorMenu,
         collapsed && styles.colorMenuCollapsed,
-        hidden && styles.colorMenuHidden,
         alignRight && styles.colorMenuAlignRight,
         extraPadded && styles.colorMenuExtraPadded
       )}

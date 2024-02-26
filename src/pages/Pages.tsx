@@ -15,7 +15,7 @@ const CaseStudy = lazy(() => import("./CaseStudy"));
 const JourneysEnd = lazy(() => import("./JourneysEnd"));
 
 const Page = () => {
-  const { scrolled, setScrolled } = usePageScrollContext();
+  const { setScrolled } = usePageScrollContext();
   const { pathname } = useLocation();
   useShortcuts();
 
@@ -28,23 +28,19 @@ const Page = () => {
       case "/about":
         return (
           <>
-            <PageWrapper pageName="about" initial={false} ignoreScroll>
-              <Suspense
-                fallback={
-                  <PagePreview key="about" pageName="about" scrolled={false} />
-                }
-              >
+            <PageWrapper pageName="about" initial={false} isCurrent>
+              <Suspense fallback={<PagePreview key="about" pageName="about" />}>
                 <About key="about" />
               </Suspense>
             </PageWrapper>
             <PageWrapper pageName="work">
-              <PagePreview pageName="work" scrolled={scrolled} />
+              <PagePreview pageName="work" />
             </PageWrapper>
             <PageWrapper pageName="writing">
-              <PagePreview pageName="writing" scrolled={scrolled} />
+              <PagePreview pageName="writing" />
             </PageWrapper>
             <PageWrapper pageName="contact">
-              <PagePreview pageName="contact" scrolled={scrolled} />
+              <PagePreview pageName="contact" />
             </PageWrapper>
           </>
         );
@@ -55,22 +51,18 @@ const Page = () => {
         return (
           <>
             <PageWrapper pageName="about">
-              <PagePreview pageName="about" scrolled={scrolled} />
+              <PagePreview pageName="about" />
             </PageWrapper>
-            <PageWrapper pageName="work" initial={false} ignoreScroll>
-              <Suspense
-                fallback={
-                  <PagePreview key="work" pageName="work" scrolled={false} />
-                }
-              >
+            <PageWrapper pageName="work" initial={false} isCurrent>
+              <Suspense fallback={<PagePreview key="work" pageName="work" />}>
                 <Work key="work" />
               </Suspense>
             </PageWrapper>
             <PageWrapper pageName="writing">
-              <PagePreview pageName="writing" scrolled={scrolled} />
+              <PagePreview pageName="writing" />
             </PageWrapper>
             <PageWrapper pageName="contact">
-              <PagePreview pageName="contact" scrolled={scrolled} />
+              <PagePreview pageName="contact" />
             </PageWrapper>
           </>
         );
@@ -78,26 +70,20 @@ const Page = () => {
         return (
           <>
             <PageWrapper pageName="about">
-              <PagePreview pageName="about" scrolled={scrolled} />
+              <PagePreview pageName="about" />
             </PageWrapper>
             <PageWrapper pageName="work">
-              <PagePreview pageName="work" scrolled={scrolled} />
+              <PagePreview pageName="work" />
             </PageWrapper>
-            <PageWrapper pageName="writing" initial={false} ignoreScroll>
+            <PageWrapper pageName="writing" initial={false} isCurrent>
               <Suspense
-                fallback={
-                  <PagePreview
-                    key="writing"
-                    pageName="writing"
-                    scrolled={false}
-                  />
-                }
+                fallback={<PagePreview key="writing" pageName="writing" />}
               >
                 <Writing key="writing" />
               </Suspense>
             </PageWrapper>
             <PageWrapper pageName="contact">
-              <PagePreview pageName="contact" scrolled={scrolled} />
+              <PagePreview pageName="contact" />
             </PageWrapper>
           </>
         );
@@ -105,23 +91,17 @@ const Page = () => {
         return (
           <>
             <PageWrapper pageName="about">
-              <PagePreview pageName="about" scrolled={scrolled} />
+              <PagePreview pageName="about" />
             </PageWrapper>
             <PageWrapper pageName="work">
-              <PagePreview pageName="work" scrolled={scrolled} />
+              <PagePreview pageName="work" />
             </PageWrapper>
             <PageWrapper pageName="writing">
-              <PagePreview pageName="writing" scrolled={scrolled} />
+              <PagePreview pageName="writing" />
             </PageWrapper>
-            <PageWrapper pageName="contact" initial={false} ignoreScroll>
+            <PageWrapper pageName="contact" initial={false} isCurrent>
               <Suspense
-                fallback={
-                  <PagePreview
-                    key="contact"
-                    pageName="contact"
-                    scrolled={false}
-                  />
-                }
+                fallback={<PagePreview key="contact" pageName="contact" />}
               >
                 <Contact key="contact" />
               </Suspense>
@@ -132,17 +112,17 @@ const Page = () => {
       default:
         return (
           <>
-            <PageWrapper pageName="about" ignoreScroll>
-              <PagePreview pageName="about" scrolled={false} />
+            <PageWrapper pageName="about" isHome>
+              <PagePreview pageName="about" />
             </PageWrapper>
-            <PageWrapper pageName="work" ignoreScroll>
-              <PagePreview pageName="work" scrolled={false} />
+            <PageWrapper pageName="work" isHome>
+              <PagePreview pageName="work" />
             </PageWrapper>
-            <PageWrapper pageName="writing" ignoreScroll>
-              <PagePreview pageName="writing" scrolled={false} />
+            <PageWrapper pageName="writing" isHome>
+              <PagePreview pageName="writing" />
             </PageWrapper>
-            <PageWrapper pageName="contact" ignoreScroll>
-              <PagePreview pageName="contact" scrolled={false} />
+            <PageWrapper pageName="contact" isHome>
+              <PagePreview pageName="contact" />
             </PageWrapper>
           </>
         );
@@ -154,15 +134,9 @@ const Page = () => {
 
 const LorePage = () => {
   return (
-    <PageWrapper pageName="journeys-end" ignoreScroll>
+    <PageWrapper pageName="journeys-end" isCurrent>
       <Suspense
-        fallback={
-          <PagePreview
-            key="journeys-end"
-            pageName="journeys-end"
-            scrolled={false}
-          />
-        }
+        fallback={<PagePreview key="journeys-end" pageName="journeys-end" />}
       >
         <JourneysEnd />
       </Suspense>

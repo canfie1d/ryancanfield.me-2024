@@ -1,21 +1,14 @@
-import classNames from "classnames";
 import { useThemeContext } from "../../contexts/ThemeProvider";
 import { PageNames, pageNames } from "../../data/themeConfig";
 import { useGetPageMeta } from "../../hooks/getPageMetaData";
 import { useGameModeContext } from "../../contexts/GameModeProvider";
 import { useLocation } from "react-router-dom";
 import { useWindowSize } from "../../hooks/useWindowSize";
-import PreviewContent from "./PreviewContent";
+import PagePreviewLink from "./PagePreviewLink";
 import ColorMenu from "../ColorMenu/ColorMenu";
 import styles from "./PagePreview.module.scss";
 
-const PagePreview = ({
-  pageName,
-  scrolled,
-}: {
-  pageName: PageNames;
-  scrolled: boolean;
-}) => {
+const PagePreview = ({ pageName }: { pageName: PageNames }) => {
   const { width } = useWindowSize();
   const isSmallScreen = width <= 768;
   const { pathname } = useLocation();
@@ -40,14 +33,11 @@ const PagePreview = ({
         color: textColor,
         backgroundColor: backgroundColor,
       }}
-      className={classNames(
-        styles.pagePreview,
-        scrolled && styles.previewScrolled
-      )}
+      className={styles.pagePreview}
     >
       <ColorMenu
         index={indexOfPage}
-        hidden={scrolled || gameModeActive}
+        hidden={gameModeActive}
         backgroundColor={backgroundColor}
         vertical={pathname !== "/" && !isSmallScreen}
         hideLabel={isSmallScreen}
@@ -60,11 +50,7 @@ const PagePreview = ({
               : { top: "60px", left: "95px" }
         } // @todo add html popover api
       />
-      <PreviewContent
-        scrolled={scrolled}
-        metaData={metaData}
-        pageName={pageName}
-      />
+      <PagePreviewLink metaData={metaData} pageName={pageName} />
     </aside>
   );
 };

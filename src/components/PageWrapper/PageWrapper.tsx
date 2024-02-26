@@ -2,22 +2,22 @@ import classNames from "classnames";
 import { motion, useReducedMotion } from "framer-motion";
 import { ReactNode } from "react";
 import { useAnimate } from "../../hooks/useAnimate";
-import { usePageScrollContext } from "../../contexts/PageScrollProvider";
 import styles from "./PageWrapper.module.scss";
 
 const PageWrapper = ({
   pageName,
   initial,
-  ignoreScroll,
+  isCurrent,
+  isHome,
   children,
 }: {
   pageName: string;
   initial?: false;
-  ignoreScroll?: boolean;
+  isCurrent?: boolean;
+  isHome?: boolean;
   children: ReactNode;
 }) => {
   const prefersReducedMotion = useReducedMotion();
-  const { scrolled } = usePageScrollContext();
   const { slide } = useAnimate();
 
   return (
@@ -26,7 +26,8 @@ const PageWrapper = ({
       animate={!prefersReducedMotion && slide(pageName)}
       className={classNames(
         styles.pageWrapper,
-        !ignoreScroll && scrolled && styles.pageWrapperScrolled
+        isCurrent && styles.pageWrapperCurrent,
+        isHome && styles.pageWrapperHome
       )}
       initial={initial}
     >

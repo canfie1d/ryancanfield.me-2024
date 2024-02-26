@@ -23,6 +23,7 @@
     "react-router-dom": "6.21.1",
     "react-use": "^17.4.2",
     "react-use-localstorage": "^3.5.3",
+    "react-waypoint": "^10.3.0",
     "sass": "^1.69.5"
   },
   "devDependencies": {

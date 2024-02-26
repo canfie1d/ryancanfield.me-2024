@@ -35,22 +35,16 @@
     position: sticky;
     display: flex;
     justify-content: space-between;
-    top: var(--spacing-unit);
-    padding-left: var(--spacing-unit-half);
-    padding-right: var(--spacing-unit-half);
+    top: 0;
+    padding: var(--spacing-unit) var(--spacing-unit) 0;
     text-align: center;
 
-    &.contentMetaHidden {
+    :global(.layoutScrolled) & {
       opacity: 0;
       width: 0;
       height: 0;
       overflow: hidden;
       padding: 0;
-    }
-
-    @media screen and (min-width: 769px) {
-      padding-left: var(--spacing-unit);
-      padding-right: var(--spacing-unit);
     }
 
     &:not(:has(a)) {

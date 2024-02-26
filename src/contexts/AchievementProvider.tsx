@@ -72,7 +72,7 @@ export const AchievementProvider = ({ children }: { children: ReactNode }) => {
     reducer,
     initialState as AchievementStateTypes
   );
-  console.log("achievements: ", state.achievements);
+
   const [toast, setToast] = useState({ open: false, title: "", message: "" });
 
   useEffect(() => {

@@ -27,16 +27,14 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <AchievementProvider>
             <GameModeProvider>
-              <ThemeProvider>
-                <PageScrollProvider>
-                  <Layout>
-                    <Router>
-                      <PageTitle />
-                      <Pages />
-                    </Router>
-                  </Layout>
-                </PageScrollProvider>
-              </ThemeProvider>
+              <PageScrollProvider>
+                <Router>
+                  <ThemeProvider>
+                    <PageTitle />
+                    <Pages />
+                  </ThemeProvider>
+                </Router>
+              </PageScrollProvider>
             </GameModeProvider>
           </AchievementProvider>
         </QueryClientProvider>

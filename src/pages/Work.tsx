@@ -1,23 +1,17 @@
-import { Suspense, useEffect, useRef } from "react";
+import { Suspense, useEffect } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
-import { usePageScrollContext } from "../contexts/PageScrollProvider";
 import { useAchievementContext } from "../contexts/AchievementProvider";
+import { useGameModeContext } from "../contexts/GameModeProvider";
 import { useGetPageMeta } from "../hooks/getPageMetaData";
-import { useScroll } from "react-use";
 import { CASE_STUDIES } from "../data/caseStudies";
 import PageContent from "../content/PageContent";
 import WorkContent from "../content/WorkContent";
 import Icon from "../components/Icon";
 import Loader from "../components/Loader";
-import { useGameModeContext } from "../contexts/GameModeProvider";
 import WorkGameContent from "../content/WorkGameContent";
 
 const Work = () => {
-  const ref = useRef(null);
-  const { scrolled, setScrolled } = usePageScrollContext();
-  const { y } = useScroll(ref);
-
   const metaData = useGetPageMeta("work");
   const { activeGameModes } = useGameModeContext();
   const gameModeActive = activeGameModes?.work;
@@ -38,14 +32,6 @@ const Work = () => {
     (caseStudy) => caseStudy.path === pathname
   );
 
-  if (ref.current) {
-    if ((scrolled === false || scrolled === undefined) && y > 100) {
-      setScrolled(true);
-    } else if (scrolled === true && y <= 100) {
-      setScrolled(false);
-    }
-  }
-
   return (
     <motion.div
       key={pathname}
@@ -56,9 +42,7 @@ const Work = () => {
       className="h-full"
     >
       <PageContent
-        ref={ref}
         pageName="work"
-        scrolled={scrolled}
         header={
           caseStudy
             ? {

@@ -5,7 +5,7 @@ import { isElementInViewport } from "../helpers/isElementInViewport";
 import GithubContributions from "../components/GithubContributions";
 import Card from "../components/Card/Card";
 import Tag from "../components/Tag";
-import styles from "./Content.module.scss";
+import styles from "./PageContent.module.scss";
 
 const WorkContent = () => {
   const viewed = useRef<boolean>(false);

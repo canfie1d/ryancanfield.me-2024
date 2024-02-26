@@ -18,9 +18,9 @@ export const useAnimate = () => {
 
     if (pathname === "/") {
       if (isSmallScreen) {
-        return { height: "calc(20% - 20px)" };
+        return { height: "20%" };
       }
-      return { width: "calc(20% - 20px)" };
+      return { width: "calc(20% - 24px)" };
     } else if (isCurrent || caseStudy) {
       if (isSmallScreen) {
         return { height: "100%" };
@@ -28,9 +28,9 @@ export const useAnimate = () => {
       return { width: "100%" };
     } else {
       if (isSmallScreen) {
-        return { height: "1%", width: "100%" };
+        return { width: "100%" };
       }
-      return { width: "1%", height: "100%" };
+      return { height: "100%" };
     }
   };
 

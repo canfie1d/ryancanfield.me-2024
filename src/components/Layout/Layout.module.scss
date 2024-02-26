@@ -6,11 +6,15 @@
   align-items: stretch;
   height: 100svh;
   padding: var(--spacing-unit-half);
+  gap: var(--spacing-unit);
   transition: all var(--transition-duration) var(--animation-timing);
 
-  &:last-child {
-    padding-bottom: var(--spacing-unit-double);
-    padding-right: var(--spacing-unit-half);
+  &:not(.layoutHome) {
+    padding-bottom: 60px; // 44px + 16px (pageHeader width + spacing unit)
+  }
+
+  &.layoutScrolled {
+    gap: var(--spacing-unit-half);
   }
 }
 
@@ -18,9 +22,9 @@
   .layout {
     flex-direction: row;
 
-    &:last-child {
+    &:not(.layoutHome) {
       padding-bottom: var(--spacing-unit-half);
-      padding-right: var(--spacing-unit-double);
+      padding-right: 60px; // 44px + 16px (pageHeader width + spacing unit)
     }
   }
 }

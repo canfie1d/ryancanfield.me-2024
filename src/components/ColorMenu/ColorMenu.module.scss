@@ -2,12 +2,12 @@
   position: relative;
   display: flex;
   align-items: center;
-  animation: fadeIn var(--transition-duration) var(--animation-timing) 250ms;
+  animation: fadeIn var(--transition-duration) var(--animation-timing);
   animation-fill-mode: forwards;
   opacity: 0;
   transition: all var(--transition-duration) var(--animation-timing);
 
-  &.colorMenuHidden {
+  :global(.layoutScrolled) & {
     opacity: 0;
     width: 0;
     height: 0;
@@ -26,7 +26,7 @@
     text-align: center;
     font-size: var(--font-x-small);
     transition: all var(--transition-duration) var(--animation-timing);
-    animation: fadeIn var(--transition-duration) var(--animation-timing) 250ms;
+    animation: fadeIn var(--transition-duration) var(--animation-timing);
     animation-fill-mode: forwards;
     opacity: 0;
 
