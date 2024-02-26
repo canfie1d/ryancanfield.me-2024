@@ -29,7 +29,9 @@ const Page = () => {
         return (
           <>
             <PageWrapper pageName="about" initial={false} isCurrent>
-              <Suspense fallback={<PagePreview key="about" pageName="about" />}>
+              <Suspense
+                fallback={<PagePreview key="about" pageName="about" hideAll />}
+              >
                 <About key="about" />
               </Suspense>
             </PageWrapper>
@@ -54,7 +56,9 @@ const Page = () => {
               <PagePreview pageName="about" />
             </PageWrapper>
             <PageWrapper pageName="work" initial={false} isCurrent>
-              <Suspense fallback={<PagePreview key="work" pageName="work" />}>
+              <Suspense
+                fallback={<PagePreview key="work" pageName="work" hideAll />}
+              >
                 <Work key="work" />
               </Suspense>
             </PageWrapper>
@@ -77,7 +81,9 @@ const Page = () => {
             </PageWrapper>
             <PageWrapper pageName="writing" initial={false} isCurrent>
               <Suspense
-                fallback={<PagePreview key="writing" pageName="writing" />}
+                fallback={
+                  <PagePreview key="writing" pageName="writing" hideAll />
+                }
               >
                 <Writing key="writing" />
               </Suspense>
@@ -101,7 +107,9 @@ const Page = () => {
             </PageWrapper>
             <PageWrapper pageName="contact" initial={false} isCurrent>
               <Suspense
-                fallback={<PagePreview key="contact" pageName="contact" />}
+                fallback={
+                  <PagePreview key="contact" pageName="contact" hideAll />
+                }
               >
                 <Contact key="contact" />
               </Suspense>
@@ -136,7 +144,9 @@ const LorePage = () => {
   return (
     <PageWrapper pageName="journeys-end" isCurrent>
       <Suspense
-        fallback={<PagePreview key="journeys-end" pageName="journeys-end" />}
+        fallback={
+          <PagePreview key="journeys-end" pageName="journeys-end" hideAll />
+        }
       >
         <JourneysEnd />
       </Suspense>
