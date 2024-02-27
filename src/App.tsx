@@ -12,7 +12,7 @@ import Pages from "./pages/Pages";
 import PageTitle from "./components/PageTitle/PageTitle";
 import "./styles/globals.scss";
 
-if (import.meta.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== "production") {
   let { default: axe } = await import("@axe-core/react");
   axe(React, ReactDOM, 2000);
 }
