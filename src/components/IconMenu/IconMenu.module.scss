@@ -1,6 +1,9 @@
 .iconMenu {
   display: flex;
   justify-content: flex-start;
+  animation: fadeIn var(--transition-duration) var(--animation-timing) 350ms;
+  animation-fill-mode: forwards;
+  opacity: 0;
 
   &.iconMenuLeft {
     justify-content: flex-start;
@@ -27,6 +30,10 @@
     align-items: center;
   }
 
+  &.iconMenuReverse {
+    flex-direction: row-reverse;
+  }
+
   .iconMenuAction {
     .iconMenuLink,
     .iconMenuButton,
@@ -39,9 +46,9 @@
       cursor: pointer;
       margin: 0;
 
-      &.iconMenuLinkRotated,
-      &.iconMenuButtonRotated,
-      &.iconMenuCheckboxRotated {
+      &.iconMenuLinkHome,
+      &.iconMenuButtonHome,
+      &.iconMenuCheckboxHome {
         transform: rotate(90deg);
       }
     }
@@ -60,5 +67,13 @@
     .iconMenuCheckbox:hover {
       background-color: var(--unremarkable-semi-opaque-light-gray);
     }
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

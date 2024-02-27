@@ -24,7 +24,7 @@ const PageTitle = () => {
     }
   }, [loadingAchievements]);
 
-  const renderPageLinks = (rotated?: boolean) => {
+  const renderPageLinks = () => {
     const pageLinks = [];
 
     pageLinks.push({
@@ -74,7 +74,7 @@ const PageTitle = () => {
         align={pathname !== "/" ? "right" : undefined}
         justify="start"
         actions={pageLinks}
-        iconsRotated={rotated}
+        reverse={pathname !== "/" && !isSmallScreen}
       />
     );
   };
@@ -99,7 +99,7 @@ const PageTitle = () => {
           <Link to="/" className={styles.pageTitle} aria-label="Home">
             ryan canfield
           </Link>
-          {renderPageLinks(!isSmallScreen)}
+          {renderPageLinks()}
           <ThemeModal
             open={themeModalOpen}
             handleCloseClick={() => setThemeModalOpen(false)}

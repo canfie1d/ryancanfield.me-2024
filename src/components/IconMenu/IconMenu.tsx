@@ -1,19 +1,20 @@
 import { ChangeEventHandler, MouseEventHandler } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
 import Button from "../Button";
 import Icon from "../Icon";
 import styles from "./IconMenu.module.scss";
+import { useWindowSize } from "../../hooks/useWindowSize";
 
 const IconMenu = ({
   vertical,
+  reverse,
   align,
   actions,
-  iconsRotated,
   justify,
 }: {
   vertical?: boolean;
-  iconsRotated?: boolean;
+  reverse?: boolean;
   align?: "left" | "right";
   justify?: "start" | "end" | "center";
   actions: {
@@ -28,6 +29,9 @@ const IconMenu = ({
     target?: string;
   }[];
 }) => {
+  const isHome = useLocation().pathname === "/";
+  const isSmallScreen = useWindowSize().width <= 768;
+
   const renderColumns = () => {
     return actions.map((action, i) => {
       return (
@@ -45,7 +49,7 @@ const IconMenu = ({
               target={action.target || "_self"}
               className={classNames(
                 styles.iconMenuLink,
-                iconsRotated && styles.iconMenuLinkRotated
+                reverse && !isHome && !isSmallScreen && styles.iconMenuLinkHome
               )}
               onClick={action.onClick && action.onClick}
             >
@@ -57,7 +61,10 @@ const IconMenu = ({
               variant="transparent"
               className={classNames(
                 styles.iconMenuButton,
-                iconsRotated && styles.iconMenuButtonRotated
+                reverse &&
+                  !isHome &&
+                  !isSmallScreen &&
+                  styles.iconMenuButtonHome
               )}
               ariaLabel={action.label}
               disabled={action.disabled}
@@ -68,7 +75,10 @@ const IconMenu = ({
             <label
               className={classNames(
                 styles.iconMenuCheckbox,
-                iconsRotated && styles.iconMenuCheckboxRotated
+                reverse &&
+                  !isHome &&
+                  !isSmallScreen &&
+                  styles.iconMenuCheckboxHome
               )}
             >
               <input
@@ -96,6 +106,7 @@ const IconMenu = ({
         justify === "start" && styles.iconMenuStart,
         justify === "end" && styles.iconMenuEnd,
         justify === "center" && styles.iconMenuCenter,
+        reverse && styles.iconMenuReverse,
         vertical && styles.iconMenuVertical
       )}
     >

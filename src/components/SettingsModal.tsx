@@ -10,6 +10,7 @@ import Modal from "./Modal";
 import LogInButton from "./LogInButton";
 import { useWindowSize } from "../hooks/useWindowSize";
 import Button from "./Button";
+import { useLocation } from "react-router-dom";
 
 const SettingsModal = ({
   open,
@@ -18,6 +19,7 @@ const SettingsModal = ({
   open: boolean;
   handleCloseClick: () => void;
 }) => {
+  const { pathname } = useLocation();
   const { width } = useWindowSize();
   const { activeGameModes, setGameMode } = useGameModeContext();
   const {
@@ -49,13 +51,26 @@ const SettingsModal = ({
     }
   };
 
+  const getTriggerLocation = () => {
+    if (width <= 768) {
+      if (pathname === "/") {
+        return "23% 108%";
+      }
+      return "107% 115%";
+    }
+    if (pathname === "/") {
+      return "170% 0";
+    }
+    return "180% 5%";
+  };
+
   return (
     <>
       {createPortal(
         <Modal
           show={open}
           onClose={handleCloseClick}
-          transformOrigin={width < 769 ? "120% 105%" : "180% -15%"}
+          transformOrigin={getTriggerLocation()}
           small
           header={
             <Modal.Header

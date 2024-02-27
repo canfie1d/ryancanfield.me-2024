@@ -16,7 +16,8 @@
   text-decoration: none;
   cursor: pointer;
   transition: all var(--transition-duration-quick) var(--animation-timing);
-  animation: fadeIn var(--transition-duration) var(--animation-timing);
+  animation: fadeIn var(--transition-duration-slow) var(--animation-timing)
+    350ms;
   animation-fill-mode: forwards;
   opacity: 0;
 

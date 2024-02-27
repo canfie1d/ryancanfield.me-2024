@@ -2,9 +2,6 @@
   position: relative;
   display: flex;
   align-items: center;
-  animation: fadeIn var(--transition-duration) var(--animation-timing);
-  animation-fill-mode: forwards;
-  opacity: 0;
   transition: all var(--transition-duration) var(--animation-timing);
 
   :global(.layoutScrolled) & {
@@ -26,9 +23,6 @@
     text-align: center;
     font-size: var(--font-x-small);
     transition: all var(--transition-duration) var(--animation-timing);
-    animation: fadeIn var(--transition-duration) var(--animation-timing);
-    animation-fill-mode: forwards;
-    opacity: 0;
 
     &.colorMenuLabelHidden {
       opacity: 0;
@@ -49,15 +43,6 @@
 
   &.previewColorPickerActive {
     display: block;
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
     opacity: 1;
   }
 }
