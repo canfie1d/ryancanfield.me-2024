@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { CSSProperties, ChangeEventHandler } from "react";
-import styles from "./toggle.module.scss";
+import styles from "./Toggle.module.scss";
 
 const Toggle = ({
   id,
