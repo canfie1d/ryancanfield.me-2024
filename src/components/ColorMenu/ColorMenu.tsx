@@ -53,6 +53,7 @@ const ColorMenu = ({
     <div
       className={classNames(
         styles.colorMenu,
+        hidden && styles.colorMenuHidden,
         collapsed && styles.colorMenuCollapsed,
         alignRight && styles.colorMenuAlignRight,
         extraPadded && styles.colorMenuExtraPadded

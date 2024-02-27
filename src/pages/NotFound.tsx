@@ -1,11 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAchievementContext } from "../contexts/AchievementProvider";
 import PageContent from "../content/PageContent";
 
 const NotFound = () => {
-  const ref = useRef(null);
-
   const { loadingAchievements, hasAchievement, addAchievement } =
     useAchievementContext();
 
@@ -17,7 +15,6 @@ const NotFound = () => {
 
   return (
     <PageContent
-      ref={ref}
       pageName="404"
       header={{
         meta: "④⓪④",

@@ -4,7 +4,8 @@
   align-items: center;
   transition: all var(--transition-duration) var(--animation-timing);
 
-  :global(.layoutScrolled) & {
+  :global(.layoutScrolled) &,
+  &.colorMenuHidden {
     opacity: 0;
     width: 0;
     height: 0;

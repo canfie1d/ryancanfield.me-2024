@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { useAchievementContext } from "../contexts/AchievementProvider";
+// import { useEffect, useRef } from "react";
+// import { useAchievementContext } from "../contexts/AchievementProvider";
 
 const AboutGameContent = () => {
   return <div className="contentBody">Content</div>;

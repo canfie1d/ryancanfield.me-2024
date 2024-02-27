@@ -1,4 +1,4 @@
 import PagePreview from "./PagePreview";
-import PreviewPageLink from "./PreviewPageLink";
+import PagePreviewLink from "./PagePreviewLink";
 
-export default { PreviewPageLink, PagePreview };
+export default { PagePreviewLink, PagePreview };

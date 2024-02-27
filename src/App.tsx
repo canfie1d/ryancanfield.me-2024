@@ -8,7 +8,6 @@ import { AchievementProvider } from "./contexts/AchievementProvider";
 import { GameModeProvider } from "./contexts/GameModeProvider";
 import { ThemeProvider } from "./contexts/ThemeProvider";
 import ErrorBoundary from "./components/ErrorBoundary";
-import Layout from "./components/Layout/Layout";
 import Pages from "./pages/Pages";
 import PageTitle from "./components/PageTitle/PageTitle";
 import "./styles/globals.scss";
@@ -21,6 +20,7 @@ if (import.meta.env.NODE_ENV !== "production") {
 const App = () => {
   const queryClient = new QueryClient();
   const url = "https://ryancanfield.netlify.app";
+
   return (
     <ErrorBoundary>
       <IdentityContextProvider url={url}>

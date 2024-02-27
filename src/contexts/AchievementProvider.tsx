@@ -92,12 +92,6 @@ export const AchievementProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const hasAchievement = (achievementId: AchievementType["id"]) => {
-    return state.achievements.some(
-      (achievement: AchievementType) => achievement.id === achievementId
-    );
-  };
-
   const addAchievement = async (achievementId: AchievementType["id"]) => {
     const achievement: AchievementType = ACHIEVEMENTS.find(
       (achievement) => achievement.id === achievementId
@@ -106,6 +100,7 @@ export const AchievementProvider = ({ children }: { children: ReactNode }) => {
     if (!achievement || hasAchievement(achievementId)) return;
 
     achievement.collectedDate = new Date().toISOString();
+
     if (!state.loadingAchievements) {
       await fetch("/api/add-achievement", {
         method: "POST",
@@ -124,7 +119,7 @@ export const AchievementProvider = ({ children }: { children: ReactNode }) => {
 
   const resetAchievements = async () => {
     await fetch("/api/delete-achievements", {
-      method: "POST",
+      method: "DELETE",
     }).then(async () => {
       setAchievements([]);
 
@@ -134,6 +129,12 @@ export const AchievementProvider = ({ children }: { children: ReactNode }) => {
         message: "All achievements have been reset and you can start again!",
       });
     });
+  };
+
+  const hasAchievement = (achievementId: AchievementType["id"]) => {
+    return state.achievements.some(
+      (achievement: AchievementType) => achievement.id === achievementId
+    );
   };
 
   return (

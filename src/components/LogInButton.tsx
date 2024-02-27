@@ -5,7 +5,7 @@ import Icon from "./Icon";
 const LogInButton = ({ className }: { className: string }) => {
   const { loginProvider } = useIdentityContext();
 
-  const logInWithGithub = (): void => {
+  const logInWithGithub = () => {
     loginProvider("github");
   };
 

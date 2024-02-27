@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useThemeContext } from "../contexts/ThemeProvider";
 import { useAchievementContext } from "../contexts/AchievementProvider";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -10,8 +10,6 @@ import Icon from "../components/Icon";
 import styles from "./JourneysEnd.module.scss";
 
 const JourneysEnd = () => {
-  const ref = useRef<HTMLDivElement>(null);
-
   const { loadingAchievements, hasAchievement, addAchievement } =
     useAchievementContext();
   const [params] = useSearchParams();
@@ -71,7 +69,6 @@ const JourneysEnd = () => {
 
   return (
     <PageContent
-      ref={ref}
       pageName="journeys-end"
       header={{
         meta: "﹖﹖﹖﹖",
