@@ -12,25 +12,25 @@ export const useGetPageMeta = (pageName: PageNames) => {
       return {
         title: gameModeActive ? "character" : "about",
         subtitle: gameModeActive ? "" : "",
-        icon: gameModeActive ? "user" : "atom",
+        icon: gameModeActive ? "user" : "signs",
       };
     case "work":
       return {
         title: gameModeActive ? "achievements" : "work",
         subtitle: gameModeActive ? "" : "case studies",
-        icon: gameModeActive ? "cert" : "code-circle",
+        icon: gameModeActive ? "cert" : "apps",
       };
     case "writing":
       return {
         title: gameModeActive ? "activity log" : "writing",
         subtitle: gameModeActive ? "" : "selected articles",
-        icon: gameModeActive ? "bow" : "brain",
+        icon: gameModeActive ? "bow" : "writing",
       };
     case "contact":
       return {
         title: gameModeActive ? "feedback" : "contact",
         subtitle: gameModeActive ? "" : "get in touch",
-        icon: gameModeActive ? "adjustments" : "at",
+        icon: gameModeActive ? "adjustments" : "satellite",
       };
     default:
       return {

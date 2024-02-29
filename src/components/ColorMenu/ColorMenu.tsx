@@ -96,8 +96,8 @@ const ColorMenu = ({
             },
           },
           {
-            icon: "edit",
-            label: "Edit color",
+            icon: "eyedropper",
+            label: "Choose new color",
             active: colorPickerActive,
             onClick: () => setColorPickerActive(true),
           },

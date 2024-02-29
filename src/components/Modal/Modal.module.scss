@@ -19,6 +19,10 @@
     --maxW: max(50px, 5dvw);
     --maxH: max(50px, 5dvh);
 
+    @media screen and (min-width: 400px) {
+      max-width: 50dvw;
+    }
+
     @media screen and (min-width: 769px) {
       --maxW: max(150px, 30dvw);
       --maxH: 0;
@@ -39,10 +43,34 @@
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--border-color);
+  color: var(--unremarkable-medium-gray);
   padding: var(--spacing-unit-half) var(--spacing-unit);
   background: var(--off-white);
   font-family: var(--body-font);
   z-index: 2;
+
+  .modalHeaderTitle {
+    flex: 1;
+    font-family: var(--body-font);
+    font-weight: 800;
+    color: var(--unremarkable-darker-gray);
+    letter-spacing: 0.1em;
+    font-size: var(--font-x-large);
+    margin: 0;
+
+    @media (min-width: 769px) and (max-width: 968px) {
+      font-size: var(--font-medium);
+    }
+  }
+
+  .modalHeaderSubtitle {
+    font-size: var(--font-small);
+    margin: 0;
+
+    @media screen and (min-width: 769px) {
+      font-size: var(--font-medium);
+    }
+  }
 
   .modalSmall & {
     padding: var(--spacing-unit-quarter) var(--spacing-unit-half);
@@ -57,21 +85,6 @@
 
     &:nth-child(2) {
       padding-left: var(--spacing-unit-half);
-    }
-  }
-
-  .modalHeaderTitle {
-    flex: 1;
-    font-size: var(--font-large);
-    margin: 0;
-  }
-
-  .modalHeaderSubtitle {
-    font-size: var(--font-small);
-    margin: 0;
-
-    @media screen and (min-width: 769px) {
-      font-size: var(--font-medium);
     }
   }
 

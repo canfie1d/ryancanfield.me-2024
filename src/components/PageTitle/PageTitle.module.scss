@@ -56,6 +56,8 @@
   font-weight: var(--weight-bold);
   color: var(--unremarkable-darker-gray);
   font-family: var(--body-font);
+  font-weight: 800;
+  letter-spacing: 0.1em;
   line-height: var(--line-height-tight);
   animation: fadeIn var(--transition-duration-slow) var(--animation-timing)
     400ms;

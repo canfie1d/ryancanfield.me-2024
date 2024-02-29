@@ -6,7 +6,7 @@
   align-items: stretch;
   height: 100svh;
   padding: var(--spacing-unit-half);
-  gap: var(--spacing-unit);
+  gap: var(--spacing-unit-half);
   transition: all var(--transition-duration) var(--animation-timing);
 
   &:not(.layoutHome) {
@@ -14,13 +14,19 @@
   }
 
   &.layoutScrolled {
-    gap: var(--spacing-unit-half);
+    gap: var(--spacing-unit-quarter);
   }
 }
 
 @media screen and (min-width: 769px) {
   .layout {
     flex-direction: row;
+    padding: var(--spacing-unit);
+    gap: var(--spacing-unit);
+
+    &.layoutScrolled {
+      gap: var(--spacing-unit-half);
+    }
 
     &:not(.layoutHome) {
       padding-bottom: var(--spacing-unit-half);

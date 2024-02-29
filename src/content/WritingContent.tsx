@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useAchievementContext } from "../contexts/AchievementProvider";
-import { isElementInViewport } from "../helpers/isElementInViewport";
+import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { ARTICLE_LINKS } from "../data/content";
 import Card from "../components/Card/Card";
 import Tag from "../components/Tag";
@@ -8,7 +8,7 @@ import Tag from "../components/Tag";
 const WritingContent = () => {
   const viewed = useRef<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
-  const inView = isElementInViewport(ref?.current);
+  const inView = useIntersectionObserver(ref?.current);
 
   const { hasAchievement, addAchievement } = useAchievementContext();
 

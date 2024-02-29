@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
 import { useAchievementContext } from "../contexts/AchievementProvider";
 import { textFallOff } from "../helpers/textFallOff";
-import { isElementInViewport } from "../helpers/isElementInViewport";
+import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import Tabs from "../components/Tabs";
 
 const AboutContent = () => {
   const ref = useRef<HTMLPreElement>(null);
   const viewed = useRef<boolean>(false);
 
-  const inView = isElementInViewport(ref?.current);
+  const inView = useIntersectionObserver(ref?.current);
 
   useEffect(() => {
     if (ref.current) {

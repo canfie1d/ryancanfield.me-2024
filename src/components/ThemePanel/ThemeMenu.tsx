@@ -161,7 +161,7 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
     <div className={styles.themeMenu}>
       {showHeader && (
         <span className={styles.themeMenuHeader}>
-          <Icon name="palette" size="small" />
+          <Icon name="spray" />
           <span>themes</span>
         </span>
       )}

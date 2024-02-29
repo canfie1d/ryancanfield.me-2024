@@ -66,7 +66,7 @@ export const ACHIEVEMENTS: AchievementType[] = [
   },
   {
     id: "about_face", // ✔️
-    title: "About Face",
+    title: "Whaddaboud'im?",
     description: "Visit the about page",
     collectedDate: null,
     icon: "roundabout",
@@ -101,7 +101,7 @@ export const ACHIEVEMENTS: AchievementType[] = [
   },
   {
     id: "git_good", // ✔️
-    title: "Git Good",
+    title: "Git, Good",
     description: "Visit the GitHub contributions modal",
     collectedDate: null,
     icon: "github",
@@ -192,10 +192,10 @@ export const ACHIEVEMENTS: AchievementType[] = [
   },
   {
     id: "picky_picky", // ✔️
-    title: "Picky Picky",
-    description: "Open the settings panel",
+    title: "Captain Curious",
+    description: "Open the game settings panel",
     collectedDate: null,
-    icon: "gear-check",
+    icon: "gamepad",
   },
   {
     id: "dark_mode",

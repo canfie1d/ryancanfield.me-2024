@@ -25,49 +25,49 @@ const PageTitle = () => {
   }, [loadingAchievements]);
 
   const renderPageLinks = () => {
-    const pageLinks = [];
-
-    pageLinks.push({
-      icon: "github",
-      label: "Website's Github Profile",
-      href: "https://github.com/canfie1d/ryancanfield.me-2024",
-      onClick: () => {
-        if (!hasAchievement("octocat_abides")) {
-          addAchievement("octocat_abides");
-        }
+    const pageLinks = [
+      {
+        icon: "github",
+        label: "Website's Github Profile",
+        href: "https://github.com/canfie1d/ryancanfield.me-2024",
+        onClick: () => {
+          if (!hasAchievement("octocat_abides")) {
+            addAchievement("octocat_abides");
+          }
+        },
       },
-    });
-
-    pageLinks.push({
-      icon: "linkedin",
-      label: "LinkedIn Profile",
-      href: "https://www.linkedin.com/in/ryanmcanfield",
-      onClick: () => {
-        if (!hasAchievement("link_up")) {
-          addAchievement("link_up");
-        }
+      {
+        icon: "linkedin",
+        label: "LinkedIn Profile",
+        href: "https://www.linkedin.com/in/ryanmcanfield",
+        onClick: () => {
+          if (!hasAchievement("link_up")) {
+            addAchievement("link_up");
+          }
+        },
       },
-    });
-
-    pageLinks.push({
-      icon: "palette",
-      label: "Themes",
-      active: pathname === "/" && !isSmallScreen,
-      disabled: pathname === "/" && !isSmallScreen,
-      onClick: () => {
-        setThemeModalOpen(true);
+      {
+        icon: "spray",
+        label: "Themes",
+        active: pathname === "/" && !isSmallScreen, // whether the buttons state appears active visually
+        disabled: pathname === "/" && !isSmallScreen,
+        onClick: () => {
+          setThemeModalOpen(true);
+        },
       },
-    });
+    ];
 
-    !loadingAchievements &&
-      hasAchievement("the_journey_begins") &&
+    if (!loadingAchievements && hasAchievement("the_journey_begins")) {
       pageLinks.push({
-        icon: "gear",
+        icon: "gamepad",
         label: "Settings",
+        active: false, // whether the buttons state appears active visually
+        disabled: false,
         onClick: () => {
           setSettingsModalOpen(true);
         },
       });
+    }
 
     return (
       <IconMenu

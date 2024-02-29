@@ -1,0 +1,21 @@
+.titleHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-duration-super-quick)
+    var(--animation-timing);
+
+  span {
+    margin-left: calc(var(--spacing-unit-quarter) * -1.2);
+    font-family: var(--body-font);
+    font-weight: 800;
+    color: var(--unremarkable-darker-gray);
+    letter-spacing: 0.1em;
+    font-size: var(--font-x-large);
+
+    @media (min-width: 769px) and (max-width: 968px) {
+      margin-left: calc(var(--spacing-unit-quarter) * -1.9);
+      font-size: var(--font-medium);
+    }
+  }
+}

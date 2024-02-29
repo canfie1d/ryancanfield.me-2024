@@ -36,7 +36,7 @@ const ThemeModal = ({
           header={
             <Modal.Header
               title="themes"
-              icon="palette"
+              icon="spray"
               onClose={handleCloseClick}
             />
           }

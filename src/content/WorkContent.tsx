@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useAchievementContext } from "../contexts/AchievementProvider";
 import { OPEN_SOURCE, PROJECTS } from "../data/content";
-import { isElementInViewport } from "../helpers/isElementInViewport";
+import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import GithubContributions from "../components/GithubContributions";
 import Card from "../components/Card/Card";
 import Tag from "../components/Tag";
@@ -10,7 +10,7 @@ import styles from "./PageContent.module.scss";
 const WorkContent = () => {
   const viewed = useRef<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
-  const inView = isElementInViewport(ref?.current);
+  const inView = useIntersectionObserver(ref?.current);
 
   const { hasAchievement, addAchievement } = useAchievementContext();
 

@@ -133,7 +133,9 @@ export const AchievementProvider = ({ children }: { children: ReactNode }) => {
 
   const hasAchievement = (achievementId: AchievementType["id"]) => {
     if (!state.achievements) return false;
-
+    console.log("state", state);
+    console.log("state.achievements", state.achievements);
+    console.log("typeof state.achievements", typeof state.achievements);
     return state.achievements.some(
       (achievement: AchievementType) => achievement.id === achievementId
     );

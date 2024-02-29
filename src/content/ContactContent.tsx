@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import { useAchievementContext } from "../contexts/AchievementProvider";
-import { isElementInViewport } from "../helpers/isElementInViewport";
+import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import ContactForm from "../components/Form/ContactForm";
 
 const ContactContent = () => {
   const viewed = useRef<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
-  const inView = isElementInViewport(ref?.current);
+  const inView = useIntersectionObserver(ref?.current);
 
   const { hasAchievement, addAchievement } = useAchievementContext();
 

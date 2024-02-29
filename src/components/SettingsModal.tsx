@@ -75,7 +75,7 @@ const SettingsModal = ({
           header={
             <Modal.Header
               title="settings"
-              icon="gear"
+              icon="gamepad"
               onClose={handleCloseClick}
             />
           }
