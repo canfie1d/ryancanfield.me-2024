@@ -1,0 +1,97 @@
+// if home page
+.pageWrapper {
+  position: fixed;
+  bottom: var(--spacing-unit);
+  width: var(--full-minus-20);
+  padding: 0 var(--spacing-unit-half);
+  animation: fadeIn var(--transition-duration-slow) var(--animation-timing);
+  animation-fill-mode: forwards;
+  opacity: 0;
+
+  @media screen and (min-width: 769px) {
+    top: var(--spacing-unit-half);
+    right: var(--spacing-unit);
+    bottom: var(--spacing-unit);
+    left: auto;
+    height: var(--full-minus-20);
+    width: var(--fifth-minus-20);
+    transform-origin: right; // used in js
+    padding: var(--spacing-unit-half) 0;
+  }
+}
+
+// if not home page
+.pageHeader {
+  position: fixed;
+  top: auto;
+  right: var(--spacing-unit-half);
+  bottom: var(--spacing-unit-half);
+  left: var(--spacing-unit-half);
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr min-content;
+  height: 44px;
+  padding: 0;
+  animation: fadeIn var(--transition-duration-slow) var(--animation-timing);
+  animation-fill-mode: forwards;
+  opacity: 0;
+
+  // rotate 90deg on large screens
+  @media screen and (min-width: 769px) {
+    width: calc(100dvh - var(--spacing-unit));
+    transform: rotate(-90deg);
+    transform-origin: bottom right;
+    left: auto;
+    right: var(--spacing-unit-half);
+    bottom: 0;
+    top: -30px;
+  }
+}
+
+.pageTitle {
+  margin: 0;
+  border-radius: var(--border-radius-medium);
+  background: transparent;
+  font-size: var(--font-x-large);
+  font-weight: var(--weight-bold);
+  color: var(--unremarkable-darker-gray);
+  font-family: var(--body-font);
+  line-height: var(--line-height-tight);
+  animation: fadeIn var(--transition-duration-slow) var(--animation-timing)
+    400ms;
+  animation-fill-mode: forwards;
+  opacity: 0;
+
+  .pageWrapper & {
+    // home page
+    margin-bottom: var(--spacing-unit-half);
+  }
+
+  .pageHeader & {
+    // other pages
+    font-size: var(--font-medium);
+    text-decoration: none;
+    white-space: nowrap;
+
+    @media screen and (min-width: 769px) {
+      padding: var(--spacing-unit-quarter) var(--spacing-unit-half);
+      position: relative;
+      border: 2px solid transparent;
+
+      &:focus-visible {
+        outline: none;
+        border: 2px solid var(--unremarkable-semi-opaque-gray);
+        border-radius: var(--border-radius-small);
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

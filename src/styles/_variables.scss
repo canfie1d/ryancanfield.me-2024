@@ -1,0 +1,42 @@
+:root {
+  --box-shadow: 0 0 6px 4px var(--shadow);
+  --border-color: var(--unremarkable-semi-opaque-light-gray);
+
+  --animation-timing: ease-out;
+  --transition-duration: 400ms;
+  --transition-duration-quick: 200ms;
+  --transition-duration-super-quick: 150ms;
+  --transition-duration-slow: 600ms;
+  --border-radius-small: 0.375rem;
+  --border-radius-medium: 0.75rem;
+  --border-radius-large: 1.25rem;
+
+  // Colors
+  --white: #fff;
+  --off-white: #ebebeb;
+  --off-black: #363636;
+  --unremarkable-light-gray: #d3d3d3;
+  --unremarkable-medium-gray: #989898;
+  --unremarkable-dark-gray: #646464;
+  --unremarkable-darker-gray: #454545;
+  --unremarkable-semi-opaque-light-gray: rgba(54, 54, 54, 0.1);
+  --unremarkable-semi-opaque-gray: rgba(54, 54, 54, 0.2);
+  --another-unremarkable-semi-opaque-gray: rgba(38, 34, 34, 0.3);
+  --unremarkable-semi-opaque-dark-gray: rgba(38, 34, 34, 0.5);
+  --shadow: rgba(6, 6, 6, 0.075);
+  --darkShadow: rgba(0, 0, 0, 0.5);
+  --danger: #ff0000;
+  --danger-dark: #cc0000;
+
+  // Margin and padding
+  --spacing-unit: 1.25rem;
+  --spacing-unit-double: calc(var(--spacing-unit) * 2);
+  --spacing-unit-triple: calc(var(--spacing-unit) * 3);
+  --spacing-unit-quad: calc(var(--spacing-unit) * 4);
+  --spacing-unit-quint: calc(var(--spacing-unit) * 5);
+  --spacing-unit-sext: calc(var(--spacing-unit) * 6);
+  --spacing-unit-half: calc(var(--spacing-unit) / 2);
+  --spacing-unit-quarter: calc(var(--spacing-unit) / 4);
+  --full-minus-20: calc(100% - var(--spacing-unit));
+  --fifth-minus-20: calc(20% - var(--spacing-unit));
+}

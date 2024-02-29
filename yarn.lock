@@ -3021,6 +3021,13 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
+"@upstash/redis@^1.28.3":
+  version "1.28.3"
+  resolved "https://registry.yarnpkg.com/@upstash/redis/-/redis-1.28.3.tgz#a93f661a3ee0d51f249df2fed312d7c0256f0708"
+  integrity sha512-IduU0zrxVKO0z4D+usJUP/VZRYkbbbSoAdj4WYwgijjhc1nxhRZEtktZ8ueTyXT4dAatJ+gDKIIbVSVIiB1xBw==
+  dependencies:
+    crypto-js "^4.2.0"
+
 "@vercel/nft@^0.23.0":
   version "0.23.1"
   resolved "https://registry.yarnpkg.com/@vercel/nft/-/nft-0.23.1.tgz#f17c5f9d3f3a0178ea25eb7397a14618c00529bf"
@@ -4294,6 +4301,11 @@ console-control-strings@^1.0.0, console-control-strings@^1.1.0:
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
   integrity sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==
 
+"consolidated-events@^1.1.0 || ^2.0.0":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/consolidated-events/-/consolidated-events-2.0.2.tgz#da8d8f8c2b232831413d9e190dc11669c79f4a91"
+  integrity sha512-2/uRVMdRypf5z/TW/ncD/66l75P5hH2vM/GR8Jf8HLc2xnfJtmina6F6du8+v4Z2vTrMo7jC+W1tmEEuuELgkQ==
+
 content-disposition@0.5.4, content-disposition@^0.5.3, content-disposition@^0.5.4:
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/content-disposition/-/content-disposition-0.5.4.tgz#8b82b4efac82512a02bb0b1dcec9d2c5e8eb5bfe"
@@ -4453,6 +4465,11 @@ crossws@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/crossws/-/crossws-0.1.1.tgz#3a85a8140568e4828d9747a884171ea7e6a8bbe2"
   integrity sha512-c9c/o7bS3OjsdpSkvexpka0JNlesBF2JU9B2V1yNsYGwRbAafxhJQ7VI9b48D5bpONz/oxbPGMzBojy9sXoQIQ==
+
+crypto-js@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
+  integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
 
 crypto-random-string@^2.0.0:
   version "2.0.0"
@@ -6206,6 +6223,13 @@ got@^12.0.0, got@^12.1.0, got@^12.3.1, got@^12.6.1:
     p-cancelable "^3.0.0"
     responselike "^3.0.0"
 
+gotrue-js@^0.9.25:
+  version "0.9.29"
+  resolved "https://registry.yarnpkg.com/gotrue-js/-/gotrue-js-0.9.29.tgz#08e62184d4eaadcd87f95cb6e49e3c4a9742a052"
+  integrity sha512-NSFwJlFfWxHd1zHDitysbh+amFPHBAyQG1YmecZJTaSe8TlC7Wja1ewdUBikfJBblN3SqghS6aViMd+Q/pPzGQ==
+  dependencies:
+    micro-api-client "^3.2.1"
+
 graceful-fs@4.2.10:
   version "4.2.10"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.10.tgz#147d3a006da4ca3ce14728c7aefc287c367d7a6c"
@@ -7721,7 +7745,7 @@ methods@~1.1.2:
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==
 
-micro-api-client@^3.3.0:
+micro-api-client@^3.2.1, micro-api-client@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/micro-api-client/-/micro-api-client-3.3.0.tgz#52dd567d322f10faffe63d19d4feeac4e4ffd215"
   integrity sha512-y0y6CUB9RLVsy3kfgayU28746QrNMpSm9O/AYGNsBgOkJr/X/Jk0VLGoO8Ude7Bpa8adywzF+MzXNZRFRsNPhg==
@@ -8981,7 +9005,7 @@ process@^0.11.10:
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
   integrity sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==
 
-prop-types@^15.7.2:
+prop-types@^15.0.0, prop-types@^15.7.2:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -9181,6 +9205,18 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+"react-is@^17.0.1 || ^18.0.0":
+  version "18.2.0"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
+  integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+
+react-netlify-identity@^0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/react-netlify-identity/-/react-netlify-identity-0.2.7.tgz#930719c2ea297542e2351570c2dc161e83a919fd"
+  integrity sha512-7rMtluP2eE3bY18qXm3YBy7D+k3NE64z4bZBuJP9zggNpDREc4EJ/saP7zdfX//Adck8V2p1jsUgUkc1AmgacQ==
+  dependencies:
+    gotrue-js "^0.9.25"
+
 react-refresh@^0.14.0:
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
@@ -9230,6 +9266,16 @@ react-use@^17.4.2:
     throttle-debounce "^3.0.1"
     ts-easing "^0.2.0"
     tslib "^2.1.0"
+
+react-waypoint@^10.3.0:
+  version "10.3.0"
+  resolved "https://registry.yarnpkg.com/react-waypoint/-/react-waypoint-10.3.0.tgz#fcc60e86c6c9ad2174fa58d066dc6ae54e3df71d"
+  integrity sha512-iF1y2c1BsoXuEGz08NoahaLFIGI9gTUAAOKip96HUmylRT6DUtpgoBPjk/Y8dfcFVmfVDvUzWjNXpZyKTOV0SQ==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    consolidated-events "^1.1.0 || ^2.0.0"
+    prop-types "^15.0.0"
+    react-is "^17.0.1 || ^18.0.0"
 
 react@^18.2.0:
   version "18.2.0"

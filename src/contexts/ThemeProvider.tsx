@@ -3,6 +3,7 @@ import { ReactNode, createContext, useReducer } from "react";
 import { themeConfig, ThemeType } from "../data/themeConfig";
 import useLocalStorage from "react-use-localstorage";
 import { getTextColor } from "../helpers/getTextColor";
+import Layout from "../components/Layout";
 
 type LockedColorType = { hex: string; position: number };
 
@@ -281,7 +282,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         buildCustomTheme: buildCustomTheme,
       }}
     >
-      <div className={`${state.name}`}>{children}</div>
+      <Layout className={`${state.name}`}>{children}</Layout>
     </Theme.Provider>
   );
 };

@@ -1,0 +1,79 @@
+.iconMenu {
+  display: flex;
+  justify-content: flex-start;
+  animation: fadeIn var(--transition-duration) var(--animation-timing) 350ms;
+  animation-fill-mode: forwards;
+  opacity: 0;
+
+  &.iconMenuLeft {
+    justify-content: flex-start;
+  }
+
+  &.iconMenuRight {
+    justify-content: flex-end;
+  }
+
+  &.iconMenuStart {
+    justify-content: flex-start;
+  }
+
+  &.iconMenuCenter {
+    justify-content: center;
+  }
+
+  &.iconMenuEnd {
+    justify-content: flex-end;
+  }
+
+  &.iconMenuVertical {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &.iconMenuReverse {
+    flex-direction: row-reverse;
+  }
+
+  .iconMenuAction {
+    .iconMenuLink,
+    .iconMenuButton,
+    .iconMenuCheckbox {
+      display: block;
+      border: 2px solid transparent;
+      border-radius: var(--border-radius-medium);
+      padding: var(--spacing-unit-quarter);
+      color: inherit;
+      cursor: pointer;
+      margin: 0;
+
+      &.iconMenuLinkHome,
+      &.iconMenuButtonHome,
+      &.iconMenuCheckboxHome {
+        transform: rotate(90deg);
+      }
+    }
+
+    &.iconMenuActionActive {
+      .iconMenuLink,
+      .iconMenuButton,
+      .iconMenuCheckbox {
+        border: 2px solid var(--off-white);
+        color: var(--off-white);
+        background-color: var(--unremarkable-semi-opaque-gray);
+        cursor: default;
+      }
+    }
+
+    .iconMenuCheckbox:hover {
+      background-color: var(--unremarkable-semi-opaque-light-gray);
+    }
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

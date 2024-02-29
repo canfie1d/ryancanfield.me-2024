@@ -1,34 +1,36 @@
-import PageContent from "../components/PageContent";
+import { useEffect } from "react";
+import { useAchievementContext } from "../contexts/AchievementProvider";
+import { useGetPageMeta } from "../hooks/getPageMetaData";
+import PageContent from "../content/PageContent";
 import ContactContent from "../content/ContactContent";
-import At from "../icons/at.svg?react";
-import { useScroll } from "react-use";
-import { usePageScrollContext } from "../contexts/PageScrollProvider";
-import { useRef } from "react";
+import { useGameModeContext } from "../contexts/GameModeProvider";
+import ContactGameContent from "../content/ContactGameContent";
 
 const Contact = () => {
-  const ref = useRef(null);
-  const { scrolled, setScrolled } = usePageScrollContext();
-  const { y } = useScroll(ref);
+  const metaData = useGetPageMeta("contact");
+  const { activeGameModes } = useGameModeContext();
+  const gameModeActive = activeGameModes?.contact;
 
-  if (ref.current) {
-    if ((scrolled === false || scrolled === undefined) && y > 100) {
-      setScrolled(true);
-    } else if (scrolled === true && y <= 100) {
-      setScrolled(false);
+  const { loadingAchievements, hasAchievement, addAchievement } =
+    useAchievementContext();
+
+  useEffect(() => {
+    if (!loadingAchievements && !hasAchievement("reach_out")) {
+      addAchievement("reach_out");
     }
-  }
+  }, [loadingAchievements]);
 
   return (
     <PageContent
-      ref={ref}
       pageName="contact"
       header={{
         meta: "④",
-        title: "Contact",
-        icon: <At />,
+        title: metaData.title,
+        subtitle: metaData.subtitle,
+        icon: metaData.icon,
       }}
     >
-      <ContactContent />
+      {gameModeActive ? <ContactGameContent /> : <ContactContent />}
     </PageContent>
   );
 };

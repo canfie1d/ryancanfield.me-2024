@@ -1,4 +1,14 @@
-export const pageNames = ["about", "work", "writing", "contact"] as const;
+export const pagesUsingThemeColor = ["about", "work", "writing", "contact"];
+
+export const pageNames = [
+  "about",
+  "work",
+  "writing",
+  "contact",
+  "journeys-end",
+  "404",
+] as const;
+
 export type PageNames = (typeof pageNames)[number];
 
 export const themeNames = [
@@ -7,6 +17,7 @@ export const themeNames = [
   "léon",
   "random",
   "custom",
+  "rondo",
 ] as const;
 
 export type ThemeNames = (typeof themeNames)[number];
@@ -36,3 +47,11 @@ export const themeConfig: ThemeConfigType = [
     textColors: ["#E0E1DD", "#E0E1DD", "#E0E1DD", "#E0E1DD", "#E0E1DD"],
   },
 ];
+
+export const loreTheme: ThemeType = {
+  name: "rondo",
+  backgroundColors: ["#0077be", "#00a8e8", "#00c3ff", "#00eaff", "#a6faff"],
+  textColors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#000000"],
+};
+
+export const unlockableThemeConfig: ThemeType[] = [loreTheme];

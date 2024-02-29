@@ -1,0 +1,114 @@
+.main {
+  overflow: auto;
+  border-radius: var(--border-radius-large);
+  height: 100%;
+  width: 100%;
+
+  transition:
+    color var(--transition-duration-quick) var(--animation-timing),
+    background-color var(--transition-duration-quick) var(--animation-timing),
+    width var(--transition-duration) ease-in-out;
+}
+
+@media screen and (min-width: 769px) {
+  .main {
+    height: calc(100svh - var(--spacing-unit)) !important;
+  }
+}
+
+.pageContentWrapper {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--border-radius-large);
+  animation: fadeIn var(--transition-duration-slow) var(--animation-timing)
+    200ms;
+  animation-fill-mode: forwards;
+  opacity: 0;
+}
+
+.content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  .contentMeta {
+    position: sticky;
+    display: flex;
+    justify-content: space-between;
+    top: 0;
+    padding: var(--spacing-unit) var(--spacing-unit) 0;
+    text-align: center;
+
+    :global(.layoutScrolled) & {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    &:not(:has(a)) {
+      span {
+        padding-left: var(--spacing-unit);
+        font-size: var(--font-large);
+        color: var(--unremarkable-semi-opaque-gray);
+      }
+    }
+
+    a {
+      color: inherit;
+      max-height: inherit;
+      display: inline-block;
+      text-decoration: none;
+      font-size: var(--font-large);
+      transition: color var(--transition-duration-quick) var(--animation-timing);
+
+      &:hover,
+      &:focus-visible {
+        background-color: var(--another-unremarkable-semi-opaque-gray);
+      }
+    }
+  }
+
+  .contentHeader {
+    padding: var(--spacing-unit) var(--spacing-unit) var(--spacing-unit-half);
+
+    > div:has(svg) {
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      text-transform: capitalize;
+      text-wrap: balance;
+      margin-bottom: 0;
+    }
+
+    h2 {
+      text-align: center;
+      text-transform: capitalize;
+      text-wrap: balance;
+      font-size: var(--font-medium);
+    }
+  }
+}
+
+.list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    margin-bottom: var(--spacing-unit-half);
+    margin-left: var(--spacing-unit);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

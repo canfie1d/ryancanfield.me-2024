@@ -1,0 +1,39 @@
+// lots of !important in here to combat js generated styles
+.pageWrapper {
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--box-shadow);
+  transition: all var(--transition-duration) var(--animation-timing);
+
+  @media screen and (max-width: 768px) {
+    width: 100% !important;
+    min-height: 100px;
+
+    &:not(.pageWrapperCurrent):not(.pageWrapperHome) {
+      height: 100px !important;
+    }
+
+    // applies to all non-active pages
+    :global(.layoutScrolled) & {
+      &:not(.pageWrapperCurrent) {
+        min-height: 24px;
+        height: 24px !important;
+      }
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    min-width: 100px;
+    height: 100% !important;
+
+    &:not(.pageWrapperCurrent):not(.pageWrapperHome) {
+      width: 100px !important;
+    }
+
+    :global(.layoutScrolled) & {
+      &:not(.pageWrapperCurrent) {
+        min-width: 24px;
+        width: 24px !important;
+      }
+    }
+  }
+}

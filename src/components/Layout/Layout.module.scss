@@ -1,0 +1,30 @@
+.layout {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  height: 100svh;
+  padding: var(--spacing-unit-half);
+  gap: var(--spacing-unit);
+  transition: all var(--transition-duration) var(--animation-timing);
+
+  &:not(.layoutHome) {
+    padding-bottom: 60px; // 44px + 16px (pageHeader width + spacing unit)
+  }
+
+  &.layoutScrolled {
+    gap: var(--spacing-unit-half);
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .layout {
+    flex-direction: row;
+
+    &:not(.layoutHome) {
+      padding-bottom: var(--spacing-unit-half);
+      padding-right: 60px; // 44px + 16px (pageHeader width + spacing unit)
+    }
+  }
+}

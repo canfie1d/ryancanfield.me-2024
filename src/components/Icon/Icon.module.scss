@@ -1,0 +1,39 @@
+.icon {
+  transition:
+    height var(--transition-duration) ease-in-out,
+    width var(--transition-duration) ease-in-out;
+
+  &.icon-x-small,
+  &.icon-x-small svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.icon-small,
+  &.icon-small svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  &.icon-medium,
+  &.icon-medium svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  &.icon-large,
+  &.icon-large svg {
+    width: 44px;
+    height: 44px;
+  }
+
+  &.icon-xlarge,
+  &.icon-xlarge svg {
+    width: 64px;
+    height: 64px;
+  }
+
+  &.icon-currentColor {
+    color: inherit;
+  }
+}

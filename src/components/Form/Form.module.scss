@@ -1,0 +1,27 @@
+.submitMessage {
+  max-width: 320px;
+  margin: auto;
+  text-align: center;
+  padding-bottom: 100px;
+}
+
+form.codeForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: var(--spacing-unit);
+  margin: var(--spacing-unit) auto;
+
+  input {
+    text-align: center;
+    min-width: 0;
+    padding: var(--spacing-unit) 0;
+    font-size: var(--font-x-large);
+    font-weight: var(--weight-bold);
+
+    &:focus-visible {
+      outline: none;
+      border-color: var(--unremarkable-dark-gray);
+    }
+  }
+}
