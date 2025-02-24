@@ -1,19 +1,19 @@
-import {
-  AchievementType,
-  useAchievementContext,
-} from "../contexts/AchievementProvider";
-import { ACHIEVEMENTS } from "../data/achievements";
-import Card from "../components/Card";
-import Icon from "../components/Icon";
+import { ACHIEVEMENTS } from "~/data/achievements";
+import { AchievementType, useAchievementStore } from "~/stores/achievements";
+
+import Card from "~/components/Card";
+import Icon from "~/components/Icon";
+import Text from "~/components/Text";
 
 const WorkGameContent = () => {
-  const { hasAchievement } = useAchievementContext();
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
 
   return (
     <div className="contentBody">
       <Card.Wrapper>
         {ACHIEVEMENTS.map((achievement: AchievementType) => (
           <Card
+            pageName="work"
             type="achievement"
             variant={!hasAchievement(achievement.id) ? "disabled" : undefined}
             key={achievement.id}
@@ -29,7 +29,9 @@ const WorkGameContent = () => {
                 }}
               >
                 <Icon size="large" color="#ff0000" name={achievement.icon} />
-                <p style={{ paddingBottom: 0 }}>{achievement.description}</p>
+                <Text style={{ paddingBottom: 0 }}>
+                  {achievement.description}
+                </Text>
               </div>
             ) : (
               <Icon size="large" name="lock-question" />

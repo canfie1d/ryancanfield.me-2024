@@ -73,12 +73,12 @@
   }
 
   &.button-backdrop {
-    background: var(--darkShadow);
+    background: var(--dark-shadow);
     border-radius: 0;
 
     &:hover,
     &:focus-visible {
-      background-color: var(--darkShadow);
+      background-color: var(--dark-shadow);
     }
   }
 

@@ -1,11 +1,14 @@
 import { useRef, useEffect, useReducer } from "react";
 import { createPortal } from "react-dom";
 import { drawContributions } from "github-contributions-canvas";
-import { useAchievementContext } from "../contexts/AchievementProvider";
-import Modal from "../components/Modal";
-import Icon from "../components/Icon";
-import Loader from "./Loader";
-import Button from "./Button";
+import { useAchievementStore } from "~/stores/achievements";
+import { getColorsFromTheme } from "~/helpers/getColorsFromTheme";
+import Modal from "~/components/Modal";
+import Icon from "~/components/Icon";
+import Loader from "~/components/Loader";
+import Button from "~/components/Button";
+import Text from "~/components/Text";
+import Loading from "~/components/Loading";
 
 type StateType = {
   isPending: boolean;
@@ -36,10 +39,11 @@ const DEFAULT_STATE: StateType = {
 };
 
 const GithubContributions = () => {
-  const { hasAchievement, addAchievement } = useAchievementContext();
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
 
   const [state, dispatch] = useReducer(reducer, DEFAULT_STATE);
-
+  const { textColor, backgroundColor } = getColorsFromTheme("work");
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -117,7 +121,7 @@ const GithubContributions = () => {
                   margin: "auto",
                 }}
               />
-              <p style={{ textAlign: "center", fontStyle: "italic" }}>
+              <Text style={{ textAlign: "center", fontStyle: "italic" }}>
                 {state.likesIt === undefined ? (
                   <code className="inlineBlock">
                     // I'm not really sure why I added this to the site. Should
@@ -143,7 +147,7 @@ const GithubContributions = () => {
                 ) : (
                   "Yeah? Ok- I'll keep it. Thanks for the feedback."
                 )}
-              </p>
+              </Text>
             </>
           )}
         </Modal>,
@@ -156,7 +160,11 @@ const GithubContributions = () => {
             ? "vanishing"
             : undefined
         }
-        style={{ marginTop: "var(--spacing-unit)" }}
+        style={{
+          color: backgroundColor,
+          backgroundColor: textColor,
+          marginTop: "var(--spacing-unit)",
+        }}
         onMouseEnter={() => {
           if (state.likesIt === false && !hasAchievement("finders_keepers")) {
             addAchievement("finders_keepers");
@@ -167,7 +175,7 @@ const GithubContributions = () => {
       >
         <Icon name="github" size="small" />
         <span style={{ paddingLeft: "var(--spacing-unit-half)" }}>
-          {state.isPending ? "Loading..." : "Github Contribution Graph"}
+          {state.isPending ? <Loading /> : "Github Contribution Graph"}
         </span>
       </Button>
     </>

@@ -1,4 +1,5 @@
 import { Component, ErrorInfo, ReactNode } from "react";
+import Text from "~/components/Text";
 
 interface Props {
   children?: ReactNode;
@@ -29,7 +30,7 @@ class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     const errorUrl = this.state.errorInfo?.componentStack?.split("\n")[1];
-    const errorLocation = errorUrl?.match(/\/([^\/?]+)\?/)?.[1];
+    const errorLocation = errorUrl?.match(/\/([^/?]+)\?/)?.[1];
 
     if (this.state.hasError) {
       return (
@@ -43,7 +44,7 @@ class ErrorBoundary extends Component<Props, State> {
           {this.state.errorInfo && (
             <>
               <code>{this.state.errorInfo.componentStack}</code>
-              <p
+              <Text
                 style={{
                   maxWidth: "70dvw",
                   margin: "var(--spacing-unit) auto",
@@ -58,7 +59,7 @@ class ErrorBoundary extends Component<Props, State> {
                   send me an email
                 </a>
                 &nbsp;🙏.
-              </p>
+              </Text>
             </>
           )}
           <div

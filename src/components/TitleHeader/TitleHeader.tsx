@@ -1,5 +1,5 @@
+import Icon from "~/components/Icon";
 import styles from "./TitleHeader.module.scss";
-import Icon from "../Icon";
 
 const TitleHeader = ({
   iconName,

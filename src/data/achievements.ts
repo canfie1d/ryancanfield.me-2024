@@ -1,4 +1,4 @@
-import { AchievementType } from "../contexts/AchievementProvider";
+import { AchievementType } from "~/stores/achievements";
 
 export const ACHIEVEMENTS: AchievementType[] = [
   {
@@ -66,7 +66,7 @@ export const ACHIEVEMENTS: AchievementType[] = [
   },
   {
     id: "about_face", // ✔️
-    title: "Whaddaboud'im?",
+    title: "Whaddaboutum?",
     description: "Visit the about page",
     collectedDate: null,
     icon: "roundabout",

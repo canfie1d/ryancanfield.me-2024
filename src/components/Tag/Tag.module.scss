@@ -1,5 +1,5 @@
 .tag {
-  background-color: var(--unremarkable-semi-opaque-gray);
+  // background-color: var(--unremarkable-semi-opaque-gray);
   border-radius: var(--border-radius-medium);
   padding: var(--spacing-unit-half) var(--spacing-unit);
   font-family: var(--body-font);
@@ -8,7 +8,7 @@
 
   &::selection {
     color: var(--off-white);
-    background: var(--unremarkable-semi-opaque-gray);
+    // background: var(--unremarkable-semi-opaque-gray);
   }
 
   &:has(~ .tag) {
@@ -17,7 +17,7 @@
   }
 
   &:has(.tagLink) {
-    background-color: var(--unremarkable-dark-gray);
+    // background-color: var(--unremarkable-dark-gray);
     box-shadow: var(--box-shadow);
     padding: 0;
   }
@@ -31,7 +31,7 @@
     border-radius: var(--border-radius-medium);
 
     &:hover {
-      background-color: var(--unremarkable-semi-opaque-gray);
+      // background-color: var(--unremarkable-semi-opaque-gray);
       color: var(--off-white);
     }
 

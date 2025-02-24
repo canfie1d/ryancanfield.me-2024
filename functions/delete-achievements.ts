@@ -1,15 +1,12 @@
-import { Handler } from "@netlify/functions";
-import { Redis } from "@upstash/redis";
-import { env, headers } from "../config";
+import { Context } from "@netlify/functions";
+import { getStore } from "@netlify/blobs";
+import { headers } from "../config";
 
-export const handler: Handler = async (event) => {
-  const redis = new Redis({
-    url: env.upstashUrl,
-    token: env.upstashToken,
-  });
-
+export const handler = async (_: Request, context: Context) => {
   try {
-    await redis.set("achievements", JSON.stringify([]));
+    const { username } = context.params;
+    const achievements = await getStore("achievements");
+    achievements.delete(username);
 
     return {
       statusCode: 200,

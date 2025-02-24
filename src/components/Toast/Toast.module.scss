@@ -9,7 +9,17 @@
   border-radius: var(--border-radius-small);
   box-shadow: var(--box-shadow);
   z-index: 1001;
-  animation: slideIn 2400ms ease-in-out;
+  animation-name: slideIn;
+  animation-timing-function: ease-in-out;
+
+  &.alertToast {
+    padding: 0;
+
+    p {
+      padding: var(--spacing-unit-half) var(--spacing-unit);
+      margin: 0;
+    }
+  }
 
   &.achievementToast {
     display: flex;

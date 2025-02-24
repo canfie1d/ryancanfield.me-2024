@@ -1,17 +1,20 @@
 import { Link } from "react-router-dom";
-import { useGameModeContext } from "../../contexts/GameModeProvider";
-import Loader from "../Loader";
-import Icon from "../Icon";
+import Loader from "~/components/Loader";
+import Icon from "~/components/Icon";
+import Text from "~/components/Text";
 import styles from "./PagePreviewLink.module.scss";
+import { useGameModeStore } from "~/stores/game-mode";
 
 const PagePreviewLink = ({
   pageName,
   metaData,
+  textColor,
 }: {
   pageName: string;
   metaData: { title: string; icon: string };
+  textColor: string;
 }) => {
-  const { activeGameModes } = useGameModeContext();
+  const activeGameModes = useGameModeStore((store) => store.activeGameModes);
   const gameModeActive =
     activeGameModes?.[pageName as keyof typeof activeGameModes];
 
@@ -23,7 +26,7 @@ const PagePreviewLink = ({
         ) : (
           <div className={styles.previewContentBody}>
             <Icon name={metaData.icon} />
-            {!gameModeActive && <p>{metaData.title}</p>}
+            {!gameModeActive && <Text color={textColor}>{metaData.title}</Text>}
           </div>
         )}
       </div>

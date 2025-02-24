@@ -1,10 +1,10 @@
 import { ChangeEventHandler, MouseEventHandler } from "react";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
-import Button from "../Button";
-import Icon from "../Icon";
+import { useWindowSize } from "~/hooks/useWindowSize";
+import Button from "~/components/Button";
+import Icon from "~/components/Icon";
 import styles from "./IconMenu.module.scss";
-import { useWindowSize } from "../../hooks/useWindowSize";
 
 const IconMenu = ({
   vertical,
@@ -51,7 +51,7 @@ const IconMenu = ({
                 styles.iconMenuLink,
                 reverse && !isHome && !isSmallScreen && styles.iconMenuLinkHome
               )}
-              onClick={action.onClick && action.onClick}
+              onClick={action.onClick ? action.onClick : undefined}
             >
               <Icon name={action.icon} size="small" />
             </Link>

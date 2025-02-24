@@ -14,20 +14,19 @@ const Toast = ({
   children: ReactNode;
   onClose: MouseEventHandler;
   closeTime?: number;
-  type?: "achievement";
+  type?: "achievement" | "alert";
 }) => {
   const hasFocus = document.hasFocus();
+  const closingTime = closeTime && closeTime < 2400 ? closeTime : 2400;
 
   useEffect(() => {
-    if (open && closeTime && hasFocus) {
-      setTimeout(onClose, closeTime);
+    if (open && closingTime && hasFocus) {
+      const timeoutId = setTimeout(onClose, closingTime);
+      return () => {
+        clearTimeout(timeoutId);
+      };
     }
-    return () => {
-      if (open && closeTime) {
-        clearTimeout(closeTime);
-      }
-    };
-  }, [open, hasFocus]);
+  }, [open, hasFocus, closingTime, onClose]);
 
   return (
     <>
@@ -35,6 +34,7 @@ const Toast = ({
         open && (
           <div
             className={classNames(styles.toast, type && styles[`${type}Toast`])}
+            style={{ animationDuration: `${closingTime}ms` }}
           >
             {children}
           </div>

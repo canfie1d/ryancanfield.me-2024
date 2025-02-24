@@ -1,20 +1,20 @@
 import { Fragment } from "react";
-import {
-  AchievementType,
-  useAchievementContext,
-} from "../contexts/AchievementProvider";
-import { ACHIEVEMENTS } from "../data/achievements";
-import { themeConfig, unlockableThemeConfig } from "../data/themeConfig";
-import Card from "../components/Card/Card";
+import { ACHIEVEMENTS } from "~/data/achievements";
+import { themeConfig, unlockableThemeConfig } from "~/data/themeConfig";
+import { AchievementType, useAchievementStore } from "~/stores/achievements";
+
+import Card from "~/components/Card/Card";
+import Text from "~/components/Text";
 
 const WritingGameContent = () => {
-  const { achievements, hasAchievement } = useAchievementContext();
+  const achievements = useAchievementStore((store) => store.achievements);
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
 
   return (
     <div className="contentBody">
       <Card.Wrapper columns={3}>
-        <Card title="Themes" smallTitle centerTitle>
-          <p
+        <Card pageName="writing" title="Themes" smallTitle centerTitle>
+          <Text
             style={{
               textAlign: "center",
               fontWeight: 600,
@@ -22,19 +22,19 @@ const WritingGameContent = () => {
             }}
           >
             {`${themeConfig.length + (hasAchievement("rondo_mode") ? 1 : 0)}/${themeConfig.length + unlockableThemeConfig.length}`}
-          </p>
+          </Text>
         </Card>
-        <Card title="Achievements" smallTitle centerTitle>
-          <p
+        <Card pageName="writing" title="Achievements" smallTitle centerTitle>
+          <Text
             style={{
               textAlign: "center",
               fontWeight: 600,
               fontSize: "var(--font-large)",
             }}
-          >{`${achievements.length}/${ACHIEVEMENTS.length}`}</p>
+          >{`${achievements.length}/${ACHIEVEMENTS.length}`}</Text>
         </Card>
-        <Card title="Lore" smallTitle centerTitle>
-          <p
+        <Card pageName="writing" title="Lore" smallTitle centerTitle>
+          <Text
             style={{
               textAlign: "center",
               fontWeight: 600,
@@ -42,7 +42,7 @@ const WritingGameContent = () => {
             }}
           >
             2/4
-          </p>
+          </Text>
         </Card>
       </Card.Wrapper>
       <code className="code">

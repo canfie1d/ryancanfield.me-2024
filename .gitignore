@@ -13,3 +13,7 @@ net-fn.pem
 .nvmrc
 .env.local
 NOTES.md
+
+/certs
+
+.million

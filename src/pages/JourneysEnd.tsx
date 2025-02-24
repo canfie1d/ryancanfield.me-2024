@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
-import { useThemeContext } from "../contexts/ThemeProvider";
-import { useAchievementContext } from "../contexts/AchievementProvider";
+import { useAchievementStore } from "~/stores/achievements";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { loreTheme } from "../data/themeConfig";
-import CodeForm from "../components/Form/CodeForm";
-import PageContent from "../content/PageContent";
-import Button from "../components/Button";
-import Icon from "../components/Icon";
+import { loreTheme } from "~/data/themeConfig";
+import CodeForm from "~/components/Form/CodeForm";
+import PageContent from "~/content/PageContent";
+import Button from "~/components/Button";
+import Icon from "~/components/Icon";
+import Text from "~/components/Text";
 import styles from "./JourneysEnd.module.scss";
+import { useThemeStore } from "~/stores/theme";
 
 const JourneysEnd = () => {
-  const { loadingAchievements, hasAchievement, addAchievement } =
-    useAchievementContext();
+  const loadingAchievements = useAchievementStore(
+    (store) => store.loadingAchievements
+  );
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
   const [params] = useSearchParams();
   const codeParam = params.get("code");
   const navigate = useNavigate();
-  const { setTheme } = useThemeContext();
+  const setTheme = useThemeStore((store) => store.setTheme);
   const [loreButtonActive, setLoreButtonActive] = useState<boolean>();
 
   useEffect(() => {
@@ -38,20 +42,21 @@ const JourneysEnd = () => {
         {!loadingAchievements &&
         hasAchievement("reward_determination") &&
         !hasAchievement("rondo_mode") ? (
-          <p>
+          <Text>
             Your determination has been rewarded.
             <br />A shiny new theme is available for your collection!
-          </p>
+          </Text>
         ) : (
           <>
-            <p>
+            <Text>
               Rondo is available in the theme menu.
               <br />I hope you had as much fun finding this as I had hiding it.
-            </p>
-            <p>Thanks for participating.</p>
+            </Text>
+            <Text>Thanks for participating.</Text>
           </>
         )}
         <Button
+          pageName="journeys-end"
           onClick={() => {
             if (!hasAchievement("rondo_mode")) {
               addAchievement("rondo_mode");
@@ -88,11 +93,11 @@ const JourneysEnd = () => {
               alignItems: "center",
             }}
           >
-            <p>This is where your journey ends.</p>
-            <p>
+            <Text>This is where your journey ends.</Text>
+            <Text>
               If you've found the code along your travels, enter it here to
               claim your reward.
-            </p>
+            </Text>
             <CodeForm setLoreButtonActive={setLoreButtonActive} />
           </div>
         )}

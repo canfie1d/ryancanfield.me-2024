@@ -1,19 +1,15 @@
 import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import classNames from "classnames";
-import { useThemeContext } from "../../contexts/ThemeProvider";
-import { usePageScrollContext } from "../../contexts/PageScrollProvider";
+import { useThemeStore } from "~/stores/theme";
+import { usePageScrollStore } from "~/stores/scroll";
+import AchievementToast from "~/components/AchievementToast";
 import styles from "./Layout.module.scss";
 
-const Layout = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: ReactNode;
-}) => {
-  const { backgroundColors } = useThemeContext();
-  const { scrolled } = usePageScrollContext();
+const Layout = ({ children }: { children: ReactNode }) => {
+  const name = useThemeStore((store) => store.name);
+  const backgroundColors = useThemeStore((store) => store.backgroundColors);
+  const scrolled = usePageScrollStore((store) => store.scrolled);
   const { pathname } = useLocation();
 
   return (
@@ -23,12 +19,13 @@ const Layout = ({
       }}
       className={classNames(
         styles.layout,
-        className,
+        name,
         pathname === "/" && styles.layoutHome,
         scrolled && styles.layoutScrolled,
         scrolled && "layoutScrolled"
       )}
     >
+      <AchievementToast />
       {children}
     </div>
   );

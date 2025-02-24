@@ -1,6 +1,6 @@
 import { useIdentityContext } from "react-netlify-identity";
-import Button from "./Button";
-import Icon from "./Icon";
+import Button from "~/components/Button";
+import Icon from "~/components/Icon";
 
 const LogInButton = ({ className }: { className: string }) => {
   const { loginProvider } = useIdentityContext();

@@ -1,5 +1,5 @@
 // import { useEffect, useRef } from "react";
-// import { useAchievementContext } from "../contexts/AchievementProvider";
+// import { useAchievementStore } from "~/stores/achievements";
 
 const AboutGameContent = () => {
   return <div className="contentBody">Content</div>;

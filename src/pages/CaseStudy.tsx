@@ -1,10 +1,14 @@
 import { useEffect } from "react";
-import { useAchievementContext } from "../contexts/AchievementProvider";
-import { CASE_STUDIES } from "../data/caseStudies";
+import { useAchievementStore } from "~/stores/achievements";
+import { CASE_STUDIES } from "~/data/caseStudies";
+import Text from "~/components/Text";
 
 const CaseStudy = ({ id }: { id: string }) => {
-  const { loadingAchievements, hasAchievement, addAchievement } =
-    useAchievementContext();
+  const loadingAchievements = useAchievementStore(
+    (store) => store.loadingAchievements
+  );
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
 
   useEffect(() => {
     if (!loadingAchievements && !hasAchievement("so_studious")) {
@@ -20,7 +24,7 @@ const CaseStudy = ({ id }: { id: string }) => {
     <div className="contentBody">
       <h3>Problem Analysis</h3>
       {study.problem.content.map((paragraph, i) => (
-        <p key={`paragraph-${i}`}>{paragraph}</p>
+        <Text key={`paragraph-${i}`}>{paragraph}</Text>
       ))}
       {study.problem.images?.map((image, i) => (
         <img key={`image-${i}`} src={image.src} alt="" />
@@ -28,7 +32,7 @@ const CaseStudy = ({ id }: { id: string }) => {
 
       <h3>Solution</h3>
       {study.solution.content.map((paragraph, i) => (
-        <p key={`paragraph-${i}`}>{paragraph}</p>
+        <Text key={`paragraph-${i}`}>{paragraph}</Text>
       ))}
       {study.solution.images?.map((image, i) => (
         <img key={`image-${i}`} src={image.src} alt="" />
@@ -36,7 +40,7 @@ const CaseStudy = ({ id }: { id: string }) => {
 
       <h3>Result</h3>
       {study.result.content.map((paragraph, i) => (
-        <p key={`paragraph-${i}`}>{paragraph}</p>
+        <Text key={`paragraph-${i}`}>{paragraph}</Text>
       ))}
       {study.result.images?.map((image, i) => (
         <img key={`image-${i}`} src={image.src} alt="" />

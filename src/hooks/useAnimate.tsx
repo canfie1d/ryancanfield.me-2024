@@ -1,8 +1,8 @@
 "use client";
 
 import { useLocation } from "react-router-dom";
-import { useWindowSize } from "./useWindowSize";
-import { CASE_STUDIES } from "../data/caseStudies";
+import { useWindowSize } from "~/hooks/useWindowSize";
+import { CASE_STUDIES } from "~/data/caseStudies";
 
 export const useAnimate = () => {
   const { pathname } = useLocation();

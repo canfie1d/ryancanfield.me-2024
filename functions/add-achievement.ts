@@ -1,28 +1,30 @@
-import { Handler } from "@netlify/functions";
-import { Redis } from "@upstash/redis";
-import { env, headers } from "../config";
+import { Context } from "@netlify/functions";
+import { getStore } from "@netlify/blobs";
+import { AchievementType } from "../src/stores/achievements";
 
-export const handler: Handler = async (event) => {
-  const redis = new Redis({
-    url: env.upstashUrl,
-    token: env.upstashToken,
-  });
+const hasAchievement = async (store: any, id: string) => {
+  const achievement = await store.getMetadata(id);
+  return achievement !== null;
+};
 
-  const achievements = event.body ? JSON.parse(event.body) : undefined;
-
+export const handler = async (req: Request, context: Context) => {
   try {
-    await redis.set("achievements", JSON.stringify(achievements));
+    const { username } = context.params;
 
-    return {
-      statusCode: 200,
-      headers: headers,
-    };
+    const newAchievement = req.body as unknown as AchievementType;
+
+    const achievementStore = await getStore({
+      name: username,
+      // consistency: "strong",
+    });
+    console.log("achievementStore: ", achievementStore);
+
+    if (await hasAchievement(achievementStore, newAchievement.id)) return;
+
+    newAchievement.collectedDate = new Date().toISOString();
+
+    achievementStore.setJSON(username, JSON.stringify(newAchievement));
   } catch (err) {
-    console.error(err); // output to netlify function log
-    return {
-      statusCode: 500,
-      headers: headers,
-      body: JSON.stringify(err),
-    };
+    return err;
   }
 };

@@ -1,23 +1,26 @@
 import { Suspense, useEffect } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
-import { useAchievementContext } from "../contexts/AchievementProvider";
-import { useGameModeContext } from "../contexts/GameModeProvider";
-import { useGetPageMeta } from "../hooks/getPageMetaData";
-import { CASE_STUDIES } from "../data/caseStudies";
-import PageContent from "../content/PageContent";
-import WorkContent from "../content/WorkContent";
-import Icon from "../components/Icon";
-import Loader from "../components/Loader";
-import WorkGameContent from "../content/WorkGameContent";
+import { motion, useReducedMotion } from "motion/react";
+import { CASE_STUDIES } from "~/data/caseStudies";
+import { useAchievementStore } from "~/stores/achievements";
+import { useGameModeStore } from "~/stores/game-mode";
+import { useGetPageMeta } from "~/hooks/getPageMetaData";
+import PageContent from "~/content/PageContent";
+import WorkContent from "~/content/WorkContent";
+import WorkGameContent from "~/content/WorkGameContent";
+import Icon from "~/components/Icon";
+import Loader from "~/components/Loader";
 
 const Work = () => {
   const metaData = useGetPageMeta("work");
-  const { activeGameModes } = useGameModeContext();
+  const activeGameModes = useGameModeStore((store) => store.activeGameModes);
   const gameModeActive = activeGameModes?.work;
 
-  const { loadingAchievements, hasAchievement, addAchievement } =
-    useAchievementContext();
+  const loadingAchievements = useAchievementStore(
+    (store) => store.loadingAchievements
+  );
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
 
   useEffect(() => {
     if (!loadingAchievements && !hasAchievement("all_work_no_play")) {

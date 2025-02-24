@@ -1,32 +1,34 @@
-import { HexColorPicker } from "react-colorful";
-import { getTextColor } from "../helpers/getTextColor";
-import { ThemeType } from "../data/themeConfig";
-import { useThemeContext } from "../contexts/ThemeProvider";
-import useClickOutside from "../hooks/useClickOutside";
 import { useRef } from "react";
+import { HexColorPicker } from "react-colorful";
 import classNames from "classnames";
+import { ThemeType } from "~/data/themeConfig";
+import { getTextColor } from "~/helpers/getTextColor";
+import useClickOutside from "~/hooks/useClickOutside";
 import styles from "./ColorMenu/ColorMenu.module.scss";
+import { useThemeStore } from "~/stores/theme";
+
+type ColorPickerProps = {
+  active: boolean;
+  onClose: () => void;
+  location: {
+    top: number | string;
+    left: number | string;
+  };
+  backgroundColor: string;
+};
 
 const ColorPicker = ({
   active,
   onClose,
   location,
   backgroundColor,
-}: {
-  active: boolean;
-  onClose: () => void;
-  location: { top: number | string; left: number | string };
-  backgroundColor: string;
-}) => {
+}: ColorPickerProps) => {
   const ref = useRef(null);
   useClickOutside(ref, onClose);
-  const {
-    textColors,
-    backgroundColors,
-
-    replaceLockedColor,
-    setTheme,
-  } = useThemeContext();
+  const textColors = useThemeStore((store) => store.textColors);
+  const backgroundColors = useThemeStore((store) => store.backgroundColors);
+  const replaceLockedColor = useThemeStore((store) => store.replaceLockedColor);
+  const setTheme = useThemeStore((store) => store.setTheme);
 
   const handleColorChange = (value: string) => {
     const indexToReplace = backgroundColors.indexOf(backgroundColor);
@@ -60,13 +62,11 @@ const ColorPicker = ({
         active && styles.previewColorPickerActive
       )}
     >
-      {active && (
-        <HexColorPicker
-          id={`color-picker-${backgroundColor}`}
-          color={backgroundColor}
-          onChange={handleColorChange}
-        />
-      )}
+      <HexColorPicker
+        id={`color-picker-${backgroundColor}`}
+        color={backgroundColor}
+        onChange={handleColorChange}
+      />
     </div>
   );
 };

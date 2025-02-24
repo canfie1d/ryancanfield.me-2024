@@ -1,28 +1,38 @@
-import { Link, useLocation } from "react-router-dom";
-import { useAchievementContext } from "../../contexts/AchievementProvider";
 import { useEffect, useState } from "react";
-import { useWindowSize } from "../../hooks/useWindowSize";
-import SettingsPanel from "../SettingsModal";
-import IconMenu from "../IconMenu";
-import ThemeModal from "../ThemeModal";
-import ThemePanel from "../ThemePanel";
+import { Link, useLocation } from "react-router-dom";
+import { useAchievementStore } from "~/stores/achievements";
+import { useWindowSize } from "~/hooks/useWindowSize";
+import SettingsPanel from "~/components/SettingsModal";
+import IconMenu from "~/components/IconMenu";
+import ThemeModal from "~/components/ThemeModal";
+import ThemePanel from "~/components/ThemePanel";
 import styles from "./PageTitle.module.scss";
+import { useGameModeStore } from "~/stores/game-mode";
 
 const PageTitle = () => {
   const { pathname } = useLocation();
   const { width } = useWindowSize();
   const isSmallScreen = width <= 768;
+
+  const activeGameModes = useGameModeStore((store) => store.activeGameModes);
+  const allGameModesActive = useGameModeStore(
+    (store) => store.allGameModesActive
+  );
+
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
   const [themeModalOpen, setThemeModalOpen] = useState(false);
 
-  const { loadingAchievements, hasAchievement, addAchievement } =
-    useAchievementContext();
+  const loadingAchievements = useAchievementStore(
+    (store) => store.loadingAchievements
+  );
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
 
   useEffect(() => {
     if (!loadingAchievements && !hasAchievement("first_timer")) {
       addAchievement("first_timer");
     }
-  }, [loadingAchievements]);
+  }, [loadingAchievements, hasAchievement, addAchievement]);
 
   const renderPageLinks = () => {
     const pageLinks = [
@@ -81,6 +91,25 @@ const PageTitle = () => {
 
   return (
     <>
+      {/* @note Inventory Location */}
+      {Object.values(activeGameModes).some((mode) => mode) && (
+        <IconMenu
+          align={pathname !== "/" ? "right" : undefined}
+          justify="start"
+          actions={[
+            {
+              icon: "github",
+              label: "Inventory Item",
+              onClick: () => {
+                if (!hasAchievement("inventory")) {
+                  addAchievement("inventory");
+                }
+              },
+            },
+          ]}
+          reverse={pathname !== "/" && !isSmallScreen}
+        />
+      )}
       {pathname === "/" ? (
         <main className={styles.pageWrapper}>
           <h1 className={styles.pageTitle}>ryan canfield</h1>
@@ -96,9 +125,18 @@ const PageTitle = () => {
         </main>
       ) : (
         <header className={styles.pageHeader}>
-          <Link to="/" className={styles.pageTitle} aria-label="Home">
-            ryan canfield
-          </Link>
+          {/*
+            @todo when in game mode, use username,
+            allow for username to be changed with
+            a tiny pencil icon
+          */}
+          {allGameModesActive ? (
+            <h1 className={styles.pageTitle}>user_name</h1>
+          ) : (
+            <Link to="/" className={styles.pageTitle} aria-label="Home">
+              ryan canfield
+            </Link>
+          )}
           {renderPageLinks()}
           <ThemeModal
             open={themeModalOpen}

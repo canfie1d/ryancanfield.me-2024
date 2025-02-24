@@ -1,21 +1,22 @@
-import { Handler } from "@netlify/functions";
-import { Redis } from "@upstash/redis";
-import { env, headers } from "../config";
+import { Context } from "@netlify/functions";
+import { getStore } from "@netlify/blobs";
+import { headers } from "../config";
 
-const redis = new Redis({
-  url: env.upstashUrl,
-  token: env.upstashToken,
-});
+export const handler = async (_: Request, context: Context) => {
+  const { username } = context.params;
+  const achievements = getStore("achievements");
 
-export const handler: Handler = async () => {
+  const data = await achievements.getMetadata(username, {
+    // consistency: "strong",
+  });
+  console.log("data: ", data);
+
   try {
-    const response: Response | null = await redis.get("achievements");
-
-    if (response) {
+    if (data) {
       return {
         statusCode: 200,
         headers: headers,
-        body: JSON.stringify(response),
+        body: data.metadata,
       };
     } else {
       return {
@@ -25,7 +26,7 @@ export const handler: Handler = async () => {
       };
     }
   } catch (err) {
-    console.error(err); // output to netlify function log
+    console.error("Error fetching achievements:", err); // output to netlify function log
     return {
       statusCode: 500,
       headers: headers,

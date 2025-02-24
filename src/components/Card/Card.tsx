@@ -1,8 +1,10 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
-import Button from "../Button";
+import Button from "~/components/Button";
 import styles from "./Card.module.scss";
+import { getColorsFromTheme } from "~/helpers/getColorsFromTheme";
+import { PageNames } from "~/data/themeConfig";
 
 const Card = ({
   type,
@@ -15,6 +17,7 @@ const Card = ({
   smallTitle,
   centerTitle,
   footer,
+  pageName,
   children,
 }: {
   title: string;
@@ -27,8 +30,10 @@ const Card = ({
   smallTitle?: boolean;
   centerTitle?: boolean;
   footer?: ReactNode;
+  pageName: PageNames;
   children: ReactNode;
 }) => {
+  const { textColor, backgroundColor } = getColorsFromTheme(pageName);
   const headerStyles = classNames(
     styles.h3,
     smallTitle && styles.smallTitle,
@@ -51,6 +56,7 @@ const Card = ({
         variant && styles[`${variant}Card`],
         className
       )}
+      style={{ color: backgroundColor, backgroundColor: textColor }}
     >
       {href ? (
         <Link

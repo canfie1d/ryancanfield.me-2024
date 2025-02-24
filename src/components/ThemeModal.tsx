@@ -1,8 +1,8 @@
 import { createPortal } from "react-dom";
-import { useWindowSize } from "../hooks/useWindowSize";
-import ThemeMenu from "./ThemePanel/ThemeMenu";
-import Modal from "./Modal";
 import { useLocation } from "react-router-dom";
+import { useWindowSize } from "~/hooks/useWindowSize";
+import ThemeMenu from "~/components/ThemePanel/ThemeMenu";
+import Modal from "~/components/Modal";
 
 const ThemeModal = ({
   open,

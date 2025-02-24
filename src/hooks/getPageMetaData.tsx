@@ -1,9 +1,8 @@
-import { useGameModeContext } from "../contexts/GameModeProvider";
-
-import { PageNames } from "../data/themeConfig";
+import { PageNames } from "~/data/themeConfig";
+import { useGameModeStore } from "~/stores/game-mode";
 
 export const useGetPageMeta = (pageName: PageNames) => {
-  const { activeGameModes } = useGameModeContext();
+  const activeGameModes = useGameModeStore((store) => store.activeGameModes);
   const gameModeActive =
     activeGameModes[pageName as keyof typeof activeGameModes];
 

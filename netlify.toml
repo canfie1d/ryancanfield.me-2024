@@ -6,7 +6,7 @@
 [[redirects]]
   from = '/api/*'
   status = 200
-  to = '/.netlify/functions/:splat'
+  to = '/.netlify/functions-serve/functions/:splat'
   force = true
 
 [[redirects]]
@@ -23,5 +23,5 @@
   autoLaunch = false
 
   [dev.https]
-    certFile = "net-fn.pem"
-    keyFile = "net-fn-key.pem"
+    certFile = "./certs/net-fn.pem"
+    keyFile = "./certs/net-fn-key.pem"

@@ -50,7 +50,7 @@ const Icon: React.FC<LazyLoadSVGProps> = ({
           styles[`icon-${color}`]
         )}
       >
-        <SVG />
+        <SVG key={name} />
       </div>
     );
   }

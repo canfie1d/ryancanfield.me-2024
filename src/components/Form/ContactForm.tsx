@@ -1,8 +1,9 @@
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useAchievementContext } from "../../contexts/AchievementProvider";
-import Button from "../../components/Button";
+import { useAchievementStore } from "~/stores/achievements";
+import Button from "~/components/Button";
+import Text from "~/components/Text";
 import styles from "./Form.module.scss";
 
 type FormData = {
@@ -21,7 +22,8 @@ const DEFAULT_FORM_DATA: FormData = {
 };
 
 const ContactForm = () => {
-  const { hasAchievement, addAchievement } = useAchievementContext();
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
 
   const { search } = useLocation();
   const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
@@ -39,9 +41,9 @@ const ContactForm = () => {
   }, [formSuccess]);
 
   if (formSuccess) {
-    <p className={classNames(styles.p, styles.submitMessage)}>
+    <Text className={classNames(styles.submitMessage)}>
       Thanks for reaching out! I'll get back to you as soon as possible.
-    </p>;
+    </Text>;
   }
 
   return (
@@ -86,7 +88,7 @@ const ContactForm = () => {
         onChange={handleChange}
         value={formData.message}
       />
-      <Button type="submit">
+      <Button pageName="contact" type="submit">
         <span>Send</span>
       </Button>
     </form>

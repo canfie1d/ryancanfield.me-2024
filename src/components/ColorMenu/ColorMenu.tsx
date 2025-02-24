@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import classNames from "classnames";
 
-import { useAchievementContext } from "../../contexts/AchievementProvider";
-import { useThemeContext } from "../../contexts/ThemeProvider";
-import IconMenu from "../IconMenu";
-import ColorPicker from "../ColorPicker";
-import Button from "../Button";
+import { useAchievementStore } from "~/stores/achievements";
+import IconMenu from "~/components/IconMenu";
+import ColorPicker from "~/components/ColorPicker";
+import Button from "~/components/Button";
 import styles from "./ColorMenu.module.scss";
+import { useThemeStore } from "~/stores/theme";
+import Toast from "../Toast";
+import Text from "../Text";
 
 const ColorMenu = ({
   index,
@@ -17,12 +19,12 @@ const ColorMenu = ({
   vertical,
   collapsed,
   hideLabel,
-  colorPickerlocation,
+  colorPickerLocation,
 }: {
   index: number;
   backgroundColor: string;
   extraPadded?: boolean;
-  colorPickerlocation: { top: number | string; left: number | string };
+  colorPickerLocation: { top: number | string; left: number | string };
   alignRight?: boolean;
   hidden?: boolean;
   collapsed?: boolean;
@@ -32,22 +34,67 @@ const ColorMenu = ({
 }) => {
   const [colorPickerActive, setColorPickerActive] = useState(false);
 
-  const { hasAchievement, addAchievement } = useAchievementContext();
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
 
-  const { lockedColors, setLockedColor } = useThemeContext();
-
-  const copyColor = () => {
+  const lockedColors = useThemeStore((store) => store.lockedColors);
+  const setLockedColor = useThemeStore((store) => store.setLockedColor);
+  const [showCopiedToast, setShowCopiedToast] = useState(false);
+  const copyColor = useCallback(() => {
     if (!hasAchievement("copy_pasta")) {
       addAchievement("copy_pasta");
+    } else {
+      setShowCopiedToast(true);
     }
 
-    // @todo Add a 'Copied' message
     navigator.clipboard.writeText(backgroundColor);
-  };
+  }, [hasAchievement, addAchievement, backgroundColor]);
 
-  const isLocked = lockedColors?.some(
-    (lockedColor) => lockedColor.hex === backgroundColor
+  const isLocked = useMemo(
+    () =>
+      lockedColors?.some((lockedColor) => lockedColor.hex === backgroundColor),
+    [lockedColors, backgroundColor]
   );
+
+  const actions = useMemo(() => {
+    return [
+      {
+        icon: "copy",
+        label: "Copy color",
+        onClick: copyColor,
+      },
+      {
+        icon: isLocked ? "lock" : "unlock",
+        label: "Lock color",
+        checked: isLocked,
+        onChange: () => {
+          if (!hasAchievement("custom")) {
+            addAchievement("custom");
+          }
+          if (!hasAchievement("fully_custom") && lockedColors?.length === 4) {
+            addAchievement("fully_custom");
+          }
+          setLockedColor({ hex: backgroundColor, position: index });
+        },
+      },
+      {
+        icon: "eyedropper",
+        label: "Choose new color",
+        active: colorPickerActive,
+        onClick: () => setColorPickerActive(true),
+      },
+    ];
+  }, [
+    copyColor,
+    isLocked,
+    hasAchievement,
+    addAchievement,
+    lockedColors,
+    backgroundColor,
+    index,
+    colorPickerActive,
+    setLockedColor,
+  ]);
 
   return (
     <div
@@ -69,46 +116,23 @@ const ColorMenu = ({
       >
         {backgroundColor}
       </Button>
-      <IconMenu
-        vertical={vertical}
-        justify="center"
-        actions={[
-          {
-            icon: "copy",
-            label: "Copy color",
-            onClick: copyColor,
-          },
-          {
-            icon: isLocked ? "lock" : "unlock",
-            label: "Lock color",
-            checked: isLocked,
-            onChange: () => {
-              if (!hasAchievement("custom")) {
-                addAchievement("custom");
-              }
-              if (
-                !hasAchievement("fully_custom") &&
-                lockedColors.length === 4
-              ) {
-                addAchievement("fully_custom");
-              }
-              setLockedColor({ hex: backgroundColor, position: index });
-            },
-          },
-          {
-            icon: "eyedropper",
-            label: "Choose new color",
-            active: colorPickerActive,
-            onClick: () => setColorPickerActive(true),
-          },
-        ]}
-      />
-      <ColorPicker
-        location={colorPickerlocation}
-        onClose={() => setColorPickerActive(false)}
-        backgroundColor={backgroundColor}
-        active={colorPickerActive}
-      />
+      <IconMenu vertical={vertical} justify="center" actions={actions} />
+      {colorPickerActive && (
+        <ColorPicker
+          location={colorPickerLocation}
+          onClose={() => setColorPickerActive(false)}
+          backgroundColor={backgroundColor}
+          active={colorPickerActive}
+        />
+      )}
+      <Toast
+        open={showCopiedToast}
+        closeTime={1200}
+        onClose={() => setShowCopiedToast(false)}
+        type="alert"
+      >
+        <Text>Color copied!</Text>
+      </Toast>
     </div>
   );
 };

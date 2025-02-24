@@ -1,6 +1,6 @@
 import { MutableRefObject, useRef } from "react";
-import { useAchievementContext } from "../../contexts/AchievementProvider";
-import Button from "../Button";
+import { useAchievementStore } from "~/stores/achievements";
+import Button from "~/components/Button";
 import styles from "./Form.module.scss";
 
 type InputType = MutableRefObject<HTMLInputElement>;
@@ -10,7 +10,8 @@ const CodeForm = ({
 }: {
   setLoreButtonActive: (arg: boolean) => void;
 }) => {
-  const { hasAchievement, addAchievement } = useAchievementContext();
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
 
   const inputs: InputType[] = [
     useRef<HTMLInputElement>(null!),
@@ -75,7 +76,7 @@ const CodeForm = ({
   return (
     <>
       <form className={styles.codeForm}>{renderInputs()}</form>
-      <Button type="reset" onClick={resetForm}>
+      <Button pageName="contact" type="reset" onClick={resetForm}>
         <span>Clear</span>
       </Button>
     </>

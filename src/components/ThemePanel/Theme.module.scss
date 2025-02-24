@@ -63,7 +63,10 @@
     margin-left: var(--spacing-unit-quarter);
     font-family: var(--body-font);
     font-weight: 800;
-    color: var(--unremarkable-darker-gray);
+    background: linear-gradient(to right, #000 0%, #555 25%, #777 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     letter-spacing: 0.1em;
     font-size: var(--font-large);
 
@@ -74,9 +77,15 @@
   }
 }
 
-.themeButton {
+button.themeButton {
+  color: var(--unremarkable-dark-gray);
   box-shadow: none;
   width: 100%;
+
+  &.themeButtonActive {
+    color: var(--unremarkable-dark-gray);
+    background-color: var(--white) !important;
+  }
 }
 
 .themeMenuMessage {

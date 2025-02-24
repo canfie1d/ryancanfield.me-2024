@@ -1,6 +1,8 @@
 import { CSSProperties, MouseEventHandler, ReactNode } from "react";
 import cn from "classnames";
 import styles from "./Button.module.scss";
+import { PageNames } from "~/data/themeConfig";
+import { getColorsFromTheme } from "~/helpers/getColorsFromTheme";
 
 const Button = ({
   id,
@@ -15,6 +17,7 @@ const Button = ({
   className,
   ariaLabel,
   ariaHidden,
+  pageName,
   style,
 }: {
   id?: string;
@@ -26,6 +29,7 @@ const Button = ({
   className?: string;
   ariaLabel?: string;
   ariaHidden?: boolean;
+  pageName?: PageNames;
   variant?:
     | "secondary"
     | "transparent"
@@ -37,6 +41,16 @@ const Button = ({
   onClick?: MouseEventHandler;
   style?: CSSProperties;
 }) => {
+  let colors = {
+    textColor: "var(--unremarkable-dark-gray)",
+    backgroundColor: "var(--transparent-white)",
+  };
+
+  if (pageName) {
+    const { textColor, backgroundColor } = getColorsFromTheme(pageName);
+    colors = { textColor, backgroundColor };
+  }
+
   return (
     <button
       id={id}
@@ -47,13 +61,21 @@ const Button = ({
         styles.button,
         variant && styles[`button-${variant}`],
         active && styles["button-active"],
-        className && className
+        Boolean(className) && className
       )}
       onClick={onClick}
       aria-label={ariaLabel}
       aria-hidden={ariaHidden}
       disabled={disabled}
-      style={style}
+      style={
+        variant === "transparent"
+          ? style
+          : {
+              color: colors.backgroundColor,
+              backgroundColor: colors.textColor,
+              ...style,
+            }
+      }
     >
       {children}
     </button>

@@ -1,11 +1,15 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAchievementContext } from "../contexts/AchievementProvider";
-import PageContent from "../content/PageContent";
+import { useAchievementStore } from "~/stores/achievements";
+import PageContent from "~/content/PageContent";
+import Text from "~/components/Text";
 
 const NotFound = () => {
-  const { loadingAchievements, hasAchievement, addAchievement } =
-    useAchievementContext();
+  const loadingAchievements = useAchievementStore(
+    (store) => store.loadingAchievements
+  );
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
 
   useEffect(() => {
     if (!loadingAchievements && !hasAchievement("lost_and_found")) {
@@ -23,9 +27,9 @@ const NotFound = () => {
       }}
     >
       <div style={{ textAlign: "center" }} className="contentBody">
-        <p>
+        <Text>
           Oops! The page you're looking for doesn't exist (on this site anyway).
-        </p>
+        </Text>
         <Link to="/">Go back to the home page</Link>
       </div>
     </PageContent>

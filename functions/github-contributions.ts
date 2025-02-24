@@ -1,7 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { headers } from "../config";
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = async () => {
   try {
     const response = await fetch(
       "https://github-contributions.vercel.app/api/v1/canfie1d"

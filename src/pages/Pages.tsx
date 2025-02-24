@@ -1,11 +1,11 @@
-import { Suspense, lazy, useEffect } from "react";
-import { LayoutGroup } from "framer-motion";
+import { Suspense, lazy, useEffect, useMemo } from "react";
+import { LayoutGroup } from "motion/react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { useShortcuts } from "../hooks/useShortcuts";
-import { usePageScrollContext } from "../contexts/PageScrollProvider";
-import PagePreview from "../components/Preview/PagePreview";
-import PageWrapper from "../components/PageWrapper";
-import NotFound from "./NotFound";
+import { useShortcuts } from "~/hooks/useShortcuts";
+import { usePageScrollStore } from "~/stores/scroll";
+import PagePreview from "~/components/Preview/PagePreview";
+import PageWrapper from "~/components/PageWrapper";
+import NotFound from "~/pages/NotFound";
 
 const About = lazy(() => import("./About"));
 const Work = lazy(() => import("./Work"));
@@ -15,7 +15,7 @@ const CaseStudy = lazy(() => import("./CaseStudy"));
 const JourneysEnd = lazy(() => import("./JourneysEnd"));
 
 const Page = () => {
-  const { setScrolled } = usePageScrollContext();
+  const setScrolled = usePageScrollStore((store) => store.setScrolled);
   const { pathname } = useLocation();
   useShortcuts();
 
@@ -137,7 +137,7 @@ const Page = () => {
     }
   };
 
-  return <LayoutGroup>{layout()}</LayoutGroup>;
+  return useMemo(() => <LayoutGroup>{layout()}</LayoutGroup>, [pathname]);
 };
 
 const LorePage = () => {

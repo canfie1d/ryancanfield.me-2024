@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
 import classNames from "classnames";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import Button from "../Button";
-import Icon from "../Icon";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import Button from "~/components/Button";
+import Icon from "~/components/Icon";
 import styles from "./Modal.module.scss";
+import cn from "classnames";
 
 // @todo trap focus
 const Modal = ({
@@ -58,11 +59,12 @@ const Modal = ({
           </motion.div>
           <Button
             variant="backdrop"
-            onClick={onClose && onClose}
+            onClick={onClose ? onClose : undefined}
             className={styles.modalBackdrop}
             ariaHidden
-            children={undefined}
-          />
+          >
+            {undefined}
+          </Button>
         </>
       )}
     </AnimatePresence>
@@ -83,7 +85,14 @@ export const ModalHeader = ({
   <div className={styles.modalHeader}>
     <span className={styles.modalHeaderIcon}>{<Icon name={icon} />}</span>
     <div>
-      <h2 className={styles.modalHeaderTitle}>{title}</h2>
+      <h2
+        className={cn(
+          styles.modalHeaderTitle,
+          icon === "spray" && styles.modalHeaderTitleSpray
+        )}
+      >
+        {title}
+      </h2>
       {subtitle && <h3 className={styles.modalHeaderSubtitle}>{subtitle}</h3>}
     </div>
     <Button variant="transparent" onClick={onClose} ariaLabel="Close modal">

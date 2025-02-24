@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { CSSProperties, ChangeEventHandler } from "react";
+import Text from "~/components/Text";
 import styles from "./Toggle.module.scss";
 
 const Toggle = ({
@@ -41,7 +42,7 @@ const Toggle = ({
         <div>
           <span className={styles.toggleLabel}>{label}</span>
           {description && (
-            <p className={styles.toggleDescription}>{description}</p>
+            <Text className={styles.toggleDescription}>{description}</Text>
           )}
         </div>
       </label>

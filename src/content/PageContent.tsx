@@ -1,18 +1,15 @@
 import { ReactNode, useRef } from "react";
 import classNames from "classnames";
 import { useWindowSize } from "react-use";
-import { useThemeContext } from "../contexts/ThemeProvider";
-import { useGameModeContext } from "../contexts/GameModeProvider";
-import { usePageScrollContext } from "../contexts/PageScrollProvider";
-import {
-  pagesUsingThemeColor,
-  PageNames,
-  pageNames,
-} from "../data/themeConfig";
-import ColorMenu from "../components/ColorMenu";
-import Icon from "../components/Icon";
-import styles from "./PageContent.module.scss";
 import { Waypoint } from "react-waypoint";
+import { usePageScrollStore } from "~/stores/scroll";
+import { pagesUsingThemeColor, PageNames, pageNames } from "~/data/themeConfig";
+import ColorMenu from "~/components/ColorMenu";
+import Icon from "~/components/Icon";
+import Text from "~/components/Text";
+import styles from "./PageContent.module.scss";
+import { getColorsFromTheme } from "~/helpers/getColorsFromTheme";
+import { useGameModeStore } from "~/stores/game-mode";
 
 const PageContent = ({
   header,
@@ -29,36 +26,36 @@ const PageContent = ({
   children: ReactNode;
 }) => {
   const ref = useRef(null);
-  const { activeGameModes } = useGameModeContext();
+  const activeGameModes = useGameModeStore((store) => store.activeGameModes);
   const gameModeActive =
     activeGameModes?.[pageName as keyof typeof activeGameModes];
   const { width } = useWindowSize();
   const isSmallScreen = width <= 768;
-  const { textColors, backgroundColors } = useThemeContext();
-  const { setScrolled } = usePageScrollContext();
+  const { textColor, backgroundColor } = getColorsFromTheme(pageName);
+  const setScrolled = usePageScrollStore((store) => store.setScrolled);
   const indexOfPage = pageNames.indexOf(pageName);
 
   return (
     <main
       ref={ref}
       style={{
-        color: textColors ? textColors[indexOfPage] : "#89AAC0",
-        backgroundColor: backgroundColors
-          ? backgroundColors[indexOfPage]
-          : "#89AAC0",
+        color: textColor,
+        backgroundColor: backgroundColor,
       }}
       className={classNames(styles.main)}
     >
       <div className={styles.pageContentWrapper}>
         <div className={styles.content}>
           <div className={classNames(styles.contentMeta)}>
-            <span>{header.meta}</span>
+            <Text as="span" color={textColor}>
+              {header.meta}
+            </Text>
             {pagesUsingThemeColor.includes(pageName as string) && (
               <ColorMenu
                 index={indexOfPage}
                 hidden={gameModeActive}
-                backgroundColor={backgroundColors[indexOfPage]}
-                colorPickerlocation={{ top: "25px", left: "-210px" }}
+                backgroundColor={backgroundColor}
+                colorPickerLocation={{ top: "25px", left: "-210px" }}
                 hideLabel={isSmallScreen}
                 vertical={!isSmallScreen}
                 collapsed

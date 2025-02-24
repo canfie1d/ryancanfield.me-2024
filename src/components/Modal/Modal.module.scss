@@ -58,6 +58,13 @@
     font-size: var(--font-x-large);
     margin: 0;
 
+    &.modalHeaderTitleSpray {
+      background: linear-gradient(to right, #c998fb 0%, #8754ba 15%, #333 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
     @media (min-width: 769px) and (max-width: 968px) {
       font-size: var(--font-medium);
     }

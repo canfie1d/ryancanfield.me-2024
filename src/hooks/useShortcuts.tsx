@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAchievementContext } from "../contexts/AchievementProvider";
+import { useAchievementStore } from "~/stores/achievements";
 
 export const useShortcuts = () => {
   const navigate = useNavigate();
   const [kCode, setKCode] = useState<string>("");
-  const { hasAchievement, addAchievement } = useAchievementContext();
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
 
   useEffect(() => {
     if (kCode.toLowerCase() === "↑↑↓↓←→←→ba") {
       addAchievement("konami_code");
+    } else if (!"↑↑↓↓←→←→ba".startsWith(kCode.toLowerCase())) {
+      setKCode("");
     }
   }, [kCode]);
 

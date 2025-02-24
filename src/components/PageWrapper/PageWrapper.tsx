@@ -1,9 +1,9 @@
-import classNames from "classnames";
-import { motion, useReducedMotion } from "framer-motion";
 import { ReactNode } from "react";
-import { useAnimate } from "../../hooks/useAnimate";
+import classNames from "classnames";
+import { motion, useReducedMotion } from "motion/react";
+import { useAnimate } from "~/hooks/useAnimate";
 import styles from "./PageWrapper.module.scss";
-import { useIdentityContext } from "react-netlify-identity";
+// import { useIdentityContext } from "react-netlify-identity";
 
 const PageWrapper = ({
   pageName,
@@ -20,9 +20,9 @@ const PageWrapper = ({
 }) => {
   const prefersReducedMotion = useReducedMotion();
   const { slide } = useAnimate();
-  const { user, isLoggedIn } = useIdentityContext();
-  console.log("user: ", user);
-  console.log("isLoggedIn: ", isLoggedIn);
+  // const { user, isLoggedIn } = useIdentityContext();
+  // console.log("user: ", user);
+  // console.log("isLoggedIn: ", isLoggedIn);
 
   return (
     <motion.div

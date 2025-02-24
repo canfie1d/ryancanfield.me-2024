@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { useAchievementContext } from "../contexts/AchievementProvider";
-import {
-  GameModePayload,
-  useGameModeContext,
-} from "../contexts/GameModeProvider";
-import Toggle from "./Toggle/Toggle";
-import Modal from "./Modal";
-import LogInButton from "./LogInButton";
-import { useWindowSize } from "../hooks/useWindowSize";
-import Button from "./Button";
 import { useLocation } from "react-router-dom";
+import { useAchievementStore } from "~/stores/achievements";
+
+import { useWindowSize } from "~/hooks/useWindowSize";
+import Toggle from "~/components/Toggle";
+import Modal from "~/components/Modal";
+import LogInButton from "~/components/LogInButton";
+import Button from "~/components/Button";
+import { useGameModeStore } from "~/stores/game-mode";
 
 const SettingsModal = ({
   open,
@@ -21,13 +19,17 @@ const SettingsModal = ({
 }) => {
   const { pathname } = useLocation();
   const { width } = useWindowSize();
-  const { activeGameModes, setGameMode } = useGameModeContext();
-  const {
-    loadingAchievements,
-    hasAchievement,
-    addAchievement,
-    resetAchievements,
-  } = useAchievementContext();
+
+  const activeGameModes = useGameModeStore((store) => store.activeGameModes);
+  const setGameMode = useGameModeStore((store) => store.setGameMode);
+  const loadingAchievements = useAchievementStore(
+    (store) => store.loadingAchievements
+  );
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
+  const resetAchievements = useAchievementStore(
+    (store) => store.resetAchievements
+  );
   const [deletePending, setDeletePending] = useState(false);
 
   useEffect(() => {
@@ -44,9 +46,7 @@ const SettingsModal = ({
       case "gameMode":
         const name = e.target.name;
         const value = e.target.checked;
-        // @todo typings are wrong here
-        // const val: GameModePayload = { [name]: value };
-        setGameMode({ [name]: value } as GameModePayload);
+        setGameMode({ [name]: value } as any);
         break;
     }
   };
