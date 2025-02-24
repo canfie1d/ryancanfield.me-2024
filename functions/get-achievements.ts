@@ -9,7 +9,6 @@ export const handler = async (_: Request, context: Context) => {
   const data = await achievements.getMetadata(username, {
     // consistency: "strong",
   });
-  console.log("data: ", data);
 
   try {
     if (data) {

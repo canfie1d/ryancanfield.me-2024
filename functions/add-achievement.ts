@@ -17,7 +17,6 @@ export const handler = async (req: Request, context: Context) => {
       name: username,
       // consistency: "strong",
     });
-    console.log("achievementStore: ", achievementStore);
 
     if (await hasAchievement(achievementStore, newAchievement.id)) return;
 

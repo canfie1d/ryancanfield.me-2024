@@ -5,7 +5,6 @@ import Text from "../Text";
 
 const AchievementToast = () => {
   const toast = useAchievementStore((store) => store.toast);
-  console.log("toast: ", toast);
   const setToast = useAchievementStore((store) => store.setToast);
 
   return (
