@@ -1,8 +1,6 @@
-import { Fragment } from "react";
 import { ACHIEVEMENTS } from "~/data/achievements";
 import { themeConfig, unlockableThemeConfig } from "~/data/themeConfig";
 import { AchievementType, useAchievementStore } from "~/stores/achievements";
-
 import Card from "~/components/Card/Card";
 import Text from "~/components/Text";
 
@@ -21,7 +19,7 @@ const WritingGameContent = () => {
               fontSize: "var(--font-large)",
             }}
           >
-            {`${themeConfig.length + (hasAchievement("rondo_mode") ? 1 : 0)}/${themeConfig.length + unlockableThemeConfig.length}`}
+            {`${themeConfig.length + (hasAchievement("eryndor_mode") ? 1 : 0)}/${themeConfig.length + unlockableThemeConfig.length}`}
           </Text>
         </Card>
         <Card pageName="writing" title="Achievements" smallTitle centerTitle>
@@ -46,12 +44,25 @@ const WritingGameContent = () => {
         </Card>
       </Card.Wrapper>
       <code className="code">
-        {achievements.map((achievement: AchievementType) => (
-          <Fragment key={achievement.id}>
-            {achievement.collectedDate}: {achievement.title}
-            <br />
-          </Fragment>
-        ))}
+        <ul style={{ listStyle: "none", padding: 0 }}>
+          {achievements.map((achievement: AchievementType) => {
+            const date = achievement.collectedDate
+              ? new Date(achievement.collectedDate).toLocaleString("en-US", {
+                  dateStyle: "short",
+                  timeStyle: "short",
+                })
+              : null;
+            return (
+              <li
+                key={achievement.id}
+                style={{ paddingLeft: "1rem", marginBottom: "0.25rem" }}
+              >
+                <code className="inline">{date}</code> {achievement.title}
+                <br />
+              </li>
+            );
+          })}
+        </ul>
       </code>
     </div>
   );

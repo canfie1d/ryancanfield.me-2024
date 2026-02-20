@@ -1,24 +1,26 @@
+import cn from "classnames";
+import { generateUsername } from "unique-username-generator";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAchievementStore } from "~/stores/achievements";
+import { useThemeStore } from "~/stores/theme";
 import { useWindowSize } from "~/hooks/useWindowSize";
 import SettingsPanel from "~/components/SettingsModal";
 import IconMenu from "~/components/IconMenu";
 import ThemeModal from "~/components/ThemeModal";
 import ThemePanel from "~/components/ThemePanel";
+import Button from "~/components/Button";
+import Icon from "~/components/Icon";
 import styles from "./PageTitle.module.scss";
-import { useGameModeStore } from "~/stores/game-mode";
 
 const PageTitle = () => {
   const { pathname } = useLocation();
   const { width } = useWindowSize();
   const isSmallScreen = width <= 768;
 
-  const activeGameModes = useGameModeStore((store) => store.activeGameModes);
-  const allGameModesActive = useGameModeStore(
-    (store) => store.allGameModesActive
-  );
-
+  const themeName = useThemeStore((store) => store.name);
+  const username = useAchievementStore((store) => store.username);
+  const setUsername = useAchievementStore((store) => store.setUsername);
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
   const [themeModalOpen, setThemeModalOpen] = useState(false);
 
@@ -31,6 +33,9 @@ const PageTitle = () => {
   useEffect(() => {
     if (!loadingAchievements && !hasAchievement("first_timer")) {
       addAchievement("first_timer");
+    }
+    if (username === "") {
+      setUsername(generateUsername("-"));
     }
   }, [loadingAchievements, hasAchievement, addAchievement]);
 
@@ -89,30 +94,53 @@ const PageTitle = () => {
     );
   };
 
+  const renderEditUsernameButton = () => {
+    return (
+      <Button
+        onClick={() => setUsername(generateUsername("-"))}
+        variant="transparent"
+      >
+        <Icon color="" name="pencil" size="x-small" />
+      </Button>
+    );
+  };
+
   return (
     <>
       {/* @note Inventory Location */}
-      {Object.values(activeGameModes).some((mode) => mode) && (
+      {/* {Object.values(activeGameModes).some((mode) => mode) && (
         <IconMenu
           align={pathname !== "/" ? "right" : undefined}
           justify="start"
           actions={[
             {
-              icon: "github",
-              label: "Inventory Item",
+              icon: "backpack",
+              label: "Inventory Items",
               onClick: () => {
-                if (!hasAchievement("inventory")) {
-                  addAchievement("inventory");
+                if (!hasAchievement("gatherer")) {
+                  addAchievement("gatherer");
                 }
               },
             },
           ]}
           reverse={pathname !== "/" && !isSmallScreen}
+          vertical
+          rotate
         />
-      )}
+      )} */}
       {pathname === "/" ? (
         <main className={styles.pageWrapper}>
-          <h1 className={styles.pageTitle}>ryan canfield</h1>
+          <h1
+            className={cn(
+              styles.pageTitle,
+              themeName === "eryndor" && styles.pageTitleUsername
+            )}
+          >
+            {themeName === "eryndor"
+              ? username.replace(/-/g, " ")
+              : "ryan canfield"}
+            {themeName === "eryndor" && renderEditUsernameButton()}
+          </h1>
           {renderPageLinks()}
           {isSmallScreen ? (
             <ThemeModal
@@ -130,8 +158,11 @@ const PageTitle = () => {
             allow for username to be changed with
             a tiny pencil icon
           */}
-          {allGameModesActive ? (
-            <h1 className={styles.pageTitle}>user_name</h1>
+          {themeName === "eryndor" ? (
+            <h1 className={cn(styles.pageTitle, styles.pageTitleUsername)}>
+              {username.replace(/-/g, " ")}
+              {renderEditUsernameButton()}
+            </h1>
           ) : (
             <Link to="/" className={styles.pageTitle} aria-label="Home">
               ryan canfield

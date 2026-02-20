@@ -12,7 +12,7 @@ const Work = lazy(() => import("./Work"));
 const Writing = lazy(() => import("./Writing"));
 const Contact = lazy(() => import("./Contact"));
 const CaseStudy = lazy(() => import("./CaseStudy"));
-const JourneysEnd = lazy(() => import("./JourneysEnd"));
+const JourneyToEryndor = lazy(() => import("./JourneyToEryndor"));
 
 const Page = () => {
   const setScrolled = usePageScrollStore((store) => store.setScrolled);
@@ -142,13 +142,17 @@ const Page = () => {
 
 const LorePage = () => {
   return (
-    <PageWrapper pageName="journeys-end" isCurrent>
+    <PageWrapper pageName="journey-to-eryndor" isCurrent>
       <Suspense
         fallback={
-          <PagePreview key="journeys-end" pageName="journeys-end" hideAll />
+          <PagePreview
+            key="journey-to-eryndor"
+            pageName="journey-to-eryndor"
+            hideAll
+          />
         }
       >
-        <JourneysEnd />
+        <JourneyToEryndor />
       </Suspense>
     </PageWrapper>
   );
@@ -169,7 +173,7 @@ const Pages = () => {
       </Route>
       <Route path="/writing" element={<Page />} />
       <Route path="/contact" element={<Page />} />
-      <Route path="/journeys-end" element={<LorePage />} />
+      <Route path="/journey-to-eryndor" element={<LorePage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

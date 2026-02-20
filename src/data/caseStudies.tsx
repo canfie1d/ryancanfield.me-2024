@@ -1,3 +1,5 @@
+const baseUrl = "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images";
+
 export const CASE_STUDIES: {
   id: string;
   title: string;
@@ -34,7 +36,7 @@ export const CASE_STUDIES: {
       ],
       images: [
         {
-          src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/FreightWeb/tmw_5.png",
+          src: `${baseUrl}/FreightWeb/tmw_5.png`,
           caption:
             "This is a typical UI for the logistics industry and clearly demonstrates the need for for information heirarchy and design in the industry.",
         },
@@ -49,10 +51,10 @@ export const CASE_STUDIES: {
       ],
       images: [
         {
-          src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/FreightWeb/shipment_dashboard_design.png",
+          src: `${baseUrl}/FreightWeb/shipment_dashboard_design.png`,
         },
         {
-          src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/FreightWeb/trip_list_wide.png",
+          src: `${baseUrl}/FreightWeb/trip_list_wide.png`,
         },
       ],
     },
@@ -64,31 +66,29 @@ export const CASE_STUDIES: {
       ],
       images: [
         {
-          src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/FreightWeb/auction_bids_2.png",
+          src: `${baseUrl}/FreightWeb/auction_bids_2.png`,
         },
       ],
     },
     additionalImages: [
       {
-        src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/FreightWeb/add_shipment_1.png",
+        src: `${baseUrl}/FreightWeb/add_shipment_1.png`,
       },
       {
-        src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/FreightWeb/add_auction.png",
+        src: `${baseUrl}/FreightWeb/add_auction.png`,
       },
       {
-        src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/FreightWeb/carrier_profile.png",
+        src: `${baseUrl}/FreightWeb/carrier_profile.png`,
       },
       {
-        src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/FreightWeb/driver_hub_trip.png",
+        src: `${baseUrl}/FreightWeb/driver_hub_trip.png`,
       },
       {
-        src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/FreightWeb/HelloFuel_DriverHub_Flow.png",
+        src: `${baseUrl}/FreightWeb/HelloFuel_DriverHub_Flow.png`,
       },
     ],
-    videoUrl:
-      "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/FreightWeb/FW_carrier_hub.mp4",
-    videoPoster:
-      "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/FreightWeb/fw_poster.png",
+    videoUrl: `${baseUrl}/FreightWeb/FW_carrier_hub.mp4`,
+    videoPoster: `${baseUrl}/FreightWeb/fw_poster.png`,
   },
   {
     id: "xinova",
@@ -103,7 +103,7 @@ export const CASE_STUDIES: {
       ],
       images: [
         {
-          src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Xinova/xinova_poster.png",
+          src: `${baseUrl}/Xinova/xinova_poster.png`,
         },
       ],
     },
@@ -114,7 +114,7 @@ export const CASE_STUDIES: {
       ],
       images: [
         {
-          src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Xinova/submit_2.png",
+          src: `${baseUrl}/Xinova/submit_2.png`,
         },
       ],
     },
@@ -124,22 +124,20 @@ export const CASE_STUDIES: {
       ],
       images: [
         {
-          src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Xinova/rfx.png",
+          src: `${baseUrl}/Xinova/rfx.png`,
         },
       ],
     },
     additionalImages: [
       {
-        src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Xinova/projects.png",
+        src: `${baseUrl}/Xinova/projects.png`,
       },
       {
-        src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Xinova/solutions.png",
+        src: `${baseUrl}/Xinova/solutions.png`,
       },
     ],
-    videoUrl:
-      "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Xinova/Xinova_demo.mp4",
-    videoPoster:
-      "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Xinova/xinova_poster.png",
+    videoUrl: `${baseUrl}/Xinova/Xinova_demo.mp4`,
+    videoPoster: `${baseUrl}/Xinova/xinova_poster.png`,
   },
   {
     id: "princess",
@@ -154,7 +152,7 @@ export const CASE_STUDIES: {
       ],
       images: [
         {
-          src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Ocean/chat_home.png",
+          src: `${baseUrl}/Ocean/chat_home.png`,
         },
       ],
     },
@@ -165,7 +163,7 @@ export const CASE_STUDIES: {
       ],
       images: [
         {
-          src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Ocean/chat_home_half.png",
+          src: `${baseUrl}/Ocean/chat_home_half.png`,
         },
       ],
     },
@@ -176,24 +174,22 @@ export const CASE_STUDIES: {
       ],
       images: [
         {
-          src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Ocean/conversation.png",
+          src: `${baseUrl}/Ocean/conversation.png`,
         },
       ],
     },
     additionalImages: [
       {
-        src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Ocean/full_open_selected_pp.png",
+        src: `${baseUrl}/Ocean/full_open_selected_pp.png`,
       },
       {
-        src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Ocean/messages.png",
+        src: `${baseUrl}/Ocean/messages.png`,
       },
       {
-        src: "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Ocean/mini_open_selected.png",
+        src: `${baseUrl}/Ocean/mini_open_selected.png`,
       },
     ],
-    videoUrl:
-      "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Ocean/ocean_intro_ces_2017.mp4",
-    videoPoster:
-      "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images/Ocean/ocean_poster.png",
+    videoUrl: `${baseUrl}/Ocean/ocean_intro_ces_2017.mp4`,
+    videoPoster: `${baseUrl}/Ocean/ocean_poster.png`,
   },
 ];

@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useAchievementStore } from "~/stores/achievements";
-import { useGetPageMeta } from "~/hooks/getPageMetaData";
+import { usePageMeta } from "~/hooks/usePageMeta";
 import PageContent from "~/content/PageContent";
 import WritingContent from "~/content/WritingContent";
 import WritingGameContent from "~/content/WritingGameContent";
 import { useGameModeStore } from "~/stores/game-mode";
 
 const Writing = () => {
-  const metaData = useGetPageMeta("writing");
+  const metaData = usePageMeta("writing");
   const activeGameModes = useGameModeStore((store) => store.activeGameModes);
   const gameModeActive = activeGameModes?.writing;
 

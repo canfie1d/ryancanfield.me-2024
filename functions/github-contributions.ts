@@ -1,11 +1,16 @@
 import { Handler } from "@netlify/functions";
 import { headers } from "../config";
 
-export const handler: Handler = async () => {
+export const handler: Handler = async (event, context) => {
   try {
     const response = await fetch(
       "https://github-contributions.vercel.app/api/v1/canfie1d"
     );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
     const data = await response.json();
     return {
       statusCode: 200,

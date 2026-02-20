@@ -6,7 +6,7 @@ import { useAchievementStore } from "~/stores/achievements";
 import { useWindowSize } from "~/hooks/useWindowSize";
 import Toggle from "~/components/Toggle";
 import Modal from "~/components/Modal";
-import LogInButton from "~/components/LogInButton";
+// import LogInButton from "~/components/LogInButton";
 import Button from "~/components/Button";
 import { useGameModeStore } from "~/stores/game-mode";
 
@@ -64,6 +64,19 @@ const SettingsModal = ({
     return "180% 5%";
   };
 
+  const handleResetAchievements = () => {
+    resetAchievements();
+    setDeletePending(false);
+    handleCloseClick();
+  };
+
+  const handleSetDeletePending = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDeletePending(e.target.checked);
+    if (!loadingAchievements && !hasAchievement("chalice")) {
+      addAchievement("chalice");
+    }
+  };
+
   return (
     <>
       {createPortal(
@@ -80,12 +93,12 @@ const SettingsModal = ({
             />
           }
         >
-          <LogInButton className="mb-2" />
+          {/* <LogInButton className="mb-2" /> */}
           <Toggle
             id="about-game-panel"
             name="about"
             label="About Page Game Mode"
-            description="Replaces the about content with character GUI"
+            description="Replaces the about content with game GUI"
             checked={activeGameModes?.about || false}
             onChange={(e) => handleSetSettings(e, "gameMode")}
           />
@@ -93,7 +106,7 @@ const SettingsModal = ({
             id="work-game-panel"
             name="work"
             label="Work Page Game Mode"
-            description="Replaces the work content with achievements GUI"
+            description="Replaces the work content with game GUI"
             checked={activeGameModes?.work || false}
             onChange={(e) => handleSetSettings(e, "gameMode")}
           />
@@ -101,7 +114,7 @@ const SettingsModal = ({
             id="writing-game-panel"
             name="writing"
             label="Writing Page Game Mode"
-            description="Replaces the writing content with progress/activity log GUI"
+            description="Replaces the writing content with game GUI"
             checked={activeGameModes?.writing || false}
             onChange={(e) => handleSetSettings(e, "gameMode")}
           />
@@ -109,7 +122,7 @@ const SettingsModal = ({
             id="contact-game-panel"
             name="contact"
             label="Contact Page Game Mode"
-            description="Replaces the contact content with feedback/bug report GUI"
+            description="Replaces the contact content with game GUI"
             checked={activeGameModes?.contact || false}
             onChange={(e) => handleSetSettings(e, "gameMode")}
           />
@@ -119,7 +132,7 @@ const SettingsModal = ({
             label="Delete All Progress"
             description="Deletes all achievements and progress"
             checked={deletePending}
-            onChange={(e) => setDeletePending(e.target.checked)}
+            onChange={handleSetDeletePending}
             style={{ marginBottom: "var(--spacing-unit-half)" }}
           />
           {deletePending && (
@@ -131,7 +144,7 @@ const SettingsModal = ({
               }}
             >
               <Button onClick={() => setDeletePending(false)}>Cancel</Button>
-              <Button variant="danger" onClick={resetAchievements}>
+              <Button variant="danger" onClick={handleResetAchievements}>
                 Delete
               </Button>
             </div>

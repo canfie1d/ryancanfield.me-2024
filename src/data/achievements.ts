@@ -46,16 +46,23 @@ export const ACHIEVEMENTS: AchievementType[] = [
   {
     id: "reward_determination", // ✔️
     title: "Determination is Rewarded",
-    description: "Unlock Rondo",
+    description: "Unlock Eryndor",
     collectedDate: null,
     icon: "ribbon",
   },
   {
-    id: "rondo_mode", // ✔️
-    title: "Rondo Mode",
-    description: "Switch to Rondo for the first time",
+    id: "eryndor_mode", // ✔️
+    title: "Eryndor Unlocked",
+    description: "Switch to Eryndor for the first time",
     collectedDate: null,
     icon: "switch",
+  },
+  {
+    id: "lock_it_up", // ✔️
+    title: "Lock It Up",
+    description: "Lock a color swatch",
+    collectedDate: null,
+    icon: "lock2",
   },
   {
     id: "lock_down", // ✔️
@@ -261,4 +268,26 @@ export const ACHIEVEMENTS: AchievementType[] = [
     collectedDate: null,
     icon: "one-hundred",
   },
+  {
+    id: "chalice", // ✔️
+    title: "Chalice of the First Dawn",
+    description:
+      "Chalice of the First Dawn? Don't you think that's a bit much for a website game?",
+    collectedDate: null,
+    icon: "chalice",
+  },
+  {
+    id: "crown", // ✔️
+    title: "Crown of the Emerald Glade",
+    description: "Crown of the Emerald Glade?? I mean come on.",
+    collectedDate: null,
+    icon: "crown",
+  },
+  {
+    id: "wield", // ✔️
+    title: "No Longer Harmless",
+    description: "Find a new weapon",
+    collectedDate: null,
+    icon: "sword",
+  }
 ];

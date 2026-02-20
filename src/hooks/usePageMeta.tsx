@@ -1,7 +1,7 @@
 import { PageNames } from "~/data/themeConfig";
 import { useGameModeStore } from "~/stores/game-mode";
 
-export const useGetPageMeta = (pageName: PageNames) => {
+export const usePageMeta = (pageName: PageNames) => {
   const activeGameModes = useGameModeStore((store) => store.activeGameModes);
   const gameModeActive =
     activeGameModes[pageName as keyof typeof activeGameModes];
@@ -9,27 +9,27 @@ export const useGetPageMeta = (pageName: PageNames) => {
   switch (pageName) {
     case "about":
       return {
-        title: gameModeActive ? "character" : "about",
+        title: gameModeActive ? "welcome to Eryndor" : "about",
         subtitle: gameModeActive ? "" : "",
-        icon: gameModeActive ? "user" : "signs",
+        icon: gameModeActive ? "map" : "signs",
       };
     case "work":
       return {
-        title: gameModeActive ? "achievements" : "work",
+        title: gameModeActive ? "the hall of triumphs" : "work",
         subtitle: gameModeActive ? "" : "case studies",
-        icon: gameModeActive ? "cert" : "apps",
+        icon: gameModeActive ? "hall" : "apps",
       };
     case "writing":
       return {
-        title: gameModeActive ? "activity log" : "writing",
+        title: gameModeActive ? "progress log" : "writing",
         subtitle: gameModeActive ? "" : "selected articles",
         icon: gameModeActive ? "bow" : "writing",
       };
     case "contact":
       return {
-        title: gameModeActive ? "feedback" : "contact",
+        title: gameModeActive ? "send word back home" : "contact",
         subtitle: gameModeActive ? "" : "get in touch",
-        icon: gameModeActive ? "adjustments" : "satellite",
+        icon: gameModeActive ? "scroll" : "satellite",
       };
     default:
       return {

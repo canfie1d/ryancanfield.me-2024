@@ -10,6 +10,12 @@ const WorkGameContent = () => {
 
   return (
     <div className="contentBody">
+      <Text>
+        Fourty achievements await you in Eryndor, each a mark of your valor and
+        wisdom. From the Chalice of the First Dawn to the Crown of the Eternal
+        Glade, these triumphs weave your tale into the realm's eternal tapestry.
+        Seek them out, and let your legacy shine.
+      </Text>
       <Card.Wrapper>
         {ACHIEVEMENTS.map((achievement: AchievementType) => (
           <Card

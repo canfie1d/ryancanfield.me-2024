@@ -1,11 +1,13 @@
-export const pagesUsingThemeColor = ["about", "work", "writing", "contact"];
+export const corePages = ["about", "work", "writing", "contact"] as const;
+
+export type CorePageNames = (typeof corePages)[number];
 
 export const pageNames = [
   "about",
   "work",
   "writing",
   "contact",
-  "journeys-end",
+  "journey-to-eryndor",
   "404",
 ] as const;
 
@@ -17,7 +19,7 @@ export const themeNames = [
   "léon",
   "random",
   "custom",
-  "rondo",
+  "eryndor",
 ] as const;
 
 export type ThemeNames = (typeof themeNames)[number];
@@ -49,8 +51,8 @@ export const themeConfig: ThemeConfigType = [
 ];
 
 export const loreTheme: ThemeType = {
-  name: "rondo",
-  backgroundColors: ["#0077be", "#00a8e8", "#00c3ff", "#00eaff", "#a6faff"],
+  name: "eryndor",
+  backgroundColors: ["#013220", "#014421", "#025929", "#036635", "#04854c"],
   textColors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#000000"],
 };
 

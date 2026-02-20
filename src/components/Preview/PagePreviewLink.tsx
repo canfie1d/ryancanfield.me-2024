@@ -21,7 +21,7 @@ const PagePreviewLink = ({
   return (
     <Link className={styles.pagePreviewLink} to={`/${pageName}`}>
       <div className={styles.previewContent}>
-        {pageName === "journeys-end" ? (
+        {pageName === "journey-to-eryndor" ? (
           <Loader />
         ) : (
           <div className={styles.previewContentBody}>

@@ -28,7 +28,7 @@ const NotFound = () => {
     >
       <div style={{ textAlign: "center" }} className="contentBody">
         <Text>
-          Oops! The page you're looking for doesn't exist (on this site anyway).
+          Oops! The page you're looking for doesn't exist (that we know of).
         </Text>
         <Link to="/">Go back to the home page</Link>
       </div>

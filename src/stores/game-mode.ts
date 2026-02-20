@@ -11,10 +11,12 @@ export type GameModeTypes = {
 export type GameModeGetterTypes = {
   allGameModesActive: boolean;
   activeGameModes: GameModeTypes;
+  cursor: string;
 };
 
 export type GameModeSetterTypes = {
   setGameMode: (arg: GameModeTypes) => void;
+  setAllGameModesActive: () => void;
   resetGameModes: () => void;
 };
 
@@ -31,6 +33,7 @@ export const useGameModeStore = create<GameModeStore>()(
   persist(
     (set, get) => ({
       allGameModesActive: false,
+      cursor: 'default',
       activeGameModes: InitialGameModeActiveState,
       setGameMode: (arg: GameModeTypes) => {
         set({
@@ -44,10 +47,24 @@ export const useGameModeStore = create<GameModeStore>()(
           }).every((mode) => mode),
         });
       },
+      setAllGameModesActive: () => {
+        set({
+          activeGameModes: Object.keys(InitialGameModeActiveState).reduce(
+            (acc, key) => ({
+              ...acc,
+              [key]: true,
+            }),
+            {} as GameModeTypes
+          ),
+          allGameModesActive: true,
+          cursor: 'sword'
+        });
+      },
       resetGameModes: () => {
         set({
           activeGameModes: InitialGameModeActiveState,
           allGameModesActive: false,
+          cursor: 'default'
         });
       },
     }),

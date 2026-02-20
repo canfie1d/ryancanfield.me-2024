@@ -7,10 +7,10 @@ import PageContent from "~/content/PageContent";
 import Button from "~/components/Button";
 import Icon from "~/components/Icon";
 import Text from "~/components/Text";
-import styles from "./JourneysEnd.module.scss";
+import styles from "./JourneyToEryndor.module.scss";
 import { useThemeStore } from "~/stores/theme";
 
-const JourneysEnd = () => {
+const JourneyToEryndor = () => {
   const loadingAchievements = useAchievementStore(
     (store) => store.loadingAchievements
   );
@@ -28,10 +28,10 @@ const JourneysEnd = () => {
         if (!hasAchievement("no_code_needed")) {
           addAchievement("no_code_needed");
         }
-      } else {
-        if (!hasAchievement("the_scenic_route")) {
-          addAchievement("the_scenic_route");
-        }
+      } else if (!hasAchievement("the_scenic_route")) {
+        addAchievement("the_scenic_route");
+      } else if (hasAchievement("eryndor_mode")) {
+        addAchievement("crown");
       }
     }
   }, [loadingAchievements]);
@@ -41,7 +41,7 @@ const JourneysEnd = () => {
       <div className={styles.loreReward}>
         {!loadingAchievements &&
         hasAchievement("reward_determination") &&
-        !hasAchievement("rondo_mode") ? (
+        !hasAchievement("eryndor_mode") ? (
           <Text>
             Your determination has been rewarded.
             <br />A shiny new theme is available for your collection!
@@ -49,24 +49,27 @@ const JourneysEnd = () => {
         ) : (
           <>
             <Text>
-              Rondo is available in the theme menu.
+              Eryndor is available in the theme menu.
               <br />I hope you had as much fun finding this as I had hiding it.
             </Text>
-            <Text>Thanks for participating.</Text>
           </>
         )}
         <Button
-          pageName="journeys-end"
+          pageName="journey-to-eryndor"
           onClick={() => {
-            if (!hasAchievement("rondo_mode")) {
-              addAchievement("rondo_mode");
+            if (!hasAchievement("eryndor_mode")) {
+              addAchievement("eryndor_mode");
             }
             setTheme(loreTheme);
-            navigate("/");
+            navigate("/about");
           }}
         >
           <Icon name="bow" />
-          <span>Activate Rondo</span>
+          <span>
+            {!hasAchievement("eryndor_mode")
+              ? "Activate Eryndor"
+              : "Switch to Eryndor"}
+          </span>
         </Button>
       </div>
     );
@@ -74,7 +77,7 @@ const JourneysEnd = () => {
 
   return (
     <PageContent
-      pageName="journeys-end"
+      pageName="journey-to-eryndor"
       header={{
         meta: "﹖﹖﹖﹖",
         title: "Journey's End",
@@ -98,6 +101,12 @@ const JourneysEnd = () => {
               If you've found the code along your travels, enter it here to
               claim your reward.
             </Text>
+            {!codeParam && (
+              <Text>
+                I see, however, that you have no code. You definitely know where
+                to look but you're digging too deep.
+              </Text>
+            )}
             <CodeForm setLoreButtonActive={setLoreButtonActive} />
           </div>
         )}
@@ -106,4 +115,4 @@ const JourneysEnd = () => {
   );
 };
 
-export default JourneysEnd;
+export default JourneyToEryndor;

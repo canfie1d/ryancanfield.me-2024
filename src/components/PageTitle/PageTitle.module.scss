@@ -64,6 +64,15 @@
   animation-fill-mode: forwards;
   opacity: 0;
 
+  &.pageTitleUsername {
+    display: inline-flex;
+    gap: var(--spacing-unit-quarter);
+    font-size: var(--font-medium);
+    letter-spacing: 0em;
+    color: var(--unremarkable-opaque-gray);
+    line-height: var(--line-height-tight);
+  }
+
   .pageWrapper & {
     // home page
     margin-bottom: var(--spacing-unit-half);

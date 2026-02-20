@@ -59,6 +59,11 @@ const CodeForm = ({
         type="text"
         maxLength={1}
         ref={input}
+        onInput={(e) => {
+          if (e.currentTarget.value.length === 1 && index < inputs.length - 1) {
+            inputs[index + 1].current.focus();
+          }
+        }}
         aria-label={`Code Digit ${index + 1}`}
         onChange={handleOnChange}
         onKeyDown={(e) => {

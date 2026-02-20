@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { PageNames, pageNames } from "~/data/themeConfig";
-import { useGetPageMeta } from "~/hooks/getPageMetaData";
+import { usePageMeta } from "~/hooks/usePageMeta";
 import { useWindowSize } from "~/hooks/useWindowSize";
 import PagePreviewLink from "./PagePreviewLink";
 import ColorMenu from "~/components/ColorMenu";
@@ -18,7 +18,7 @@ const PagePreview = ({
   const { width } = useWindowSize();
   const isSmallScreen = width <= 768;
   const { pathname } = useLocation();
-  const metaData = useGetPageMeta(pageName);
+  const metaData = usePageMeta(pageName);
   const activeGameModes = useGameModeStore((store) => store.activeGameModes);
   const gameModeActive =
     activeGameModes?.[pageName as keyof typeof activeGameModes];

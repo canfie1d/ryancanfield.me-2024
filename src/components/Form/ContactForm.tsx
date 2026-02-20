@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { useAchievementStore } from "~/stores/achievements";
 import Button from "~/components/Button";
@@ -25,13 +25,14 @@ const ContactForm = () => {
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
 
+  const formData = useRef(DEFAULT_FORM_DATA);
   const { search } = useLocation();
-  const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
   const formSuccess = search.includes("success=true");
+
   const handleChange = (event: any) => {
     const name = event.target.name;
     const value = event.target.value;
-    setFormData({ ...formData, [name]: value });
+    formData.current = { ...formData.current, [name]: value };
   };
 
   useEffect(() => {
@@ -64,7 +65,7 @@ const ContactForm = () => {
         name="name"
         autoComplete="name"
         onChange={handleChange}
-        value={formData.name}
+        value={formData.current.name}
       />
       <label className={styles.label} htmlFor="email">
         Email Address
@@ -76,7 +77,7 @@ const ContactForm = () => {
         name="email"
         autoComplete="email"
         onChange={handleChange}
-        value={formData.email}
+        value={formData.current.email}
       />
       <label className={styles.label} htmlFor="message">
         Message
@@ -86,7 +87,7 @@ const ContactForm = () => {
         className={styles.textarea}
         name="message"
         onChange={handleChange}
-        value={formData.message}
+        value={formData.current.message}
       />
       <Button pageName="contact" type="submit">
         <span>Send</span>

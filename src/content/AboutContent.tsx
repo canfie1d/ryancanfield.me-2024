@@ -1,5 +1,3 @@
-import { useEffect, useRef, memo } from "react";
-
 declare global {
   interface Window {
     wait: (ms: number) => Promise<void>;
@@ -9,6 +7,7 @@ declare global {
   }
 }
 
+import { useEffect, useRef, memo } from "react";
 import { useAchievementStore } from "~/stores/achievements";
 import { textFallOff } from "~/helpers/textFallOff";
 import { useIntersectionObserver } from "~/hooks/useIntersectionObserver";
@@ -32,6 +31,9 @@ const AboutContent = () => {
       // No no don't look in here. It's just a bunch of boring stuff.
       // ${(<a href="https://github.com/canfie1d/ryancanfield.me-2024/blob/main/README.md">README</a>)}
       window.yes = () => {
+        if (!hasAchievement("the_journey_begins")) {
+          addAchievement("the_journey_begins");
+        }
         console.log(
           "Oh good I was afraid you'd say no.\n\n https://github.com/canfie1d/ryancanfield.me-2024/blob/main/README.md"
         );
@@ -47,11 +49,8 @@ const AboutContent = () => {
   useEffect(() => {
     if (ref.current) {
       if (inView && !viewed.current) {
-        if (!hasAchievement("the_journey_begins")) {
-          addAchievement("the_journey_begins");
-        }
         console.log(
-          "I'm glad you've made it this far. I hope you're enjoying the site."
+          "I hope you're enjoying the site. I'm glad you've made it this far."
         );
       }
     }
@@ -104,18 +103,18 @@ const AboutContent = () => {
         <div id="site">
           <h2>the site</h2>
           <Text>
-            After reviewing the analytics of previous iterations of this site, I
-            found that many users only visited once. While confirming my
-            assumption that portfolio sites don't have many unique repeat
-            visitors, I felt that there <em>must</em> be a way to improve that
-            metric for <em>this</em> site.
+            While perusing the analytics of previous iterations of this site (as
+            one does), I found that many users only visited once. While
+            confirming my assumption that portfolio sites (at least mine) don't
+            have many repeat visitors, I felt that there{" "}
+            <em>must be a better way</em>.
           </Text>
           <Text>
             By identifying the types of users who visited— developers,
-            engineering managers, tech recruiters, and designers. I decided that
+            engineering managers, tech recruiters, and designers, I decided that
             because developers &amp; designers had the least to gain from
             interacting with and revisiting my site, adding a useful tool for
-            them would create enough value for them(you?) to come back.
+            them would create enough value for them (you?) to come back.
           </Text>
           <h3>theming</h3>
           <Text>
@@ -123,7 +122,7 @@ const AboutContent = () => {
             switch between premade themes or create fully custom ones. Those
             themes can be taken and easily applied to other projects. The
             feature is built directly into the fabric of the website allowing
-            two simultaneous user journeys.{" "}
+            for two simultaneous user journeys at once.
             <em>
               ...three if you have a little extra time on your hands— some say
               there is a hidden theme to be found...
@@ -149,7 +148,7 @@ const AboutContent = () => {
             And for users that have a preference for reduced motion, those
             animations are completely muted.
           </Text>
-          <h3>JavaScript, React, and CSS features</h3>
+          <h3>features</h3>
           <Text>
             The{" "}
             <a
@@ -174,20 +173,29 @@ const AboutContent = () => {
             support to their own projects as well.
           </Text>
           <Text>
-            Sorry, one last thing. I wrote this website in a time when I wasn't
-            seeking a job so in its function as a portfolio, as a record of my
-            work history, you'll find it falls pretty flat. However, for that
-            you can download <a href="my resume">my resume</a>, if you like.
-          </Text>
-          <h2>meta</h2>
-          <Text>
-            {textFallOff(
-              "This site is a bit meta in that some times I talk to the reader and others refer to the site itself. And what's a good meta without a little little lore?",
-              9
-            )}
+            I wrote this website in a time when I wasn't seeking a job so in its
+            function as a portfolio, as a record of my work history, you'll find
+            it falls pretty flat. However, for that you can download{" "}
+            <a href="my-resume">my resume</a>
+            <Text as="span" size="small">
+              &nbsp;(don't click that yet)
+            </Text>
+            , if you like.
+            <Text>
+              Finally, this site is a labor of love. I've rewritten it in some
+              capacity for something like 8 years running but I have less time
+              than I used to, and I know that the streak may end. With that, I
+              wanted to write something that would have some longevity -
+              something that has the potential to have many iterations and new
+              features over time.&nbsp;
+              {textFallOff(
+                "Sorry, one last thing while I have you. I thought I'd dangle a small bit of bait.",
+                9
+              )}
+            </Text>
           </Text>
           <code className="inlineBlock" ref={ref}>
-            Type lore() in the console
+            Type <kbd>lore()</kbd> in the console, for a little nibble
           </code>
         </div>
       </Tabs>

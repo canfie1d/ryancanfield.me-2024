@@ -5,7 +5,7 @@ form:not([hidden]) {
   justify-content: center;
   width: 100%;
   max-width: 60ch;
-  margin: 0 auto;
+  margin: var(--spacing-unit) auto;
 
   label {
     display: block;
@@ -17,6 +17,7 @@ form:not([hidden]) {
   input,
   textarea {
     width: 100%;
+    font-family: var(--body-font) !important;
     padding: var(--spacing-unit-half);
     margin-bottom: var(--spacing-unit);
     border: none;
@@ -29,6 +30,17 @@ form:not([hidden]) {
     &:focus-visible {
       outline: none;
       border: 2px solid var(--unremarkable-semi-opaque-gray);
+    }
+  }
+
+  &.gameForm {
+    textarea,
+    input {
+      color: var(--off-white);
+
+      &::placeholder {
+        color: var(--transparent-white);
+      }
     }
   }
 

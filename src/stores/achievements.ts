@@ -11,8 +11,10 @@ export type AchievementType = {
 };
 
 type AchievementStateTypes = {
+  username: string;
   loadingAchievements: boolean;
   achievements: AchievementType[];
+  setUsername: (username: string) => void;
   hasAchievement: (achievementId: AchievementType["id"]) => boolean;
   addAchievement: (achievementId: AchievementType["id"]) => void;
   resetAchievements: () => void;
@@ -27,6 +29,7 @@ type AchievementStateTypes = {
 export const useAchievementStore = create<AchievementStateTypes>()(
   persist(
     (set, get) => ({
+      username: "",
       loadingAchievements: false,
       achievements: [],
       toast: {
@@ -36,6 +39,9 @@ export const useAchievementStore = create<AchievementStateTypes>()(
       },
       setToast: (toast: AchievementStateTypes["toast"]) => {
         set({ toast });
+      },
+      setUsername: (username: string) => {
+        set({ username });
       },
       addAchievement: async (achievementId: AchievementType["id"]) => {
         const achievement: AchievementType = ACHIEVEMENTS.find(

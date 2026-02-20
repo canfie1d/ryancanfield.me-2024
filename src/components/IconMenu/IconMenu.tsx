@@ -8,12 +8,14 @@ import styles from "./IconMenu.module.scss";
 
 const IconMenu = ({
   vertical,
+  rotate,
   reverse,
   align,
   actions,
   justify,
 }: {
   vertical?: boolean;
+  rotate?: boolean;
   reverse?: boolean;
   align?: "left" | "right";
   justify?: "start" | "end" | "center";
@@ -39,6 +41,7 @@ const IconMenu = ({
           key={i}
           className={classNames(
             styles.iconMenuAction,
+            rotate && !isSmallScreen && styles.iconMenuActionRotate,
             action.active && styles.iconMenuActionActive
           )}
         >
