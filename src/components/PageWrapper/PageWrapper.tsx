@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { motion, useReducedMotion } from "motion/react";
 import { useAnimate } from "~/hooks/useAnimate";
 import styles from "./PageWrapper.module.scss";
-// import { useIdentityContext } from "react-netlify-identity";
+// import { useIdentityContext } from "~/contexts/IdentityContext";
 
 const PageWrapper = ({
   pageName,

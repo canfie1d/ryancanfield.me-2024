@@ -47,20 +47,26 @@ const ContactGameForm = () => {
   if (formSuccess) {
     return (
       <Text className={classNames(styles.p, styles.submitMessage)}>
-        Thanks for the feedback! If applicable, I'll get back to you pretty
-        soon-ish.
+        Thanks for the feedback! If applicable, I'll get back to you pretty soon-ish.
       </Text>
     );
   }
   return (
     <form
-      className={styles.form}
+      className={classNames(styles.form, "gameForm")}
       name="contact"
       method="post"
       action="/contact?success=true"
     >
-      <input type="hidden" name="form-name" value="contact" />
-      <label className={styles.label} htmlFor="name">
+      <input
+        type="hidden"
+        name="form-name"
+        value="contact"
+      />
+      <label
+        className={styles.label}
+        htmlFor="name"
+      >
         Username
       </label>
       <input
@@ -71,7 +77,10 @@ const ContactGameForm = () => {
         onChange={handleChange}
         value={formData.current.name}
       />
-      <label className={styles.label} htmlFor="email">
+      <label
+        className={styles.label}
+        htmlFor="email"
+      >
         Email
       </label>
       <input
@@ -83,7 +92,10 @@ const ContactGameForm = () => {
         onChange={handleChange}
         value={formData.current.email}
       />
-      <label className={styles.label} htmlFor="message">
+      <label
+        className={styles.label}
+        htmlFor="message"
+      >
         Message
       </label>
       <textarea
@@ -94,7 +106,10 @@ const ContactGameForm = () => {
         onChange={handleChange}
         value={formData.current.message}
       />
-      <Button pageName="contact" type="submit">
+      <Button
+        pageName="contact"
+        type="submit"
+      >
         <span>Release Pigeon</span>
       </Button>
     </form>

@@ -1,4 +1,4 @@
-const baseUrl = "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images";
+const baseUrl = import.meta.env.VITE_IMAGE_CDN_URL ?? "https://d2b4ewtpli0u9y.cloudfront.net";
 
 export const PROJECTS: {
   title: string;
@@ -92,8 +92,7 @@ export const ARTICLE_LINKS: {
   },
   {
     title: "Process & Method",
-    description:
-      "An adaptation from the speech I gave at Phoenix Design Week’s Pecha Kucha talks.",
+    description: "An adaptation from the speech I gave at Phoenix Design Week’s Pecha Kucha talks.",
     imageUrl: `${baseUrl}/Link+Images/icons.png`,
     url: "https://medium.com/@Canfie1d/process-method-bddef9f5e47f",
     length: "6 min read",
@@ -132,8 +131,7 @@ export const OPEN_SOURCE: {
     title: "Resume React Template",
     githubUrl: "http://www.github.com/canfie1d/cra-template-resume",
     npmUrl: "https://www.npmjs.com/package/cra-template-resume",
-    description:
-      "A template for easily creating single page resume sites using create-react-app.",
+    description: "A template for easily creating single page resume sites using create-react-app.",
   },
   {
     title: "Transition Switch",

@@ -2,7 +2,6 @@
 
 import { useLocation } from "react-router-dom";
 import { useWindowSize } from "~/hooks/useWindowSize";
-import { CASE_STUDIES } from "~/data/caseStudies";
 
 export const useAnimate = () => {
   const { pathname } = useLocation();
@@ -12,9 +11,7 @@ export const useAnimate = () => {
 
   const slide = (pageName: string) => {
     const isCurrent = pathname === `/${pageName}`;
-    const caseStudy =
-      pageName === "work" &&
-      CASE_STUDIES.find((caseStudy) => caseStudy.path === pathname);
+    const caseStudy = pageName === "work" && pathname.startsWith("/work/");
 
     if (pathname === "/") {
       if (isSmallScreen) {

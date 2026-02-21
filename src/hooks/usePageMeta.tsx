@@ -3,14 +3,13 @@ import { useGameModeStore } from "~/stores/game-mode";
 
 export const usePageMeta = (pageName: PageNames) => {
   const activeGameModes = useGameModeStore((store) => store.activeGameModes);
-  const gameModeActive =
-    activeGameModes[pageName as keyof typeof activeGameModes];
+  const gameModeActive = activeGameModes[pageName as keyof typeof activeGameModes];
 
   switch (pageName) {
     case "about":
       return {
         title: gameModeActive ? "welcome to Eryndor" : "about",
-        subtitle: gameModeActive ? "" : "",
+        subtitle: gameModeActive ? "a land of ancient magic and boundless wonder" : "",
         icon: gameModeActive ? "map" : "signs",
       };
     case "work":

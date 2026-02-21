@@ -1,8 +1,9 @@
 import { Suspense, useEffect } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "motion/react";
-import { CASE_STUDIES } from "~/data/caseStudies";
+import { useQuery } from "@tanstack/react-query";
 import { useAchievementStore } from "~/stores/achievements";
+import { getCaseStudy } from "~/lib/sanityQueries";
 import { useGameModeStore } from "~/stores/game-mode";
 import { usePageMeta } from "~/hooks/usePageMeta";
 import PageContent from "~/content/PageContent";
@@ -16,9 +17,7 @@ const Work = () => {
   const activeGameModes = useGameModeStore((store) => store.activeGameModes);
   const gameModeActive = activeGameModes?.work;
 
-  const loadingAchievements = useAchievementStore(
-    (store) => store.loadingAchievements
-  );
+  const loadingAchievements = useAchievementStore((store) => store.loadingAchievements);
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
 
@@ -30,10 +29,13 @@ const Work = () => {
 
   const prefersReducedMotion = useReducedMotion();
   const { pathname } = useLocation();
+  const caseStudyId = pathname.startsWith("/work/") ? pathname.split("/").pop() : null;
 
-  const caseStudy = CASE_STUDIES.find(
-    (caseStudy) => caseStudy.path === pathname
-  );
+  const { data: caseStudy } = useQuery({
+    queryKey: ["sanity", "caseStudy", caseStudyId],
+    queryFn: () => getCaseStudy(caseStudyId!),
+    enabled: !!caseStudyId,
+  });
 
   return (
     <motion.div
@@ -47,33 +49,31 @@ const Work = () => {
       <PageContent
         pageName="work"
         header={
-          caseStudy
-            ? {
-                meta: (
-                  <Link to="/work">
-                    <Icon name="circle-x" />
-                    <span className="visually-hidden">Close</span>
-                  </Link>
-                ),
-                title: caseStudy.title,
-                subtitle: caseStudy.subtitle,
-              }
-            : {
-                meta: "②",
-                title: metaData.title,
-                subtitle: metaData.subtitle,
-                icon: metaData.icon,
-              }
+          caseStudy ?
+            {
+              meta: (
+                <Link to="/work">
+                  <Icon name="circle-x" />
+                  <span className="visually-hidden">Close</span>
+                </Link>
+              ),
+              title: caseStudy.title,
+              subtitle: caseStudy.subtitle,
+            }
+          : {
+              meta: "②",
+              title: metaData.title,
+              subtitle: metaData.subtitle,
+              icon: metaData.icon,
+            }
         }
       >
         <Suspense fallback={<Loader />}>
-          {caseStudy ? (
+          {caseStudy ?
             <Outlet />
-          ) : gameModeActive ? (
+          : gameModeActive ?
             <WorkGameContent />
-          ) : (
-            <WorkContent />
-          )}
+          : <WorkContent />}
         </Suspense>
       </PageContent>
     </motion.div>

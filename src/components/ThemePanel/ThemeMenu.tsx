@@ -21,19 +21,16 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
   const resetGameModes = useGameModeStore((store) => store.resetGameModes);
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
-  const setAllGameModesActive = useGameModeStore(
-    (store) => store.setAllGameModesActive
-  );
+  const setAllGameModesActive = useGameModeStore((store) => store.setAllGameModesActive);
 
   useEffect(() => {
-    const cursorImage = window.getComputedStyle(document.body).getPropertyValue('cursor');
+    const cursorImage = window.getComputedStyle(document.body).getPropertyValue("cursor");
 
-    if (cursorImage !== 'auto' && cursor === 'default') {
-      document.body.style.cursor = 'auto';
+    if (cursorImage !== "auto" && cursor === "default") {
+      document.body.style.cursor = "auto";
     } else {
-      document.body.style.cursor = 'auto';
+      document.body.style.cursor = "auto";
     }
-
   }, [cursor]);
 
   const handleSelectKnownTheme = (index: number) => {
@@ -64,27 +61,23 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
       return (
         <li
           key={theme.name}
-          title={
-            lockedColors?.length >= 4
-              ? "To change your theme unlock at least one color."
-              : ""
-          }
+          title={lockedColors?.length >= 4 ? "To change your theme unlock at least one color." : ""}
         >
           <Button
             id={theme.name}
             variant="transparent"
             active={themeName === theme.name}
             style={
-              themeName === theme.name
-                ? {
-                    background: `linear-gradient(to right, ${backgroundColors.slice(0, 3).join(", ")})`,
-                  }
-                : {}
+              themeName === theme.name ?
+                {
+                  background: `linear-gradient(to right, ${backgroundColors.slice(0, 3).join(", ")})`,
+                }
+              : {}
             }
             className={classNames(
               styles.themeButton,
               theme.name === "léon" && styles.themeButtonDark,
-              themeName === theme.name && styles.themeButtonActive
+              themeName === theme.name && styles.themeButtonActive,
             )}
             disabled={lockedColors?.length >= 4}
             onClick={() => handleSelectKnownTheme(i)}
@@ -106,42 +99,43 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
         <li key="eryndor">
           {!hasAchievement("reward_determination") && (
             <Link to="/journey-to-eryndor">
-              <span className="sr_only">
-                Completing the journey is the only way
-              </span>
+              <span className="sr_only">Completing the journey is the only way</span>
             </Link>
           )}
           <Button
             id="eryndor"
             title={
-              !hasAchievement("reward_determination")
-                ? "Completing the journey is the only way"
-                : ""
+              !hasAchievement("reward_determination") ?
+                "Completing the journey is the only way"
+              : ""
             }
             active={themeName === "eryndor"}
             style={
-              themeName === "eryndor"
-                ? {
-                    background: `linear-gradient(to right, ${backgroundColors.join(", ")})`,
-                    color: "var(--off-white)",
-                    textShadow: "0 0 8px rgba(255, 255, 255, 0.6)",
-                  }
-                : {}
+              themeName === "eryndor" ?
+                {
+                  background: `linear-gradient(to right, ${backgroundColors.join(", ")})`,
+                  color: "var(--off-white)",
+                  textShadow: "0 0 8px rgba(255, 255, 255, 0.6)",
+                }
+              : {}
             }
             className={classNames(
               styles.themeButton,
               themeName !== "eryndor" && styles.themeButtonEryndor,
-              themeName === "eryndor" && styles.themeButtonActive
+              themeName === "eryndor" && styles.themeButtonActive,
             )}
             disabled={!hasAchievement("reward_determination")}
             onClick={() => handleSelectKnownTheme(-1)}
           >
-            <Icon name="bow" size="x-small" />
+            <Icon
+              name="bow"
+              size="x-small"
+            />
             <span>
               <em>Eryndor</em>
             </span>
           </Button>
-        </li>
+        </li>,
       );
     }
 

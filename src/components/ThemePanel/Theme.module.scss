@@ -90,8 +90,7 @@
   align-items: center;
   justify-content: center;
   color: var(--off-black);
-  transition: transform var(--transition-duration-super-quick)
-    var(--animation-timing);
+  transition: transform var(--transition-duration-super-quick) var(--animation-timing);
 
   span {
     margin-left: var(--spacing-unit-quarter);

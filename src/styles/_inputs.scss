@@ -39,7 +39,7 @@ form:not([hidden]) {
       color: var(--off-white);
 
       &::placeholder {
-        color: var(--transparent-white);
+        color: rgba(255, 255, 255, 0.75);
       }
     }
   }

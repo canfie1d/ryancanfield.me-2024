@@ -1,4 +1,4 @@
-const baseUrl = "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images";
+const baseUrl = import.meta.env.VITE_IMAGE_CDN_URL ?? "https://d2b4ewtpli0u9y.cloudfront.net";
 
 export const CASE_STUDIES: {
   id: string;

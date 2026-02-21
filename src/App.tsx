@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
-import { IdentityContextProvider } from "react-netlify-identity";
+import { IdentityProvider } from "~/contexts/IdentityContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ErrorBoundary from "~/components/ErrorBoundary";
 import Pages from "~/pages/Pages";
@@ -16,11 +16,10 @@ if (process.env.NODE_ENV !== "production") {
 
 const App = () => {
   const queryClient = new QueryClient();
-  const url = "https://ryancanfield.netlify.app"; // @todo dynamic identity context urls
 
   return (
     <ErrorBoundary>
-      <IdentityContextProvider url={url}>
+      <IdentityProvider>
         <QueryClientProvider client={queryClient}>
           <Router>
             <Layout>
@@ -29,7 +28,7 @@ const App = () => {
             </Layout>
           </Router>
         </QueryClientProvider>
-      </IdentityContextProvider>
+      </IdentityProvider>
     </ErrorBoundary>
   );
 };
