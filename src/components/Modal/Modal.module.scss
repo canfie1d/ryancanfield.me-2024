@@ -13,19 +13,46 @@
   background: var(--off-white);
   overflow: auto;
   z-index: 1001;
-  border-radius: var(--border-radius-medium);
+  border-radius: var(--border-radius-large);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.14),
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    0 0 0 1px var(--unremarkable-semi-opaque-light-gray);
+
+  &.modalBottomSheet {
+    top: 50%;
+    bottom: auto;
+    left: 50%;
+    right: auto;
+    translate: -50% -50%;
+    width: min(429px, calc(100vw - var(--spacing-unit) * 2));
+    max-width: 429px;
+    box-sizing: border-box;
+    max-height: calc(85vh - var(--spacing-unit) * 2);
+    border-radius: var(--border-radius-large);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
 
   &.modalSmall {
     --maxW: max(50px, 5dvw);
     --maxH: max(50px, 5dvh);
 
-    @media screen and (min-width: 400px) {
-      max-width: 50dvw;
-    }
+    .modalHeader {
+      padding: var(--spacing-unit-quarter) var(--spacing-unit-half);
 
-    @media screen and (min-width: 769px) {
-      --maxW: max(150px, 30dvw);
-      --maxH: 0;
+      .modalHeaderIcon {
+        width: 1.5rem;
+        height: 1.5rem;
+
+        svg {
+          width: 0.8rem;
+          height: 0.8rem;
+        }
+      }
+
+      .modalHeaderTitle {
+        font-size: var(--font-medium);
+      }
     }
   }
 }
@@ -33,8 +60,11 @@
 .modalBackdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   z-index: 1000;
+  cursor: default;
 }
 
 .modalHeader {
@@ -42,6 +72,7 @@
   top: 0;
   display: flex;
   align-items: center;
+  gap: var(--spacing-unit-half);
   border-bottom: 1px solid var(--border-color);
   color: var(--unremarkable-medium-gray);
   padding: var(--spacing-unit-half) var(--spacing-unit);
@@ -50,7 +81,20 @@
   z-index: 2;
 
   .modalHeaderIcon {
-    color: var(--off-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 2rem;
+    height: 2rem;
+    background: var(--unremarkable-semi-opaque-light-gray);
+    border-radius: var(--border-radius-small);
+    color: var(--unremarkable-dark-gray);
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 
   .modalHeaderTitle {
@@ -58,46 +102,46 @@
     font-family: var(--body-font);
     font-weight: 800;
     color: var(--unremarkable-darker-gray);
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     font-size: var(--font-x-large);
     margin: 0;
+    line-height: 1.1;
 
-    @media (min-width: 769px) and (max-width: 968px) {
-      font-size: var(--font-medium);
+    &.modalHeaderTitleSpray {
+      background: linear-gradient(to right, #c998fb 0%, #8754ba 15%, #333 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   }
 
   .modalHeaderSubtitle {
     font-size: var(--font-small);
-    margin: 0;
-
-    @media screen and (min-width: 769px) {
-      font-size: var(--font-medium);
-    }
-  }
-
-  .modalSmall & {
-    padding: var(--spacing-unit-quarter) var(--spacing-unit-half);
-  }
-
-  @media screen and (min-width: 769px) {
-    padding: var(--spacing-unit) var(--spacing-unit-double);
+    margin: 0.125rem 0 0;
+    color: var(--unremarkable-medium-gray);
+    font-weight: 400;
   }
 
   div {
     flex: 1;
-
-    &:nth-child(2) {
-      padding-left: var(--spacing-unit-half);
-    }
   }
 
   button {
     flex: 0 0 34px;
     border-radius: var(--border-radius-medium);
+    color: var(--unremarkable-medium-gray);
+    transition:
+      color var(--transition-duration-quick) ease,
+      background var(--transition-duration-quick) ease;
+
+    &:hover {
+      color: var(--unremarkable-darker-gray);
+    }
   }
 }
 
 .modalContent {
-  padding: var(--spacing-unit);
+  padding: var(--spacing-unit-half) var(--spacing-unit);
+  overflow-x: hidden;
+  max-width: 100%;
 }

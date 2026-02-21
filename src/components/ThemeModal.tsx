@@ -33,6 +33,7 @@ const ThemeModal = ({
           onClose={handleCloseClick}
           transformOrigin={getTriggerLocation()}
           small
+          bottomSheet
           header={
             <Modal.Header
               title="themes"

@@ -11,12 +11,12 @@ export type GameModeTypes = {
 export type GameModeGetterTypes = {
   allGameModesActive: boolean;
   activeGameModes: GameModeTypes;
-  cursor: string;
+  cursor: "default" | "sword";
 };
 
 export type GameModeSetterTypes = {
   setGameMode: (arg: GameModeTypes) => void;
-  setAllGameModesActive: () => void;
+  setAllGameModesActive: (value: boolean) => void;
   resetGameModes: () => void;
 };
 
@@ -33,38 +33,34 @@ export const useGameModeStore = create<GameModeStore>()(
   persist(
     (set, get) => ({
       allGameModesActive: false,
-      cursor: 'default',
       activeGameModes: InitialGameModeActiveState,
+      cursor: "default" as const,
       setGameMode: (arg: GameModeTypes) => {
+        const updated = { ...get().activeGameModes, ...arg };
+        const allActive = Object.values(updated).every((mode) => mode);
         set({
-          activeGameModes: {
-            ...get().activeGameModes,
-            ...arg,
-          },
-          allGameModesActive: Object.values({
-            ...get().activeGameModes,
-            ...arg,
-          }).every((mode) => mode),
+          activeGameModes: updated,
+          allGameModesActive: allActive,
+          cursor: allActive ? "sword" : "default",
         });
       },
-      setAllGameModesActive: () => {
+      setAllGameModesActive: (value: boolean) => {
         set({
-          activeGameModes: Object.keys(InitialGameModeActiveState).reduce(
-            (acc, key) => ({
-              ...acc,
-              [key]: true,
-            }),
-            {} as GameModeTypes
-          ),
-          allGameModesActive: true,
-          cursor: 'sword'
+          allGameModesActive: value,
+          activeGameModes: {
+            about: value,
+            work: value,
+            writing: value,
+            contact: value,
+          },
+          cursor: value ? "sword" : "default",
         });
       },
       resetGameModes: () => {
         set({
           activeGameModes: InitialGameModeActiveState,
           allGameModesActive: false,
-          cursor: 'default'
+          cursor: "default",
         });
       },
     }),

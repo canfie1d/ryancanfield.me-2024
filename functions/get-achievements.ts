@@ -1,35 +1,41 @@
-import { Context } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 import { headers } from "../config";
 
-export const handler = async (_: Request, context: Context) => {
-  const { username } = context.params;
-  const achievements = getStore("achievements");
+export const handler = async (req: Request) => {
+  const url = new URL(req.url);
+  const username = url.searchParams.get("user");
 
-  const data = await achievements.getMetadata(username, {
-    // consistency: "strong",
-  });
+  if (!username) {
+    return {
+      statusCode: 400,
+      headers,
+      body: JSON.stringify({ msg: "Missing user parameter" }),
+    };
+  }
 
   try {
-    if (data) {
+    const achievementStore = getStore({ name: "achievements" });
+    const achievements = await achievementStore.get(username, { type: "json" }).catch(() => null);
+
+    if (achievements) {
       return {
         statusCode: 200,
-        headers: headers,
-        body: data.metadata,
+        headers,
+        body: JSON.stringify({ achievements }),
       };
     } else {
       return {
         statusCode: 404,
-        headers: headers,
+        headers,
         body: JSON.stringify({ msg: "No achievements found" }),
       };
     }
   } catch (err) {
-    console.error("Error fetching achievements:", err); // output to netlify function log
+    console.error("Error fetching achievements:", err);
     return {
       statusCode: 500,
-      headers: headers,
-      body: JSON.stringify(err),
+      headers,
+      body: JSON.stringify({ msg: "Internal error" }),
     };
   }
 };

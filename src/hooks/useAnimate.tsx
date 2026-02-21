@@ -2,16 +2,20 @@
 
 import { useLocation } from "react-router-dom";
 import { useWindowSize } from "~/hooks/useWindowSize";
+import { useCaseStudies } from "~/hooks/useSanityContent";
 
 export const useAnimate = () => {
   const { pathname } = useLocation();
+  const { data: caseStudies } = useCaseStudies();
+  const caseStudyPaths = caseStudies?.map((c) => c.path) ?? [];
 
   const size = useWindowSize();
   const isSmallScreen = size.width <= 768;
 
   const slide = (pageName: string) => {
     const isCurrent = pathname === `/${pageName}`;
-    const caseStudy = pageName === "work" && pathname.startsWith("/work/");
+    const caseStudy =
+      pageName === "work" && caseStudyPaths.includes(pathname);
 
     if (pathname === "/") {
       if (isSmallScreen) {

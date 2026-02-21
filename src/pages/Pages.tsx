@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useMemo } from "react";
 import { LayoutGroup } from "motion/react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useParams } from "react-router-dom";
 import { useShortcuts } from "~/hooks/useShortcuts";
 import { usePageScrollStore } from "~/stores/scroll";
 import PagePreview from "~/components/Preview/PagePreview";
@@ -12,7 +12,8 @@ const Work = lazy(() => import("./Work"));
 const Writing = lazy(() => import("./Writing"));
 const Contact = lazy(() => import("./Contact"));
 const CaseStudy = lazy(() => import("./CaseStudy"));
-const JourneyToEryndor = lazy(() => import("./JourneyToEryndor"));
+const JourneyToEryndor = lazy(() => import("./JourneysEnd"));
+const StudioPage = lazy(() => import("./Studio"));
 
 const Page = () => {
   const setScrolled = usePageScrollStore((store) => store.setScrolled);
@@ -24,53 +25,51 @@ const Page = () => {
   }, [pathname]);
 
   const layout = () => {
-    switch (pathname) {
-      case "/about":
-        return (
-          <>
-            <PageWrapper pageName="about" initial={false} isCurrent>
-              <Suspense
-                fallback={<PagePreview key="about" pageName="about" hideAll />}
-              >
-                <About key="about" />
-              </Suspense>
-            </PageWrapper>
-            <PageWrapper pageName="work">
-              <PagePreview pageName="work" />
-            </PageWrapper>
-            <PageWrapper pageName="writing">
-              <PagePreview pageName="writing" />
-            </PageWrapper>
-            <PageWrapper pageName="contact">
-              <PagePreview pageName="contact" />
-            </PageWrapper>
-          </>
-        );
-      case "/work":
-      case "/work/freightweb":
-      case "/work/xinova":
-      case "/work/princess":
-        return (
-          <>
-            <PageWrapper pageName="about">
-              <PagePreview pageName="about" />
-            </PageWrapper>
-            <PageWrapper pageName="work" initial={false} isCurrent>
-              <Suspense
-                fallback={<PagePreview key="work" pageName="work" hideAll />}
-              >
-                <Work key="work" />
-              </Suspense>
-            </PageWrapper>
-            <PageWrapper pageName="writing">
-              <PagePreview pageName="writing" />
-            </PageWrapper>
-            <PageWrapper pageName="contact">
-              <PagePreview pageName="contact" />
-            </PageWrapper>
-          </>
-        );
-      case "/writing":
+    if (pathname === "/about") {
+      return (
+        <>
+          <PageWrapper pageName="about" initial={false} isCurrent>
+            <Suspense
+              fallback={<PagePreview key="about" pageName="about" hideAll />}
+            >
+              <About key="about" />
+            </Suspense>
+          </PageWrapper>
+          <PageWrapper pageName="work">
+            <PagePreview pageName="work" />
+          </PageWrapper>
+          <PageWrapper pageName="writing">
+            <PagePreview pageName="writing" />
+          </PageWrapper>
+          <PageWrapper pageName="contact">
+            <PagePreview pageName="contact" />
+          </PageWrapper>
+        </>
+      );
+    }
+    if (pathname === "/work" || pathname.startsWith("/work/")) {
+      return (
+        <>
+          <PageWrapper pageName="about">
+            <PagePreview pageName="about" />
+          </PageWrapper>
+          <PageWrapper pageName="work" initial={false} isCurrent>
+            <Suspense
+              fallback={<PagePreview key="work" pageName="work" hideAll />}
+            >
+              <Work key="work" />
+            </Suspense>
+          </PageWrapper>
+          <PageWrapper pageName="writing">
+            <PagePreview pageName="writing" />
+          </PageWrapper>
+          <PageWrapper pageName="contact">
+            <PagePreview pageName="contact" />
+          </PageWrapper>
+        </>
+      );
+    }
+    if (pathname === "/writing") {
         return (
           <>
             <PageWrapper pageName="about">
@@ -93,8 +92,9 @@ const Page = () => {
             </PageWrapper>
           </>
         );
-      case "/contact":
-        return (
+    }
+    if (pathname === "/contact") {
+      return (
           <>
             <PageWrapper pageName="about">
               <PagePreview pageName="about" />
@@ -116,9 +116,8 @@ const Page = () => {
             </PageWrapper>
           </>
         );
-      case "/":
-      default:
-        return (
+    }
+    return (
           <>
             <PageWrapper pageName="about" isHome>
               <PagePreview pageName="about" />
@@ -134,10 +133,14 @@ const Page = () => {
             </PageWrapper>
           </>
         );
-    }
   };
 
   return useMemo(() => <LayoutGroup>{layout()}</LayoutGroup>, [pathname]);
+};
+
+const CaseStudyRoute = () => {
+  const { id } = useParams<{ id: string }>();
+  return id ? <CaseStudy id={id} /> : null;
 };
 
 const LorePage = () => {
@@ -145,11 +148,7 @@ const LorePage = () => {
     <PageWrapper pageName="journey-to-eryndor" isCurrent>
       <Suspense
         fallback={
-          <PagePreview
-            key="journey-to-eryndor"
-            pageName="journey-to-eryndor"
-            hideAll
-          />
+          <PagePreview key="journey-to-eryndor" pageName="journey-to-eryndor" hideAll />
         }
       >
         <JourneyToEryndor />
@@ -164,16 +163,16 @@ const Pages = () => {
       <Route path="/" element={<Page />} />
       <Route path="/about" element={<Page />} />
       <Route path="/work" element={<Page />}>
-        <Route
-          path="/work/freightweb"
-          element={<CaseStudy id="freightweb" />}
-        />
-        <Route path="/work/xinova" element={<CaseStudy id="xinova" />} />
-        <Route path="/work/princess" element={<CaseStudy id="princess" />} />
+        <Route path=":id" element={<CaseStudyRoute />} />
       </Route>
       <Route path="/writing" element={<Page />} />
       <Route path="/contact" element={<Page />} />
       <Route path="/journey-to-eryndor" element={<LorePage />} />
+      <Route path="/studio/*" element={
+        <Suspense fallback={null}>
+          <StudioPage />
+        </Suspense>
+      } />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

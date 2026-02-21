@@ -24,6 +24,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
   },
-  "include": ["src"],
+  "include": ["src", "sanity.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }],
 }

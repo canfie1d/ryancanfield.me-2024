@@ -68,9 +68,7 @@ const Button = ({
       aria-hidden={ariaHidden}
       disabled={disabled}
       style={
-        variant === "transparent" ||
-        variant === "backdrop" ||
-        variant === "danger"
+        variant === "transparent"
           ? style
           : {
               color: colors.backgroundColor,

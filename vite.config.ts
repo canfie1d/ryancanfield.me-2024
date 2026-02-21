@@ -3,7 +3,9 @@ import react from "@vitejs/plugin-react-swc";
 import svgr from "vite-plugin-svgr";
 import Sitemap from "vite-plugin-sitemap";
 import { VitePWA } from "vite-plugin-pwa";
+import mkcert from "vite-plugin-mkcert";
 import oxlintPlugin from "vite-plugin-oxlint";
+import MillionLint from "@million/lint";
 
 export default defineConfig({
   plugins: [
@@ -17,6 +19,19 @@ export default defineConfig({
       manifest: {
         theme_color: "#d3d3d3",
       },
+    }),
+    mkcert({
+      savePath: "./certs",
+      force: true,
+      keyFileName: "net-fn-key.pem",
+      certFileName: "net-fn.pem",
+    }),
+    MillionLint.vite({
+      optimizeDOM: true,
+      // production: {
+      //   enabled: true,
+      //   apiKey: "",
+      // },
     }),
     oxlintPlugin({
       configFile: "./oxlintrc.json",
@@ -37,9 +52,14 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    https: {
-      key: "./certs/net-fn-key.pem",
-      cert: "./certs/net-fn.pem",
-    },
+    https: true, // mkcert plugin provides cert paths
+    // open: true,
+    // proxy: {
+    //   "/api": {
+    //     target: "https://localhost:8888/functions",
+    //     changeOrigin: true,
+    //     rewrite: (path) => path.replace(/^\/api/, ""),
+    //   },
+    // },
   },
 });

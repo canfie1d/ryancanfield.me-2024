@@ -68,13 +68,11 @@ const ColorMenu = ({
         label: "Lock color",
         checked: isLocked,
         onChange: () => {
-          if (!hasAchievement("lock_it_up")) {
-            addAchievement("lock_it_up");
-          } else if (
-            !hasAchievement("lock_down") &&
-            lockedColors?.length === 4
-          ) {
-            addAchievement("lock_down");
+          if (!hasAchievement("custom")) {
+            addAchievement("custom");
+          }
+          if (!hasAchievement("fully_custom") && lockedColors?.length === 4) {
+            addAchievement("fully_custom");
           }
           setLockedColor({ hex: backgroundColor, position: index });
         },
@@ -83,12 +81,7 @@ const ColorMenu = ({
         icon: "eyedropper",
         label: "Choose new color",
         active: colorPickerActive,
-        onClick: () => {
-          if (!hasAchievement("custom")) {
-            addAchievement("custom");
-          }
-          setColorPickerActive(true);
-        },
+        onClick: () => setColorPickerActive(true),
       },
     ];
   }, [
@@ -110,7 +103,8 @@ const ColorMenu = ({
         hidden && styles.colorMenuHidden,
         collapsed && styles.colorMenuCollapsed,
         alignRight && styles.colorMenuAlignRight,
-        extraPadded && styles.colorMenuExtraPadded
+        extraPadded && styles.colorMenuExtraPadded,
+        isLocked && styles.colorMenuLocked
       )}
     >
       <Button

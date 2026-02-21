@@ -7,6 +7,8 @@
   animation: fadeIn var(--transition-duration-slow) var(--animation-timing);
   animation-fill-mode: forwards;
   opacity: 0;
+  display: flex;
+  flex-direction: column;
 
   @media screen and (min-width: 769px) {
     top: var(--spacing-unit-half);
@@ -14,7 +16,8 @@
     bottom: var(--spacing-unit);
     left: auto;
     height: var(--full-minus-20);
-    width: var(--fifth-minus-20);
+    width: min(var(--fifth-minus-20), 200px);
+    max-width: 200px;
     transform-origin: right; // used in js
     padding: var(--spacing-unit-half) 0;
   }
@@ -63,15 +66,6 @@
     400ms;
   animation-fill-mode: forwards;
   opacity: 0;
-
-  &.pageTitleUsername {
-    display: inline-flex;
-    gap: var(--spacing-unit-quarter);
-    font-size: var(--font-medium);
-    letter-spacing: 0em;
-    color: var(--unremarkable-opaque-gray);
-    line-height: var(--line-height-tight);
-  }
 
   .pageWrapper & {
     // home page

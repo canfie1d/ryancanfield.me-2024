@@ -14,6 +14,15 @@ body {
   overflow-x: clip;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    transition:
+      background-color 0.4s ease,
+      border-color 0.3s ease,
+      color 0.3s ease;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -42,6 +51,15 @@ img {
   .fallingText-#{$i + 1} {
     transform: rotate(#{3deg * $i + 1}) translate(#{(1px * $i) * $i + 1});
   }
+}
+
+// Sword cursor when Eryndor (hidden) theme is active (32px, hotspot at tip)
+// !important ensures it applies to every element, overriding pointer/default/etc.
+.eryndor,
+.eryndor * {
+  cursor:
+    url("/sword-cursor-32.png") 2 1,
+    auto !important;
 }
 
 .contentBody {

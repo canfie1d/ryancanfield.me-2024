@@ -52,17 +52,10 @@ export const ACHIEVEMENTS: AchievementType[] = [
   },
   {
     id: "eryndor_mode", // ✔️
-    title: "Eryndor Unlocked",
+    title: "Eryndor Mode",
     description: "Switch to Eryndor for the first time",
     collectedDate: null,
     icon: "switch",
-  },
-  {
-    id: "lock_it_up", // ✔️
-    title: "Lock It Up",
-    description: "Lock a color swatch",
-    collectedDate: null,
-    icon: "lock2",
   },
   {
     id: "lock_down", // ✔️
@@ -269,25 +262,45 @@ export const ACHIEVEMENTS: AchievementType[] = [
     icon: "one-hundred",
   },
   {
-    id: "chalice", // ✔️
-    title: "Chalice of the First Dawn",
-    description:
-      "Chalice of the First Dawn? Don't you think that's a bit much for a website game?",
-    collectedDate: null,
-    icon: "chalice",
-  },
-  {
-    id: "crown", // ✔️
-    title: "Crown of the Emerald Glade",
-    description: "Crown of the Emerald Glade?? I mean come on.",
+    id: "crown",
+    title: "Crown",
+    description: "Return to Journey's End after activating Eryndor",
     collectedDate: null,
     icon: "crown",
   },
   {
-    id: "wield", // ✔️
-    title: "No Longer Harmless",
-    description: "Find a new weapon",
+    id: "chalice",
+    title: "The Chalice",
+    description: "Delete all your progress",
     collectedDate: null,
-    icon: "sword",
-  }
+    icon: "chalice",
+  },
+  {
+    id: "wield",
+    title: "Wield",
+    description: "Activate all game modes",
+    collectedDate: null,
+    icon: "backpack",
+  },
+  {
+    id: "wanderer",
+    title: "Wanderer",
+    description: "You started walking.",
+    collectedDate: null,
+    icon: "compass",
+  },
+  {
+    id: "source_curious",
+    title: "Source Curious",
+    description: "Follow the trail from the console to GitHub",
+    collectedDate: null,
+    icon: "github",
+  },
+  {
+    id: "gatherer",
+    title: "Gatherer",
+    description: "Open your inventory for the first time",
+    collectedDate: null,
+    icon: "backpack",
+  },
 ];

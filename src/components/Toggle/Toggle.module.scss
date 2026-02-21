@@ -8,6 +8,9 @@
 
   label {
     display: flex;
+    min-height: 44px;
+    align-items: center;
+    cursor: pointer;
   }
 
   .toggleTrack {
@@ -16,9 +19,14 @@
     width: 50px;
     min-width: 50px;
     height: 30px;
-    margin-top: var(--spacing-unit-quarter);
     border-radius: var(--border-radius-large);
     background-color: var(--white);
+
+    @media screen and (max-width: 768px) {
+      width: 56px;
+      min-width: 56px;
+      height: 34px;
+    }
 
     .toggleHandle {
       position: absolute;
@@ -34,6 +42,15 @@
       &.toggleHandleChecked {
         left: calc(100% - 29px);
       }
+
+      @media screen and (max-width: 768px) {
+        height: 30px;
+        width: 30px;
+
+        &.toggleHandleChecked {
+          left: calc(100% - 31px);
+        }
+      }
     }
   }
 
@@ -48,5 +65,16 @@
     margin: 0 0 0 var(--spacing-unit-half);
     font-size: var(--font-x-small);
     color: var(--unremarkable-dark-gray);
+  }
+
+  &.toggleDanger {
+    .toggleLabel {
+      color: #b03050;
+      font-weight: 700;
+    }
+
+    .toggleDescription {
+      color: #a04055;
+    }
   }
 }

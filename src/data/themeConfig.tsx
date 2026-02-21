@@ -1,6 +1,6 @@
-export const corePages = ["about", "work", "writing", "contact"] as const;
+export const pagesUsingThemeColor = ["about", "work", "writing", "contact"];
 
-export type CorePageNames = (typeof corePages)[number];
+export const corePages = ["about", "work", "writing", "contact"] as const;
 
 export const pageNames = [
   "about",
@@ -52,8 +52,8 @@ export const themeConfig: ThemeConfigType = [
 
 export const loreTheme: ThemeType = {
   name: "eryndor",
-  backgroundColors: ["#013220", "#014421", "#025929", "#036635", "#04854c"],
-  textColors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#000000"],
+  backgroundColors: ["#1a2e1a", "#2d4a2d", "#3d6b3d", "#4a7c4a", "#c8e6c8"],
+  textColors: ["#c8e6c8", "#c8e6c8", "#c8e6c8", "#c8e6c8", "#1a2e1a"],
 };
 
 export const unlockableThemeConfig: ThemeType[] = [loreTheme];

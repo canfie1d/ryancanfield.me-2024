@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { generateUsername } from "unique-username-generator";
 import { ACHIEVEMENTS } from "~/data/achievements";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -11,13 +12,13 @@ export type AchievementType = {
 };
 
 type AchievementStateTypes = {
-  username: string;
   loadingAchievements: boolean;
+  username: string;
   achievements: AchievementType[];
-  setUsername: (username: string) => void;
   hasAchievement: (achievementId: AchievementType["id"]) => boolean;
-  addAchievement: (achievementId: AchievementType["id"]) => void;
-  resetAchievements: () => void;
+  addAchievement: (achievementId: AchievementType["id"]) => Promise<void>;
+  resetAchievements: () => Promise<void>;
+  loadAchievements: () => Promise<void>;
   toast: {
     open: boolean;
     title: string;
@@ -29,8 +30,8 @@ type AchievementStateTypes = {
 export const useAchievementStore = create<AchievementStateTypes>()(
   persist(
     (set, get) => ({
-      username: "",
       loadingAchievements: false,
+      username: generateUsername("-"),
       achievements: [],
       toast: {
         open: false,
@@ -40,25 +41,26 @@ export const useAchievementStore = create<AchievementStateTypes>()(
       setToast: (toast: AchievementStateTypes["toast"]) => {
         set({ toast });
       },
-      setUsername: (username: string) => {
-        set({ username });
-      },
       addAchievement: async (achievementId: AchievementType["id"]) => {
-        const achievement: AchievementType = ACHIEVEMENTS.find(
-          (achievement) => achievement.id === achievementId
+        const achievement = ACHIEVEMENTS.find(
+          (a) => a.id === achievementId
         ) as AchievementType;
 
         if (!achievement || get().hasAchievement(achievementId)) return;
 
         achievement.collectedDate = new Date().toISOString();
 
-        // @todo Use Netlify Blob storage
-        // https://docs.netlify.com/blobs/overview/
-        // if (!get().loadingAchievements) {
-        //   await fetch("/api/add-achievement", {
-        //     method: "POST",
-        //     body: JSON.stringify(achievement),
-        //   }).then(async () => {
+        await fetch("/api/add-achievement", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            achievement,
+            username: get().username,
+          }),
+        }).catch(() => {
+          // Fail silently — achievements still saved locally
+        });
+
         set((state) => ({
           achievements: [...state.achievements, achievement],
           toast: {
@@ -67,8 +69,6 @@ export const useAchievementStore = create<AchievementStateTypes>()(
             message: achievement.description,
           },
         }));
-        //   });
-        // }
       },
       hasAchievement: (achievementId: AchievementType["id"]) => {
         return get().achievements.some(
@@ -76,230 +76,41 @@ export const useAchievementStore = create<AchievementStateTypes>()(
         );
       },
       resetAchievements: async () => {
-        // await fetch("/api/delete-achievements", {
-        //   method: "DELETE",
-        // }).then(async () => {
+        await fetch("/api/delete-achievements", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: get().username }),
+        }).catch(() => {
+          // Fail silently
+        });
         set({ achievements: [] });
-        // });
+      },
+      loadAchievements: async () => {
+        const { username } = get();
+        if (!username) return;
+        set({ loadingAchievements: true });
+        try {
+          const response = await fetch(
+            `/api/get-achievements?user=${username}`
+          );
+          if (!response.ok) {
+            set({ loadingAchievements: false });
+            return;
+          }
+          const data = await response.json();
+          if (data.achievements) {
+            set({ achievements: data.achievements, loadingAchievements: false });
+          } else {
+            set({ loadingAchievements: false });
+          }
+        } catch {
+          set({ loadingAchievements: false });
+        }
       },
     }),
     {
-      name: "achievement-storage", // unique name
+      name: "achievement-storage",
       storage: createJSONStorage(() => localStorage),
     }
   )
 );
-
-// export const useAchievementContext = () => useAchievementStore;
-
-// export const AchievementProvider = ({ children }: { children: ReactNode }) => {
-//   const [locUserName, setLocUserName] = useLocalStorage("username");
-
-//   useEffect(() => {
-//     if (!locUserName) {
-//       const username = generateUsername("-");
-//       setLocUserName(username);
-//     }
-
-//     const getCollectedAchievements = async (locUserName: string) => {
-//       try {
-//         const response = await fetch(
-//           `/api/get-achievements?user=${locUserName}`
-//         );
-
-//         console.log("response.body: ", response.body);
-//         if (!response.body) return;
-
-//         return response.body;
-//       } catch (error) {
-//         console.error(error);
-//         return [];
-//       }
-//     };
-
-//     getCollectedAchievements(locUserName).then((achievements) => {
-//       useAchievementStore.setState({
-//         achievements: achievements || [],
-//         loadingAchievements: false,
-//       });
-//     });
-//   }, []);
-
-//   return <>{children}</>;
-// };
-// import Text from "~/components/Text";
-// import { generateUsername } from "unique-username-generator";
-// import useLocalStorage from "react-use-localstorage";
-
-// export type AchievementType = {
-//   id: string;
-//   title: string;
-//   description: string;
-//   collectedDate: string | null;
-//   icon: string;
-// };
-
-// type AchievementStateTypes = {
-//   loadingAchievements: boolean;
-//   achievements: AchievementType[];
-//   hasAchievement: (achievementId: AchievementType["id"]) => boolean;
-//   addAchievement: (achievementId: AchievementType["id"]) => void;
-//   resetAchievements: () => void;
-// };
-
-// const reducer = (state: any, action: any) => {
-//   switch (action.type) {
-//     case "ADD_ACHIEVEMENT":
-//       return {
-//         ...state,
-//         achievements: [...state.achievements, action.payload],
-//         loadingAchievements: false,
-//       };
-//     case "SET_ACHIEVEMENTS":
-//       return {
-//         ...state,
-//         achievements: action.payload,
-//         loadingAchievements: false,
-//       };
-//     case "RESET_ACHIEVEMENTS":
-//       return {
-//         ...state,
-//         achievements: action.payload,
-//         loadingAchievements: false,
-//       };
-//     case "ACHIEVEMENTS_LOADING":
-//       return { ...state, loadingAchievements: action.payload };
-//     default:
-//       return state;
-//   }
-// };
-
-// const initialState = {
-//   loadingAchievements: true,
-//   achievements: [],
-//   addAchievement: (_: AchievementType["id"]) => {},
-//   hasAchievement: (_: AchievementType["id"]) => false,
-//   resetAchievements: () => {},
-// };
-
-// const AchievementContext = createContext(initialState);
-
-// export const useAchievementContext = () => {
-//   return use(AchievementContext);
-// };
-
-// export const AchievementProvider = ({ children }: { children: ReactNode }) => {
-//   const [state, dispatch] = useReducer(
-//     reducer,
-//     initialState as AchievementStateTypes
-//   );
-
-//   const [locUserName, setLocUserName] = useLocalStorage("username");
-
-//   const [toast, setToast] = useState({ open: false, title: "", message: "" });
-
-//   useEffect(() => {
-//     if (!locUserName) {
-//       const username = generateUsername("-");
-//       setLocUserName(username);
-//     }
-
-//     const getCollectedAchievements = async (locUserName: string) => {
-//       try {
-//         const response = await fetch(
-//           `/api/get-achievements?user=${locUserName}`
-//         );
-
-//         console.log("response.body: ", response.body);
-//         if (!response.body) return;
-
-//         return response.body;
-//       } catch (error) {
-//         console.error(error);
-//         return [];
-//       }
-//     };
-
-//     getCollectedAchievements(locUserName);
-//   }, []);
-
-//   const setAchievements = (achievements: AchievementType[]) => {
-//     dispatch({
-//       type: "SET_ACHIEVEMENTS",
-//       payload: achievements,
-//     });
-//   };
-
-//   const addAchievement = async (achievementId: AchievementType["id"]) => {
-//     const achievement: AchievementType = ACHIEVEMENTS.find(
-//       (achievement) => achievement.id === achievementId
-//     ) as AchievementType; // Cooerced bc TS is mad about the possibility of .find not returning something. Fair enough.
-
-//     if (!achievement || hasAchievement(achievementId)) return;
-
-//     achievement.collectedDate = new Date().toISOString();
-
-//     if (!state.loadingAchievements) {
-//       await fetch("/api/add-achievement", {
-//         method: "POST",
-//         body: JSON.stringify(achievement),
-//       }).then(async () => {
-//         setAchievements([...state.achievements, achievement]);
-
-//         setToast({
-//           open: true,
-//           title: achievement.title,
-//           message: achievement.description,
-//         });
-//       });
-//     }
-//   };
-
-//   const resetAchievements = async () => {
-//     await fetch("/api/delete-achievements", {
-//       method: "DELETE",
-//     }).then(async () => {
-//       setAchievements([]);
-
-//       setToast({
-//         open: true,
-//         title: "Achievements Reset",
-//         message: "All achievements have been reset and you can start again!",
-//       });
-//     });
-//   };
-
-//   const hasAchievement = (achievementId: AchievementType["id"]) => {
-//     if (!state.achievements) return false;
-
-//     return state.achievements.some(
-//       (achievement: AchievementType) => achievement.id === achievementId
-//     );
-//   };
-
-//   return (
-//     <AchievementContext.Provider
-//       value={{
-//         loadingAchievements: state.loadingAchievements,
-//         achievements: state.achievements,
-//         addAchievement: addAchievement,
-//         hasAchievement: hasAchievement,
-//         resetAchievements: resetAchievements,
-//       }}
-//     >
-//       <Toast
-//         open={toast.open}
-//         onClose={() => setToast({ open: false, title: "", message: "" })}
-//         closeTime={2400}
-//         type="achievement"
-//       >
-//         <Icon name="cert" />
-//         <div>
-//           <h4>{toast.title}</h4>
-//           <Text>{toast.message}</Text>
-//         </div>
-//       </Toast>
-//       {children}
-//     </AchievementContext.Provider>
-//   );
-// };

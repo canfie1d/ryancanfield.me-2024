@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useLocation } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useAchievementStore } from "~/stores/achievements";
 import Button from "~/components/Button";
 import Text from "~/components/Text";
@@ -23,15 +23,10 @@ const DEFAULT_FORM_DATA: FormData = {
 
 const ContactGameForm = () => {
   const { search } = useLocation();
-  const formData = useRef(DEFAULT_FORM_DATA);
+  const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
   const formSuccess = search.includes("success=true");
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
-  const username = useAchievementStore((store) => store.username);
-
-  useEffect(() => {
-    formData.current = { ...formData.current, name: username };
-  }, [username]);
 
   useEffect(() => {
     if (formSuccess && !hasAchievement("first_contact")) {
@@ -42,45 +37,35 @@ const ContactGameForm = () => {
   const handleChange = (event: any) => {
     const name = event.target.name;
     const value = event.target.value;
-    formData.current = { ...formData.current, [name]: value };
+    setFormData({ ...formData, [name]: value });
   };
   if (formSuccess) {
-    return (
-      <Text className={classNames(styles.p, styles.submitMessage)}>
-        Thanks for the feedback! If applicable, I'll get back to you pretty soon-ish.
-      </Text>
-    );
+    <Text className={classNames(styles.p, styles.submitMessage)}>
+      Thanks for the feedback! If applicable, I'll get back to you pretty
+      soon-ish.
+    </Text>;
   }
   return (
     <form
-      className={classNames(styles.form, "gameForm")}
+      className={styles.form}
       name="contact"
       method="post"
       action="/contact?success=true"
     >
-      <input
-        type="hidden"
-        name="form-name"
-        value="contact"
-      />
-      <label
-        className={styles.label}
-        htmlFor="name"
-      >
-        Username
+      <input type="hidden" name="form-name" value="contact" />
+      <label className={styles.label} htmlFor="name">
+        User Name
       </label>
       <input
         className={styles.input}
         id="name"
+        placeholder="undefined undefined"
         type="text"
         name="name"
         onChange={handleChange}
-        value={formData.current.name}
+        value={formData.name}
       />
-      <label
-        className={styles.label}
-        htmlFor="email"
-      >
+      <label className={styles.label} htmlFor="email">
         Email
       </label>
       <input
@@ -88,29 +73,23 @@ const ContactGameForm = () => {
         className={styles.input}
         type="email"
         name="email"
-        placeholder="contactfrom@thefuture.com"
+        placeholder="undefined@undefined.com"
         onChange={handleChange}
-        value={formData.current.email}
+        value={formData.email}
       />
-      <label
-        className={styles.label}
-        htmlFor="message"
-      >
+      <label className={styles.label} htmlFor="message">
         Message
       </label>
       <textarea
         id="message"
-        placeholder="Your words echo into the digital ether..."
+        placeholder="undefined"
         className={styles.textarea}
         name="message"
         onChange={handleChange}
-        value={formData.current.message}
+        value={formData.message}
       />
-      <Button
-        pageName="contact"
-        type="submit"
-      >
-        <span>Release Pigeon</span>
+      <Button pageName="contact" type="submit">
+        <span>Submit</span>
       </Button>
     </form>
   );

@@ -58,14 +58,10 @@
       .iconMenuButton,
       .iconMenuCheckbox {
         border: 2px solid var(--off-white);
-        color: var(--off-black);
+        color: var(--off-white);
         background-color: var(--unremarkable-semi-opaque-gray);
         cursor: default;
       }
-    }
-
-    &.iconMenuActionRotate {
-      rotate: -90deg;
     }
 
     .iconMenuCheckbox:hover {

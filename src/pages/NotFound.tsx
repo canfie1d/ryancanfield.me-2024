@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAchievementStore } from "~/stores/achievements";
+import { useInventoryStore } from "~/stores/inventory";
 import PageContent from "~/content/PageContent";
 import Text from "~/components/Text";
 
@@ -10,12 +11,20 @@ const NotFound = () => {
   );
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
+  const addItem = useInventoryStore((store) => store.addItem);
+  const hasItem = useInventoryStore((store) => store.hasItem);
 
   useEffect(() => {
     if (!loadingAchievements && !hasAchievement("lost_and_found")) {
       addAchievement("lost_and_found");
     }
-  }, [loadingAchievements]);
+  }, [loadingAchievements, hasAchievement, addAchievement]);
+
+  useEffect(() => {
+    if (!loadingAchievements && hasAchievement("lost_and_found") && !hasItem("note")) {
+      addItem("note");
+    }
+  }, [loadingAchievements, hasAchievement, hasItem, addItem]);
 
   return (
     <PageContent
@@ -28,7 +37,7 @@ const NotFound = () => {
     >
       <div style={{ textAlign: "center" }} className="contentBody">
         <Text>
-          Oops! The page you're looking for doesn't exist (that we know of).
+          Oops! The page you're looking for doesn't exist (on this site anyway).
         </Text>
         <Link to="/">Go back to the home page</Link>
       </div>

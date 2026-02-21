@@ -70,15 +70,12 @@ const GithubContributions = () => {
       try {
         const response = await fetch("/api/github-contributions");
         const data = await response.json();
+
         dispatch({
           type: "SET_DATA",
-          payload: {
-            isPending: false,
-            data: data.data,
-            showData: true,
-          },
+          payload: { isPending: false, data: data.data, showData: true },
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(error);
         dispatch({
           type: "SET_IS_PENDING",

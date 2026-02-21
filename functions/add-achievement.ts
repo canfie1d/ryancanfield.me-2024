@@ -1,29 +1,45 @@
-import { Context } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
+import { headers } from "../config";
 import { AchievementType } from "../src/stores/achievements";
 
-const hasAchievement = async (store: any, id: string) => {
-  const achievement = await store.getMetadata(id);
-  return achievement !== null;
-};
-
-export const handler = async (req: Request, context: Context) => {
+export const handler = async (req: Request) => {
   try {
-    const { username } = context.params;
+    const body = await req.json() as { achievement: AchievementType; username: string };
+    const { achievement, username } = body;
 
-    const newAchievement = req.body as unknown as AchievementType;
+    if (!username || !achievement) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ msg: "Missing username or achievement" }),
+      };
+    }
 
-    const achievementStore = await getStore({
-      name: username,
-      // consistency: "strong",
-    });
+    const achievementStore = getStore({ name: "achievements" });
 
-    if (await hasAchievement(achievementStore, newAchievement.id)) return;
+    const existing = await achievementStore.get(username, { type: "json" }).catch(() => null);
+    const currentList: AchievementType[] = Array.isArray(existing) ? existing : [];
 
-    newAchievement.collectedDate = new Date().toISOString();
+    if (currentList.some((a) => a.id === achievement.id)) {
+      return { statusCode: 200, headers, body: JSON.stringify({ msg: "Already exists" }) };
+    }
 
-    achievementStore.setJSON(username, JSON.stringify(newAchievement));
+    achievement.collectedDate = new Date().toISOString();
+    const updated = [...currentList, achievement];
+
+    await achievementStore.setJSON(username, updated);
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ msg: "Achievement added" }),
+    };
   } catch (err) {
-    return err;
+    console.error(err);
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ msg: "Internal error" }),
+    };
   }
 };

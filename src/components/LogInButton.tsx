@@ -10,11 +10,15 @@ const LogInButton = ({ className }: { className: string }) => {
   };
 
   return (
-    <Button className={className} onClick={logInWithGithub}>
-      <Icon size="small" name="github" />
-      <span style={{ marginLeft: "var(--spacing-unit-half" }}>
-        Log in with Github
-      </span>
+    <Button
+      className={className}
+      onClick={logInWithGithub}
+    >
+      <Icon
+        size="small"
+        name="github"
+      />
+      <span style={{ marginLeft: "var(--spacing-unit-half" }}>Log in with Github</span>
     </Button>
   );
 };

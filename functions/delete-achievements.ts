@@ -1,23 +1,32 @@
-import { Context } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 import { headers } from "../config";
 
-export const handler = async (_: Request, context: Context) => {
+export const handler = async (req: Request) => {
   try {
-    const { username } = context.params;
-    const achievements = await getStore("achievements");
-    achievements.delete(username);
+    const body = await req.json() as { username: string };
+    const { username } = body;
+
+    if (!username) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ msg: "Missing username" }),
+      };
+    }
+
+    const achievementStore = getStore({ name: "achievements" });
+    await achievementStore.delete(username);
 
     return {
       statusCode: 200,
-      headers: headers,
+      headers,
     };
   } catch (err) {
-    console.error(err); // output to netlify function log
+    console.error(err);
     return {
       statusCode: 500,
-      headers: headers,
-      body: JSON.stringify(err),
+      headers,
+      body: JSON.stringify({ msg: "Internal error" }),
     };
   }
 };

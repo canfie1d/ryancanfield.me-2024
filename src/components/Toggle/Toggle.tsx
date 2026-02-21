@@ -11,6 +11,7 @@ const Toggle = ({
   checked,
   onChange,
   style,
+  danger,
 }: {
   id: string;
   name: string;
@@ -19,9 +20,13 @@ const Toggle = ({
   checked: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
   style?: CSSProperties;
+  danger?: boolean;
 }) => {
   return (
-    <div className={styles.toggle} style={style}>
+    <div
+      className={classNames(styles.toggle, danger && styles.toggleDanger)}
+      style={style}
+    >
       <input
         className={styles.toggleInput}
         type="checkbox"

@@ -16,7 +16,6 @@
 - ~~Upstash (api)~~
   - ~~Redis (storage)~~
 - Local Storage (storage)
-- CloudFront (image storage & CDN)
 
 - Netlify (CI/CD)
   - Functions (serverless api functions)

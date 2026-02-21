@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useWindowSize } from "react-use";
 import { Waypoint } from "react-waypoint";
 import { usePageScrollStore } from "~/stores/scroll";
-import { PageNames, pageNames } from "~/data/themeConfig";
+import { pagesUsingThemeColor, PageNames, pageNames } from "~/data/themeConfig";
 import ColorMenu from "~/components/ColorMenu";
 import Icon from "~/components/Icon";
 import Text from "~/components/Text";
@@ -50,7 +50,7 @@ const PageContent = ({
             <Text as="span" color={textColor}>
               {header.meta}
             </Text>
-            {pageNames.includes(pageName) && (
+            {pagesUsingThemeColor.includes(pageName as string) && (
               <ColorMenu
                 index={indexOfPage}
                 hidden={gameModeActive}
