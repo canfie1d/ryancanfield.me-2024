@@ -1,14 +1,15 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { useAchievementStore } from "~/stores/achievements";
 import { useInventoryStore } from "~/stores/inventory";
+import { useUiStrings } from "~/hooks/useSanityContent";
 import PageContent from "~/content/PageContent";
 import Text from "~/components/Text";
 
 const NotFound = () => {
-  const loadingAchievements = useAchievementStore(
-    (store) => store.loadingAchievements
-  );
+  const { data: ui } = useUiStrings();
+
+  const loadingAchievements = useAchievementStore((store) => store.loadingAchievements);
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
   const addItem = useInventoryStore((store) => store.addItem);
@@ -30,16 +31,17 @@ const NotFound = () => {
     <PageContent
       pageName="404"
       header={{
-        meta: "④⓪④",
-        title: "404",
+        meta: String(ui?.notFoundMeta ?? ""),
+        title: String(ui?.notFoundTitle ?? ""),
         icon: "at",
       }}
     >
-      <div style={{ textAlign: "center" }} className="contentBody">
-        <Text>
-          Oops! The page you're looking for doesn't exist (on this site anyway).
-        </Text>
-        <Link to="/">Go back to the home page</Link>
+      <div
+        style={{ textAlign: "center" }}
+        className="contentBody"
+      >
+        <Text>{ui?.notFoundMessage ?? ""}</Text>
+        <Link to="/">{ui?.notFoundLink ?? ""}</Link>
       </div>
     </PageContent>
   );

@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Button from "~/components/Button";
 import Icon from "~/components/Icon";
+import { useUiStrings } from "~/hooks/useSanityContent";
 import styles from "./Modal.module.scss";
 import cn from "classnames";
 
@@ -43,9 +44,7 @@ const Modal = ({
     const modal = modalRef.current;
     if (!modal) return;
 
-    const focusableElements = Array.from(
-      modal.querySelectorAll<HTMLElement>(focusableSelectors)
-    );
+    const focusableElements = Array.from(modal.querySelectorAll<HTMLElement>(focusableSelectors));
     const firstFocusable = focusableElements[0];
     const lastFocusable = focusableElements[focusableElements.length - 1];
 
@@ -118,22 +117,22 @@ const Modal = ({
               styles.modal,
               small && styles.modalSmall,
               bottomSheet && styles.modalBottomSheet,
-              wide && styles.modalWide
+              wide && styles.modalWide,
             )}
             variants={!prefersReducedMotion ? modalVariants : undefined}
             initial="hidden"
             animate="visible"
             exit="exit"
             transition={
-              !prefersReducedMotion
-                ? {
-                    type: "spring",
-                    stiffness: 380,
-                    damping: 30,
-                    mass: 0.8,
-                    opacity: { duration: 0.2, ease: "easeOut" },
-                  }
-                : { duration: 0 }
+              !prefersReducedMotion ?
+                {
+                  type: "spring",
+                  stiffness: 380,
+                  damping: 30,
+                  mass: 0.8,
+                  opacity: { duration: 0.2, ease: "easeOut" },
+                }
+              : { duration: 0 }
             }
           >
             {header}
@@ -166,25 +165,38 @@ export const ModalHeader = ({
   title: string;
   subtitle?: string;
   icon: string;
-}) => (
-  <div className={styles.modalHeader}>
-    <span className={styles.modalHeaderIcon}>{<Icon name={icon} />}</span>
-    <div>
-      <h2
-        className={cn(
-          styles.modalHeaderTitle,
-          icon === "spray" && styles.modalHeaderTitleSpray
-        )}
+}) => {
+  const { data: ui } = useUiStrings();
+  const ariaCloseModal = ui?.ariaCloseModal ?? "";
+  return (
+    <div className={styles.modalHeader}>
+      <span
+        className={styles.modalHeaderIcon}
+        aria-hidden
       >
-        {title}
-      </h2>
-      {subtitle && <h3 className={styles.modalHeaderSubtitle}>{subtitle}</h3>}
+        <Icon
+          name={icon}
+          size="medium"
+        />
+      </span>
+      <div>
+        <h2
+          className={cn(styles.modalHeaderTitle, icon === "spray" && styles.modalHeaderTitleSpray)}
+        >
+          {title}
+        </h2>
+        {subtitle && <h3 className={styles.modalHeaderSubtitle}>{subtitle}</h3>}
+      </div>
+      <Button
+        variant="transparent"
+        onClick={onClose}
+        ariaLabel={ariaCloseModal}
+      >
+        <Icon name="circle-x" />
+      </Button>
     </div>
-    <Button variant="transparent" onClick={onClose} ariaLabel="Close modal">
-      <Icon name="circle-x" />
-    </Button>
-  </div>
-);
+  );
+};
 
 Modal.Header = ModalHeader;
 

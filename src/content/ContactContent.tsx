@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react";
 import { useAchievementStore } from "~/stores/achievements";
 import { useIntersectionObserver } from "~/hooks/useIntersectionObserver";
+import { usePageContent } from "~/hooks/useSanityContent";
 import ContactForm from "~/components/Form/ContactForm";
 import Text from "~/components/Text";
-import { getColorsFromTheme } from "~/helpers/getColorsFromTheme";
+import { useGetColorsFromTheme } from "~/helpers/getColorsFromTheme";
 
 const ContactContent = () => {
   const viewed = useRef<boolean>(false);
@@ -11,13 +12,16 @@ const ContactContent = () => {
   const inView = useIntersectionObserver(ref?.current);
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
-  const { textColor } = getColorsFromTheme("contact");
+  const { textColor } = useGetColorsFromTheme("contact");
+  const { data: pageContent } = usePageContent("contact");
 
   useEffect(() => {
     if (!hasAchievement("reach_out") && inView && !viewed.current) {
       addAchievement("reach_out");
     }
-  }, [inView]);
+  }, [inView, addAchievement, hasAchievement]);
+
+  const introText = pageContent?.introText ?? "";
 
   return (
     <div className="contentBody">
@@ -29,8 +33,7 @@ const ContactContent = () => {
           margin: "auto",
         }}
       >
-        I'm not seeking opportunites but I always like hearing from new (and
-        familiar) people!
+        {introText}
       </Text>
       <ContactForm />
       <div ref={ref} />

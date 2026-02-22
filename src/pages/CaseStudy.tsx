@@ -1,50 +1,82 @@
 import { useEffect } from "react";
 import { useAchievementStore } from "~/stores/achievements";
-import { useCaseStudies } from "~/hooks/useSanityContent";
+import { useInventoryStore } from "~/stores/inventory";
+import { useJewelDiscoveryStore } from "~/stores/jewel-discovery";
+import { useCaseStudies, useUiStrings } from "~/hooks/useSanityContent";
 import Text from "~/components/Text";
 
 const CaseStudy = ({ id }: { id: string }) => {
-  const loadingAchievements = useAchievementStore(
-    (store) => store.loadingAchievements
-  );
+  const loadingAchievements = useAchievementStore((store) => store.loadingAchievements);
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
+  const markCaseStudyViewed = useJewelDiscoveryStore((store) => store.markCaseStudyViewed);
+  const viewedCaseStudyIds = useJewelDiscoveryStore((store) => store.viewedCaseStudyIds);
+  const addItem = useInventoryStore((store) => store.addItem);
+  const hasItem = useInventoryStore((store) => store.hasItem);
 
   useEffect(() => {
     if (!loadingAchievements && !hasAchievement("so_studious")) {
       addAchievement("so_studious");
     }
-  }, [loadingAchievements]);
+  }, [loadingAchievements, addAchievement, hasAchievement]);
+
+  useEffect(() => {
+    markCaseStudyViewed(id);
+  }, [id, markCaseStudyViewed]);
+
+  useEffect(() => {
+    if (
+      !loadingAchievements &&
+      hasAchievement("all_work_no_play") &&
+      viewedCaseStudyIds.length >= 1 &&
+      !hasItem("jewel-work")
+    ) {
+      addItem("jewel-work");
+    }
+  }, [loadingAchievements, hasAchievement, viewedCaseStudyIds.length, hasItem, addItem]);
 
   const { data: caseStudies } = useCaseStudies();
+  const { data: ui } = useUiStrings();
   const study = caseStudies?.find((item) => item.id === id);
 
   if (!study) return null;
 
   return (
     <div className="contentBody">
-      <h3>Problem Analysis</h3>
-      {study.problem.content.map((paragraph: string, i: number) => (
+      <h3>{ui?.caseStudyProblem ?? ""}</h3>
+      {study.problem?.content?.map((paragraph: string, i: number) => (
         <Text key={`paragraph-${i}`}>{paragraph}</Text>
       ))}
-      {study.problem.images?.map((image: { image: { asset: { url: string } }; caption?: string }, i: number) => (
-        <img key={`image-${i}`} src={image.image.asset.url} alt={image.caption ?? ""} />
+      {study.problem?.images?.map((img, i) => (
+        <img
+          key={`image-${i}`}
+          src={img.src ?? ""}
+          alt={img.caption ?? ""}
+        />
       ))}
 
-      <h3>Solution</h3>
-      {study.solution.content.map((paragraph: string, i: number) => (
+      <h3>{ui?.caseStudySolution ?? ""}</h3>
+      {study.solution?.content?.map((paragraph: string, i: number) => (
         <Text key={`paragraph-${i}`}>{paragraph}</Text>
       ))}
-      {study.solution.images?.map((image: { image: { asset: { url: string } }; caption?: string }, i: number) => (
-        <img key={`image-${i}`} src={image.image.asset.url} alt={image.caption ?? ""} />
+      {study.solution?.images?.map((img, i) => (
+        <img
+          key={`image-${i}`}
+          src={img.src ?? ""}
+          alt={img.caption ?? ""}
+        />
       ))}
 
-      <h3>Result</h3>
-      {study.result.content.map((paragraph: string, i: number) => (
+      <h3>{ui?.caseStudyResult ?? ""}</h3>
+      {study.result?.content?.map((paragraph: string, i: number) => (
         <Text key={`paragraph-${i}`}>{paragraph}</Text>
       ))}
-      {study.result.images?.map((image: { image: { asset: { url: string } }; caption?: string }, i: number) => (
-        <img key={`image-${i}`} src={image.image.asset.url} alt={image.caption ?? ""} />
+      {study.result?.images?.map((img, i) => (
+        <img
+          key={`image-${i}`}
+          src={img.src ?? ""}
+          alt={img.caption ?? ""}
+        />
       ))}
     </div>
   );

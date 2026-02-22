@@ -1,25 +1,16 @@
 [build]
-  command = "yarn build"
-  functions = "functions"
-  publish = "dist/"
+  command = "pnpm build"
+  publish = "dist/client"
 
-[[redirects]]
-  from = '/api/*'
-  status = 200
-  to = '/.netlify/functions/:splat'
-  force = true
-
+# SPA client-side routing: serve shell for all non-asset routes so direct navigation/bookmarks work
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-[functions]
-  directory = "functions/"
-
 [dev]
+  command = "pnpm dev"
   targetPort = 3000
-  functionsPort = 8888
   autoLaunch = false
 
   [dev.https]

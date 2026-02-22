@@ -32,8 +32,15 @@ export const project = defineType({
     }),
     defineField({
       name: 'image',
-      type: 'url',
-      title: 'Image URL',
+      type: 'image',
+      title: 'Image',
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: 'order',
+      type: 'number',
+      title: 'Display Order',
     }),
   ],
+  orderings: [{ title: 'Display Order', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
 })

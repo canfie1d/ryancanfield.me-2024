@@ -7,6 +7,7 @@ export const articleLink = defineType({
   fields: [
     defineField({ name: 'title', type: 'string', title: 'Title' }),
     defineField({ name: 'description', type: 'text', title: 'Description' }),
+    defineField({ name: 'imageUrl', type: 'url', title: 'Image URL' }),
     defineField({ name: 'image', type: 'image', title: 'Image', options: { hotspot: true } }),
     defineField({ name: 'url', type: 'url', title: 'Article URL' }),
     defineField({ name: 'length', type: 'string', title: 'Read Time (e.g. "4 min read")' }),

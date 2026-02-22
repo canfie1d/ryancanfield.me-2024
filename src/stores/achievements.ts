@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { generateUsername } from "unique-username-generator";
 import { ACHIEVEMENTS } from "~/data/achievements";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { getSSRSafeStorage } from "~/lib/ssrStorage";
 
 export type AchievementType = {
   id: string;
@@ -11,10 +12,14 @@ export type AchievementType = {
   icon: string;
 };
 
+type AchievementLookup = { id: string; title: string; description: string; icon: string }[];
+
 type AchievementStateTypes = {
   loadingAchievements: boolean;
   username: string;
   achievements: AchievementType[];
+  achievementsLookup: AchievementLookup | null;
+  setAchievementsLookup: (lookup: AchievementLookup | null) => void;
   hasAchievement: (achievementId: AchievementType["id"]) => boolean;
   addAchievement: (achievementId: AchievementType["id"]) => Promise<void>;
   resetAchievements: () => Promise<void>;
@@ -33,6 +38,8 @@ export const useAchievementStore = create<AchievementStateTypes>()(
       loadingAchievements: false,
       username: generateUsername("-"),
       achievements: [],
+      achievementsLookup: null,
+      setAchievementsLookup: (lookup) => set({ achievementsLookup: lookup }),
       toast: {
         open: false,
         title: "",
@@ -42,13 +49,14 @@ export const useAchievementStore = create<AchievementStateTypes>()(
         set({ toast });
       },
       addAchievement: async (achievementId: AchievementType["id"]) => {
-        const achievement = ACHIEVEMENTS.find(
-          (a) => a.id === achievementId
-        ) as AchievementType;
+        const lookup = get().achievementsLookup ?? ACHIEVEMENTS;
+        const found = lookup.find((a) => a.id === achievementId);
+        if (!found || get().hasAchievement(achievementId)) return;
 
-        if (!achievement || get().hasAchievement(achievementId)) return;
-
-        achievement.collectedDate = new Date().toISOString();
+        const achievement: AchievementType = {
+          ...found,
+          collectedDate: new Date().toISOString(),
+        };
 
         await fetch("/api/add-achievement", {
           method: "POST",
@@ -110,7 +118,7 @@ export const useAchievementStore = create<AchievementStateTypes>()(
     }),
     {
       name: "achievement-storage",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(getSSRSafeStorage),
     }
   )
 );

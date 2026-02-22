@@ -1,5 +1,6 @@
 import { loreTheme, themeConfig } from "~/data/themeConfig";
 import { useAchievementStore } from "~/stores/achievements";
+import { useUiStrings } from "~/hooks/useSanityContent";
 import { useThemeStore } from "~/stores/theme";
 // import { hexToRgb } from "~/helpers/hexToRgb";
 // import { getTextColor } from "~/helpers/getTextColor";
@@ -12,6 +13,11 @@ import styles from "./Theme.module.scss";
 
 const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
   const themeName = useThemeStore((store) => store.name);
+  const { data: ui } = useUiStrings();
+  const themeLockedTooltip = ui?.themeLockedTooltip ?? "";
+  const ariaLockedTheme = ui?.ariaLockedTheme ?? "";
+  const themeLockMessage =
+    ui?.themeLockMessage ?? "To change your theme unlock one color at minimum.";
   // const backgroundColors = useThemeStore((store) => store.backgroundColors);
   const setTheme = useThemeStore((store) => store.setTheme);
   const lockedColors = useThemeStore((store) => store.lockedColors);
@@ -103,7 +109,6 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
 
   //     setTheme(newTheme);
   //   } catch (error) {
-  //     console.error(error);
   //   }
   // };
 
@@ -116,7 +121,7 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
             variant="transparent"
             className={classNames(
               styles.themeButton,
-              themeName === theme.name && styles.themeButtonActive
+              themeName === theme.name && styles.themeButtonActive,
             )}
             disabled={lockedColors?.length >= 4}
             onClick={() => handleSelectKnownTheme(i)}
@@ -131,27 +136,30 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
       const eryndorUnlocked = hasAchievement("reward_determination");
       themeOptions.push(
         <li key="eryndor">
-          {eryndorUnlocked ? (
+          {eryndorUnlocked ?
             <Button
               id="eryndor"
               title="Eryndor"
               active={themeName === "eryndor"}
               className={classNames(
                 styles.themeButton,
-                themeName === "eryndor" && styles.themeButtonActive
+                styles.themeButtonEryndor,
+                themeName === "eryndor" && styles.themeButtonActive,
               )}
               onClick={() => handleSelectKnownTheme(-1)}
             >
-              <Icon name="bow" size="x-small" />
+              <Icon
+                name="bow"
+                size="x-small"
+              />
               <span>
                 <em>Eryndor</em>
               </span>
             </Button>
-          ) : (
-            <div
+          : <div
               className={styles.themeSwatchLocked}
-              aria-label="Locked theme"
-              title="There's something hidden here..."
+              aria-label={ariaLockedTheme}
+              title={themeLockedTooltip}
             >
               <div className={styles.themeSwatchColors}>
                 {loreTheme.backgroundColors.map((color) => (
@@ -163,11 +171,14 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
                 ))}
               </div>
               <div className={styles.lockedOverlay}>
-                <Icon name="lock" size="x-small" />
+                <Icon
+                  name="lock"
+                  size="x-small"
+                />
               </div>
             </div>
-          )}
-        </li>
+          }
+        </li>,
       );
     }
 
@@ -196,13 +207,13 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
       {showHeader && (
         <span className={styles.themeMenuHeader}>
           <Icon name="spray" />
-          <span>themes</span>
+          <span>{ui?.themeModalTitle ?? ""}</span>
         </span>
       )}
       {lockedColors?.length >= 4 && (
         <Text className={styles.themeMenuMessage}>
           <Icon name="lock" />
-          To change your theme unlock one color at minimum.
+          {themeLockMessage}
         </Text>
       )}
       <ul>{renderThemeOptions()}</ul>

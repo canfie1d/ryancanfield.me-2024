@@ -33,7 +33,7 @@ const NewThemeButton = () => {
         return "N";
       }) ?? [];
 
-    let body =
+    const body =
       lockedColors?.length && lockedColorPayload.some((c) => c !== "N") ?
         JSON.stringify(lockedColorPayload)
       : undefined;

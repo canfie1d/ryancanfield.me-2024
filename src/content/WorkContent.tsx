@@ -1,56 +1,52 @@
 import { useEffect, useRef } from "react";
 import { useAchievementStore } from "~/stores/achievements";
-import { useProjects, useOpenSource } from "~/hooks/useSanityContent";
+import { useProjects, useOpenSource, usePageContent, useUiStrings } from "~/hooks/useSanityContent";
 import { useIntersectionObserver } from "~/hooks/useIntersectionObserver";
 import GithubContributions from "~/components/GithubContributions";
 import Card from "~/components/Card/Card";
 import Text from "~/components/Text";
 import Tag from "~/components/Tag";
 import styles from "./PageContent.module.scss";
-import { getColorsFromTheme } from "~/helpers/getColorsFromTheme";
+import { useGetColorsFromTheme } from "~/helpers/getColorsFromTheme";
 
 const WorkContent = () => {
   const viewed = useRef<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useIntersectionObserver(ref?.current);
-  const { textColor, backgroundColor } = getColorsFromTheme("work");
+  const { textColor, backgroundColor } = useGetColorsFromTheme("work");
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
+
+  const { data: projects } = useProjects();
+  const { data: openSource } = useOpenSource();
+  const { data: pageContent } = usePageContent("work");
+  const { data: ui } = useUiStrings();
 
   useEffect(() => {
     if (!hasAchievement("writers_block") && inView && !viewed.current) {
       addAchievement("writers_block");
     }
-  }, [inView]);
+  }, [inView, addAchievement, hasAchievement]);
 
-  const { data: projects } = useProjects();
-  const { data: openSource } = useOpenSource();
+  const introText = pageContent?.introText ?? "";
+  const introParagraphs = introText.split(/\n\n+/).filter(Boolean) as string[];
 
   return (
     <div className="contentBody">
-      <Text>
-        Portfolio sites often showcase the work that was performed without
-        providing additional context for the thinking that led to that outcome.
-        These case studies break down my understanding of the problem that the
-        software should attempt to solve, how I think about turning business
-        objectives into user value, and the result of that work.
-      </Text>
-      <Text>
-        While most of my work is either behind a login or under NDA, I do have a
-        few case studies available. I've also included a few open source
-        projects that I created and maintain, or have in the past.
-      </Text>
+      {introParagraphs.map((para: string, i: number) => (
+        <Text key={i}>{para}</Text>
+      ))}
       <Card.Wrapper>
         {projects?.map((project, i) => (
           <Card
             pageName="work"
             key={`project-${i}`}
-            title={project.title}
-            href={project.url}
+            title={project.title ?? ""}
+            href={project.url ?? ""}
             className={styles.caseStudy}
             footer={
               <div>
-                {project.tags.length &&
+                {project.tags?.length &&
                   project.tags.map((tag: string, i: number) => (
                     <Tag
                       textColor={textColor}
@@ -63,18 +59,21 @@ const WorkContent = () => {
               </div>
             }
           >
-            <img src={project.image?.asset?.url} alt="" />
+            <img
+              src={project.image?.asset?.url}
+              alt=""
+            />
             <Text size="small">{project.description}</Text>
           </Card>
         ))}
       </Card.Wrapper>
-      <h3>open source</h3>
+      <h3>{ui?.workSectionOpenSource ?? ""}</h3>
       <Card.Wrapper>
         {openSource?.map((item, i) => (
           <Card
             pageName="work"
             key={`item-${i}`}
-            title={item.title}
+            title={item.title ?? ""}
             className={styles.caseStudy}
             footer={
               <div>

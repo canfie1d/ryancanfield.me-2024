@@ -16,7 +16,7 @@ const Toast = ({
   closeTime?: number;
   type?: "achievement" | "alert";
 }) => {
-  const hasFocus = document.hasFocus();
+  const hasFocus = typeof document !== "undefined" ? document.hasFocus() : false;
   const closingTime = closeTime && closeTime < 2400 ? closeTime : 2400;
 
   useEffect(() => {
@@ -27,6 +27,11 @@ const Toast = ({
       };
     }
   }, [open, hasFocus, closingTime, onClose]);
+
+  // Skip portal during SSR - document.body doesn't exist on the server
+  if (typeof document === "undefined") {
+    return null;
+  }
 
   return (
     <>
@@ -40,7 +45,7 @@ const Toast = ({
           </div>
         ),
         document.body,
-        "toast"
+        "toast",
       )}
     </>
   );

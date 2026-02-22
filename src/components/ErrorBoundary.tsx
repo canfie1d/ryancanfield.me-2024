@@ -50,9 +50,9 @@ class ErrorBoundary extends Component<Props, State> {
                   margin: "var(--spacing-unit) auto",
                 }}
               >
-                I'm pretty sure this says something about&nbsp;
-                <code className="inline">{errorLocation}</code> but if you know
-                what any of this means, please&nbsp;
+                I&apos;m pretty sure this says something about&nbsp;
+                <code className="inline">{errorLocation}</code> but if you know what any of this
+                means, please&nbsp;
                 <a
                   href={`mailto:ryancanfield@me.com?subject=HELP&body=${this.state.errorInfo.componentStack}`}
                 >

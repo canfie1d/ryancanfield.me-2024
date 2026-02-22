@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { getSSRSafeStorage } from "~/lib/ssrStorage";
 import { themeConfig, ThemeType } from "~/data/themeConfig";
 import { getTextColor } from "~/helpers/getTextColor";
 // import Layout from "~/components/Layout";
@@ -13,18 +14,12 @@ type ThemeStateTypes = {
   lockedColors: LockedColorType[];
   setTheme: (newTheme: ThemeType) => void;
   setLockedColor: (color: LockedColorType) => void;
-  replaceLockedColor: (
-    oldColor: LockedColorType,
-    newColor: LockedColorType
-  ) => void;
+  replaceLockedColor: (oldColor: LockedColorType, newColor: LockedColorType) => void;
   resetLockedColors: () => void;
   buildCustomTheme: (theme: ThemeType) => ThemeType;
 };
 
-export const useThemeStore = create<
-  ThemeStateTypes,
-  [["zustand/persist", ThemeStateTypes]]
->(
+export const useThemeStore = create<ThemeStateTypes, [["zustand/persist", ThemeStateTypes]]>(
   persist<ThemeStateTypes>(
     (set, get) => ({
       name: themeConfig[0].name,
@@ -40,21 +35,17 @@ export const useThemeStore = create<
       },
       setLockedColor: (color: LockedColorType) => {
         const { lockedColors } = get();
-        const exists = lockedColors.some(
-          (lockedColor) => lockedColor.hex === color.hex
-        );
-        const newLockedColors = exists
-          ? lockedColors.filter((lockedColor) => lockedColor.hex !== color.hex)
+        const exists = lockedColors.some((lockedColor) => lockedColor.hex === color.hex);
+        const newLockedColors =
+          exists ?
+            lockedColors.filter((lockedColor) => lockedColor.hex !== color.hex)
           : [...lockedColors, color];
         set({ lockedColors: newLockedColors });
       },
-      replaceLockedColor: (
-        oldColor: LockedColorType,
-        newColor: LockedColorType
-      ) => {
+      replaceLockedColor: (oldColor: LockedColorType, newColor: LockedColorType) => {
         const { lockedColors } = get();
         const newLockedColors = lockedColors.map((lockedColor) =>
-          lockedColor.hex === oldColor.hex ? newColor : lockedColor
+          lockedColor.hex === oldColor.hex ? newColor : lockedColor,
         );
         set({ lockedColors: newLockedColors });
       },
@@ -80,9 +71,9 @@ export const useThemeStore = create<
     }),
     {
       name: "theme-storage",
-      storage: createJSONStorage(() => localStorage),
-    }
-  )
+      storage: createJSONStorage(getSSRSafeStorage),
+    },
+  ),
 );
 
 // import { use, useEffect } from "react";

@@ -2,7 +2,7 @@ import { CSSProperties, MouseEventHandler, ReactNode } from "react";
 import cn from "classnames";
 import styles from "./Button.module.scss";
 import { PageNames } from "~/data/themeConfig";
-import { getColorsFromTheme } from "~/helpers/getColorsFromTheme";
+import { useGetColorsFromTheme } from "~/helpers/getColorsFromTheme";
 
 const Button = ({
   id,
@@ -41,15 +41,14 @@ const Button = ({
   onClick?: MouseEventHandler;
   style?: CSSProperties;
 }) => {
-  let colors = {
-    textColor: "var(--unremarkable-dark-gray)",
-    backgroundColor: "var(--transparent-white)",
-  };
-
-  if (pageName) {
-    const { textColor, backgroundColor } = getColorsFromTheme(pageName);
-    colors = { textColor, backgroundColor };
-  }
+  const themeColors = useGetColorsFromTheme(pageName ?? "about");
+  const colors =
+    pageName ?
+      { textColor: themeColors.textColor, backgroundColor: themeColors.backgroundColor }
+    : {
+        textColor: "var(--unremarkable-dark-gray)",
+        backgroundColor: "var(--transparent-white)",
+      };
 
   return (
     <button
@@ -61,20 +60,20 @@ const Button = ({
         styles.button,
         variant && styles[`button-${variant}`],
         active && styles["button-active"],
-        Boolean(className) && className
+        Boolean(className) && className,
       )}
       onClick={onClick}
       aria-label={ariaLabel}
       aria-hidden={ariaHidden}
       disabled={disabled}
       style={
-        variant === "transparent"
-          ? style
-          : {
-              color: colors.backgroundColor,
-              backgroundColor: colors.textColor,
-              ...style,
-            }
+        variant === "transparent" ? style : (
+          {
+            color: colors.backgroundColor,
+            backgroundColor: colors.textColor,
+            ...style,
+          }
+        )
       }
     >
       {children}

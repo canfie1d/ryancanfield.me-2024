@@ -1,17 +1,21 @@
 import { ACHIEVEMENTS } from "~/data/achievements";
 import { AchievementType, useAchievementStore } from "~/stores/achievements";
+import { useAchievements } from "~/hooks/useSanityContent";
 
+import GameContentBody from "~/components/GameContentBody/GameContentBody";
 import Card from "~/components/Card";
 import Icon from "~/components/Icon";
 import Text from "~/components/Text";
 
 const WorkGameContent = () => {
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const { data: sanityAchievements } = useAchievements();
+  const achievements = (sanityAchievements ?? ACHIEVEMENTS) as AchievementType[];
 
   return (
-    <div className="contentBody">
+    <GameContentBody>
       <Card.Wrapper>
-        {ACHIEVEMENTS.map((achievement: AchievementType) => (
+        {achievements.map((achievement: AchievementType) => (
           <Card
             pageName="work"
             type="achievement"
@@ -20,7 +24,7 @@ const WorkGameContent = () => {
             title={achievement.title}
             smallTitle
           >
-            {hasAchievement(achievement.id) ? (
+            {hasAchievement(achievement.id) ?
               <div
                 style={{
                   display: "flex",
@@ -28,18 +32,22 @@ const WorkGameContent = () => {
                   gap: "var(--spacing-unit)",
                 }}
               >
-                <Icon size="large" color="#ff0000" name={achievement.icon} />
-                <Text style={{ paddingBottom: 0 }}>
-                  {achievement.description}
-                </Text>
+                <Icon
+                  size="large"
+                  color="#ff0000"
+                  name={achievement.icon}
+                />
+                <Text style={{ paddingBottom: 0 }}>{achievement.description}</Text>
               </div>
-            ) : (
-              <Icon size="large" name="lock-question" />
-            )}
+            : <Icon
+                size="large"
+                name="lock-question"
+              />
+            }
           </Card>
         ))}
       </Card.Wrapper>
-    </div>
+    </GameContentBody>
   );
 };
 

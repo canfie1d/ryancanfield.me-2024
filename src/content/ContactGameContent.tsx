@@ -1,17 +1,17 @@
+import GameContentBody from "~/components/GameContentBody/GameContentBody";
 import ContactGameForm from "~/components/Form/ContactGameForm";
 import Text from "~/components/Text";
+import { usePageContent } from "~/hooks/useSanityContent";
 
 const ContactGameContent = () => {
+  const { data: pageContent } = usePageContent("contactGame");
+  const introText = pageContent?.introText ?? "";
+
   return (
-    <div className="contentBody">
-      <Text style={{ maxWidth: "45ch", textAlign: "center", margin: "auto" }}>
-        If you encounter any issues with the game or have feedback, I'd love to
-        hear about it! It's valuable to me because it helps me improve the game
-        and provide a better experience for other players. Thank you for the
-        support!
-      </Text>
+    <GameContentBody>
+      <Text style={{ maxWidth: "45ch", textAlign: "center", margin: "auto" }}>{introText}</Text>
       <ContactGameForm />
-    </div>
+    </GameContentBody>
   );
 };
 

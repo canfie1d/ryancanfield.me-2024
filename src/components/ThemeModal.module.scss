@@ -1,0 +1,36 @@
+.modalHeader {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-unit);
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--spacing-unit-half) var(--spacing-unit);
+  background: var(--off-white);
+  z-index: 2;
+}
+
+.modalHeaderIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--unremarkable-semi-opaque-light-gray);
+  border-radius: var(--border-radius-medium);
+  color: var(--unremarkable-dark-gray);
+}
+
+.modalHeaderText {
+  flex: 1;
+  min-width: 0;
+}
+
+.modalHeaderTitle {
+  margin: 0;
+  font-size: var(--font-large);
+  font-weight: 800;
+  color: var(--unremarkable-darker-gray);
+  letter-spacing: 0.05em;
+}

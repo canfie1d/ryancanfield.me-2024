@@ -22,26 +22,28 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Load .env.local
-const envPath = resolve(__dirname, "../.env.local");
-try {
-  const env = readFileSync(envPath, "utf8");
-  for (const line of env.split("\n")) {
-    const match = line.match(/^([^#=]+)=(.*)$/);
-    if (match) {
-      const key = match[1].trim();
-      const val = match[2].trim().replace(/^["']|["']$/g, "");
-      if (!process.env[key]) process.env[key] = val;
+// Load env files (.env.local takes precedence over .env)
+function loadEnvFile(filePath) {
+  try {
+    const env = readFileSync(filePath, "utf8");
+    for (const line of env.split("\n")) {
+      const match = line.match(/^([^#=]+)=(.*)$/);
+      if (match) {
+        const key = match[1].trim();
+        const val = match[2].trim().replace(/^["']|["']$/g, "");
+        if (!process.env[key]) process.env[key] = val;
+      }
     }
+  } catch {
+    // ignore missing files
   }
-} catch (e) {
-  console.error("Could not load .env.local:", e.message);
-  process.exit(1);
 }
+loadEnvFile(resolve(__dirname, "../.env.local"));
+loadEnvFile(resolve(__dirname, "../.env"));
 
 const projectId = process.env.VITE_SANITY_PROJECT_ID || "8tzt6p0y";
 const dataset = process.env.VITE_SANITY_DATASET || "production";
-const token = process.env.SANITY_AUTH_TOKEN;
+const token = process.env.SANITY_AUTH_TOKEN || process.env.SANITY_API_TOKEN;
 
 if (!token) {
   console.error("SANITY_AUTH_TOKEN is required in .env.local");
@@ -123,6 +125,7 @@ async function uploadFromFile(filePath, filename) {
 }
 
 async function main() {
+  // mapping: CloudFront/S3 URL → { sanityUrl, assetId }
   const mapping = {};
   let ok = 0;
   let fail = 0;
@@ -133,9 +136,6 @@ async function main() {
       console.error(`Directory not found: ${dir}`);
       process.exit(1);
     }
-    console.log(`Uploading from local dir: ${dir}\n`);
-  } else {
-    console.log(`Fetching from CloudFront and uploading ${IMAGES.length} images to Sanity...\n`);
   }
 
   for (const { path } of IMAGES) {
@@ -153,9 +153,8 @@ async function main() {
       } else {
         asset = await uploadFromUrl(cloudfrontUrl, filename);
       }
-      mapping[cloudfrontUrl] = asset.url;
-      mapping[s3Url] = asset.url;
-      console.log(`✓ ${filename} → ${asset.url}`);
+      mapping[cloudfrontUrl] = { sanityUrl: asset.url, assetId: asset._id };
+      mapping[s3Url] = { sanityUrl: asset.url, assetId: asset._id };
       ok++;
     } catch (err) {
       console.error(`✗ ${filename}: ${err.message}`);
@@ -164,28 +163,44 @@ async function main() {
     await new Promise((r) => setTimeout(r, 200));
   }
 
-  console.log(`\nDone: ${ok} uploaded, ${fail} failed`);
-
   if (Object.keys(mapping).length > 0) {
-    console.log("\nCloudFront URL → Sanity CDN URL mapping:");
-    console.log(JSON.stringify(mapping, null, 2));
-
     if (NO_PATCH) {
-      console.log(
-        "\nSkipping document patch (--no-patch). Run without --no-patch to update documents.",
-      );
       return;
     }
 
-    console.log("\nPatching Sanity documents to use Sanity image URLs...");
+    // Patch articles — set proper Sanity image asset reference
+    const articles = await client.fetch(
+      `*[_type == "article" && defined(imageUrl)]{ _id, title, imageUrl }`,
+    );
+    for (const doc of articles) {
+      const entry = mapping[doc.imageUrl];
+      if (entry) {
+        await client
+          .patch(doc._id)
+          .set({
+            image: {
+              _type: "image",
+              asset: { _type: "reference", _ref: entry.assetId },
+            },
+          })
+          .commit();
+      }
+    }
 
-    // Patch projects
+    // Patch projects — set proper Sanity image asset reference
     const projects = await client.fetch(`*[_type == "project" && defined(image)]{ _id, image }`);
     for (const doc of projects) {
-      const newUrl = mapping[doc.image];
-      if (newUrl) {
-        await client.patch(doc._id).set({ image: newUrl }).commit();
-        console.log(`  ✓ project "${doc._id}" image updated`);
+      const entry = mapping[doc.image];
+      if (entry) {
+        await client
+          .patch(doc._id)
+          .set({
+            image: {
+              _type: "image",
+              asset: { _type: "reference", _ref: entry.assetId },
+            },
+          })
+          .commit();
       }
     }
 
@@ -195,7 +210,7 @@ async function main() {
     );
     for (const doc of caseStudies) {
       const patches = {};
-      const replaceUrl = (url) => mapping[url] ?? url;
+      const replaceUrl = (url) => mapping[url]?.sanityUrl ?? url;
 
       if (doc.problem?.images) {
         patches["problem.images"] = doc.problem.images.map((img) => ({
@@ -222,17 +237,13 @@ async function main() {
         }));
       }
       if (doc.videoPoster && mapping[doc.videoPoster]) {
-        patches["videoPoster"] = mapping[doc.videoPoster];
+        patches["videoPoster"] = mapping[doc.videoPoster].sanityUrl;
       }
 
       if (Object.keys(patches).length > 0) {
         await client.patch(doc._id).set(patches).commit();
-        console.log(`  ✓ caseStudy "${doc.title}" updated`);
       }
     }
-
-    console.log("\nDocument patching complete.");
-    console.log("Publish the updated drafts in Sanity Studio to make changes live.");
   }
 }
 

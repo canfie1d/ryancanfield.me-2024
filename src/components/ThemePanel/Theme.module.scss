@@ -59,8 +59,7 @@
   align-items: center;
   justify-content: center;
   color: var(--unremarkable-medium-gray);
-  transition: transform var(--transition-duration-super-quick)
-    var(--animation-timing);
+  transition: transform var(--transition-duration-super-quick) var(--animation-timing);
 
   span {
     margin-left: var(--spacing-unit-quarter);
@@ -88,6 +87,22 @@ button.themeButton {
   &.themeButtonActive {
     color: var(--unremarkable-dark-gray);
     background-color: var(--white) !important;
+  }
+
+  &.themeButtonEryndor {
+    color: #c8e6c8;
+    background-color: #1a2e1a;
+
+    &:hover,
+    &:focus-visible {
+      color: #c8e6c8;
+      background-color: #2d4a2d;
+    }
+
+    &.themeButtonActive {
+      color: #c8e6c8;
+      background-color: #2d4a2d !important;
+    }
   }
 
   &:disabled {

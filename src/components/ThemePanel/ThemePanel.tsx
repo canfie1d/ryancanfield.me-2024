@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { useLocation, useWindowSize } from "react-use";
+import { useLocation } from "@tanstack/react-router";
+import { useWindowSize } from "~/hooks/useWindowSize";
 import { useAchievementStore } from "~/stores/achievements";
 import { useThemeStore } from "~/stores/theme";
 import ThemeMenu from "./ThemeMenu";
@@ -11,21 +12,15 @@ const ThemePanel = () => {
   const isSmallScreen = width <= 768;
   const lockedColors = useThemeStore((store) => store.lockedColors);
 
-  const loadingAchievements = useAchievementStore(
-    (store) => store.loadingAchievements
-  );
+  const loadingAchievements = useAchievementStore((store) => store.loadingAchievements);
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
 
   useEffect(() => {
-    if (
-      !loadingAchievements &&
-      !hasAchievement("lock_down") &&
-      lockedColors?.length >= 4
-    ) {
+    if (!loadingAchievements && !hasAchievement("lock_down") && lockedColors?.length >= 4) {
       addAchievement("lock_down");
     }
-  }, [lockedColors]);
+  }, [lockedColors, addAchievement, hasAchievement, loadingAchievements]);
 
   return (
     <footer className={styles.themePanel}>

@@ -9,12 +9,8 @@ export type LazyLoadSVGProps = {
   className?: string;
 };
 
-const Icon: React.FC<LazyLoadSVGProps> = ({
-  name,
-  size = "medium",
-  color = "currentColor",
-}) => {
-  const ref = useRef<React.JSXElementConstructor<any> | null>(null);
+const Icon: React.FC<LazyLoadSVGProps> = ({ name, size = "medium", color = "currentColor" }) => {
+  const ref = useRef<React.ComponentType | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -25,8 +21,7 @@ const Icon: React.FC<LazyLoadSVGProps> = ({
     const getSvg = async () => {
       try {
         const icon = await import(`./icons/${name}.svg?react`);
-        ref.current =
-          icon.default as unknown as React.JSXElementConstructor<any>;
+        ref.current = icon.default as React.ComponentType;
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -43,13 +38,7 @@ const Icon: React.FC<LazyLoadSVGProps> = ({
     const SVG = ref.current;
 
     return (
-      <div
-        className={classNames(
-          styles.icon,
-          styles[`icon-${size}`],
-          styles[`icon-${color}`]
-        )}
-      >
+      <div className={classNames(styles.icon, styles[`icon-${size}`], styles[`icon-${color}`])}>
         <SVG key={name} />
       </div>
     );

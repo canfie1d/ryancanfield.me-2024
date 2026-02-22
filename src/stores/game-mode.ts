@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { getSSRSafeStorage } from "~/lib/ssrStorage";
 
 export type GameModeTypes = {
   about: boolean;
@@ -66,7 +67,7 @@ export const useGameModeStore = create<GameModeStore>()(
     }),
     {
       name: "game-mode-storage",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(getSSRSafeStorage),
     }
   )
 );

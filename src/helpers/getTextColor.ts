@@ -1,5 +1,5 @@
-const getRGB = (c: any) => {
-  return parseInt(c, 16) || c;
+const getRGB = (c: string): number => {
+  return parseInt(c, 16) || 0;
 };
 
 const getsRGB = (c: string) => {

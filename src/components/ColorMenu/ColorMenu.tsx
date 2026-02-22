@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback } from "react";
 import classNames from "classnames";
 
 import { useAchievementStore } from "~/stores/achievements";
+import { useUiStrings } from "~/hooks/useSanityContent";
 import IconMenu from "~/components/IconMenu";
 import ColorPicker from "~/components/ColorPicker";
 import Button from "~/components/Button";
@@ -40,6 +41,7 @@ const ColorMenu = ({
   const lockedColors = useThemeStore((store) => store.lockedColors);
   const setLockedColor = useThemeStore((store) => store.setLockedColor);
   const [showCopiedToast, setShowCopiedToast] = useState(false);
+  const { data: ui } = useUiStrings();
   const copyColor = useCallback(() => {
     if (!hasAchievement("copy_pasta")) {
       addAchievement("copy_pasta");
@@ -51,21 +53,20 @@ const ColorMenu = ({
   }, [hasAchievement, addAchievement, backgroundColor]);
 
   const isLocked = useMemo(
-    () =>
-      lockedColors?.some((lockedColor) => lockedColor.hex === backgroundColor),
-    [lockedColors, backgroundColor]
+    () => lockedColors?.some((lockedColor) => lockedColor.hex === backgroundColor),
+    [lockedColors, backgroundColor],
   );
 
   const actions = useMemo(() => {
     return [
       {
         icon: "copy",
-        label: "Copy color",
+        label: ui?.colorCopy ?? "",
         onClick: copyColor,
       },
       {
         icon: isLocked ? "lock" : "unlock",
-        label: "Lock color",
+        label: ui?.colorLock ?? "",
         checked: isLocked,
         onChange: () => {
           if (!hasAchievement("custom")) {
@@ -79,7 +80,7 @@ const ColorMenu = ({
       },
       {
         icon: "eyedropper",
-        label: "Choose new color",
+        label: ui?.colorChooseNew ?? "",
         active: colorPickerActive,
         onClick: () => setColorPickerActive(true),
       },
@@ -94,6 +95,9 @@ const ColorMenu = ({
     index,
     colorPickerActive,
     setLockedColor,
+    ui?.colorCopy,
+    ui?.colorLock,
+    ui?.colorChooseNew,
   ]);
 
   return (
@@ -104,20 +108,21 @@ const ColorMenu = ({
         collapsed && styles.colorMenuCollapsed,
         alignRight && styles.colorMenuAlignRight,
         extraPadded && styles.colorMenuExtraPadded,
-        isLocked && styles.colorMenuLocked
+        isLocked && styles.colorMenuLocked,
       )}
     >
       <Button
-        className={classNames(
-          styles.colorMenuLabel,
-          hideLabel && styles.colorMenuLabelHidden
-        )}
+        className={classNames(styles.colorMenuLabel, hideLabel && styles.colorMenuLabelHidden)}
         onClick={copyColor}
         variant="transparent"
       >
         {backgroundColor}
       </Button>
-      <IconMenu vertical={vertical} justify="center" actions={actions} />
+      <IconMenu
+        vertical={vertical}
+        justify="center"
+        actions={actions}
+      />
       {colorPickerActive && (
         <ColorPicker
           location={colorPickerLocation}
@@ -132,7 +137,7 @@ const ColorMenu = ({
         onClose={() => setShowCopiedToast(false)}
         type="alert"
       >
-        <Text>Color copied!</Text>
+        <Text>{ui?.colorCopiedToast ?? ""}</Text>
       </Toast>
     </div>
   );

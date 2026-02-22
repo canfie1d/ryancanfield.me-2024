@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { useAchievementStore } from "~/stores/achievements";
 
 export const useShortcuts = () => {
@@ -14,13 +14,13 @@ export const useShortcuts = () => {
     } else if (!"↑↑↓↓←→←→ba".startsWith(kCode.toLowerCase())) {
       setKCode("");
     }
-  }, [kCode]);
+  }, [kCode, addAchievement]);
 
-  const shortcutPressed = () => {
+  const shortcutPressed = useCallback(() => {
     if (!hasAchievement("power_user")) {
       addAchievement("power_user");
     }
-  };
+  }, [addAchievement, hasAchievement]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -61,23 +61,23 @@ export const useShortcuts = () => {
       switch (e.key) {
         case "0":
           shortcutPressed();
-          navigate("/");
+          navigate({ to: "/" });
           break;
         case "1":
           shortcutPressed();
-          navigate("/about");
+          navigate({ to: "/about" });
           break;
         case "2":
           shortcutPressed();
-          navigate("/work");
+          navigate({ to: "/work" });
           break;
         case "3":
           shortcutPressed();
-          navigate("/writing");
+          navigate({ to: "/writing" });
           break;
         case "4":
           shortcutPressed();
-          navigate("/contact");
+          navigate({ to: "/contact" });
           break;
         default:
           break;
@@ -89,5 +89,5 @@ export const useShortcuts = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [addAchievement, hasAchievement, navigate, shortcutPressed]);
 };

@@ -8,7 +8,7 @@ import ColorMenu from "~/components/ColorMenu";
 import Icon from "~/components/Icon";
 import Text from "~/components/Text";
 import styles from "./PageContent.module.scss";
-import { getColorsFromTheme } from "~/helpers/getColorsFromTheme";
+import { useGetColorsFromTheme } from "~/helpers/getColorsFromTheme";
 import { useGameModeStore } from "~/stores/game-mode";
 
 const PageContent = ({
@@ -27,11 +27,10 @@ const PageContent = ({
 }) => {
   const ref = useRef(null);
   const activeGameModes = useGameModeStore((store) => store.activeGameModes);
-  const gameModeActive =
-    activeGameModes?.[pageName as keyof typeof activeGameModes];
+  const gameModeActive = activeGameModes?.[pageName as keyof typeof activeGameModes];
   const { width } = useWindowSize();
   const isSmallScreen = width <= 768;
-  const { textColor, backgroundColor } = getColorsFromTheme(pageName);
+  const { textColor, backgroundColor } = useGetColorsFromTheme(pageName);
   const setScrolled = usePageScrollStore((store) => store.setScrolled);
   const indexOfPage = pageNames.indexOf(pageName);
 
@@ -47,7 +46,10 @@ const PageContent = ({
       <div className={styles.pageContentWrapper}>
         <div className={styles.content}>
           <div className={classNames(styles.contentMeta)}>
-            <Text as="span" color={textColor}>
+            <Text
+              as="span"
+              color={textColor}
+            >
               {header.meta}
             </Text>
             {pagesUsingThemeColor.includes(pageName as string) && (
@@ -70,7 +72,12 @@ const PageContent = ({
           />
 
           <div className={styles.contentHeader}>
-            {header.icon && <Icon name={header.icon} size="large" />}
+            {header.icon && (
+              <Icon
+                name={header.icon}
+                size="large"
+              />
+            )}
             <h1>{header.title}</h1>
             <h2>{header.subtitle}</h2>
           </div>

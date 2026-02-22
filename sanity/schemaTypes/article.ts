@@ -15,9 +15,17 @@ export const article = defineType({
       type: 'text',
     }),
     defineField({
+      name: 'image',
+      type: 'image',
+      title: 'Image',
+      options: { hotspot: true },
+    }),
+    defineField({
       name: 'imageUrl',
       type: 'url',
-      title: 'Image URL',
+      title: 'Image URL (legacy)',
+      description: 'Legacy external image URL — prefer uploading to the Image field above.',
+      hidden: ({ document }) => !!(document as Record<string, unknown>)?.image,
     }),
     defineField({
       name: 'url',
@@ -29,5 +37,11 @@ export const article = defineType({
       type: 'string',
       description: 'e.g. "2 min read"',
     }),
+    defineField({
+      name: 'order',
+      type: 'number',
+      title: 'Display Order',
+    }),
   ],
+  orderings: [{ title: 'Display Order', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
 })

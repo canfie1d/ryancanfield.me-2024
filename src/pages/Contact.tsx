@@ -1,19 +1,20 @@
 import { useEffect } from "react";
 import { useAchievementStore } from "~/stores/achievements";
 import { usePageMeta } from "~/hooks/usePageMeta";
+import { usePageContent } from "~/hooks/useSanityContent";
 import PageContent from "~/content/PageContent";
 import ContactContent from "~/content/ContactContent";
 import ContactGameContent from "~/content/ContactGameContent";
+import Loader from "~/components/Loader";
 import { useGameModeStore } from "~/stores/game-mode";
 
 const Contact = () => {
   const metaData = usePageMeta("contact");
   const activeGameModes = useGameModeStore((store) => store.activeGameModes);
   const gameModeActive = activeGameModes?.contact;
+  const { isLoading } = usePageContent("contact");
 
-  const loadingAchievements = useAchievementStore(
-    (store) => store.loadingAchievements
-  );
+  const loadingAchievements = useAchievementStore((store) => store.loadingAchievements);
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
 
@@ -21,7 +22,7 @@ const Contact = () => {
     if (!loadingAchievements && !hasAchievement("reach_out")) {
       addAchievement("reach_out");
     }
-  }, [loadingAchievements]);
+  }, [loadingAchievements, addAchievement, hasAchievement]);
 
   return (
     <PageContent
@@ -33,7 +34,11 @@ const Contact = () => {
         icon: metaData.icon,
       }}
     >
-      {gameModeActive ? <ContactGameContent /> : <ContactContent />}
+      {isLoading ?
+        <Loader />
+      : gameModeActive ?
+        <ContactGameContent />
+      : <ContactContent />}
     </PageContent>
   );
 };

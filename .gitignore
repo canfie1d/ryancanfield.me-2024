@@ -7,13 +7,15 @@ nextjs
 
 # Local Netlify folder
 .netlify
-
 net-fn-key.pem
 net-fn.pem
 .nvmrc
+.env
 .env.local
 NOTES.md
 
-/certs
+.eslintcache
+.tanstack/
+/docs
 
-.million
+/certs

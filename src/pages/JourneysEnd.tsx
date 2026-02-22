@@ -1,24 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 import { useAchievementStore } from "~/stores/achievements";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useInventoryStore } from "~/stores/inventory";
+import { useNavigate } from "@tanstack/react-router";
 import { useReducedMotion } from "motion/react";
 import { loreTheme } from "~/data/themeConfig";
+import { useJourneyContent } from "~/hooks/useSanityContent";
 import CodeForm from "~/components/Form/CodeForm";
+import GameContentBody from "~/components/GameContentBody/GameContentBody";
 import PageContent from "~/content/PageContent";
 import Button from "~/components/Button";
 import Icon from "~/components/Icon";
 import Text from "~/components/Text";
+import PortableText from "~/components/PortableText";
 import styles from "./JourneysEnd.module.scss";
 import { useThemeStore } from "~/stores/theme";
 
 const JourneysEnd = () => {
-  const loadingAchievements = useAchievementStore(
-    (store) => store.loadingAchievements
-  );
+  const { data: journey } = useJourneyContent();
+  const j = journey ?? {};
+  const loadingAchievements = useAchievementStore((store) => store.loadingAchievements);
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
-  const [params] = useSearchParams();
-  const codeParam = params.get("code");
+  const searchParams =
+    typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+  const codeParam = searchParams?.get("code") ?? null;
   const navigate = useNavigate();
   const setTheme = useThemeStore((store) => store.setTheme);
   const [loreButtonActive, setLoreButtonActive] = useState<boolean>();
@@ -36,28 +41,41 @@ const JourneysEnd = () => {
     }
     if (hasAchievement("eryndor_mode") && !hasAchievement("crown")) {
       addAchievement("crown");
+      const { addItem, hasItem } = useInventoryStore.getState();
+      if (hasItem("sword") && !hasItem("sword-jewel")) {
+        addItem("sword-jewel");
+      }
     }
-  }, [loadingAchievements]);
+  }, [loadingAchievements, addAchievement, codeParam, hasAchievement]);
 
   const renderRewardUI = () => {
     return (
       <div className={styles.loreReward}>
-        {!loadingAchievements &&
-        hasAchievement("reward_determination") &&
-        !hasAchievement("eryndor_mode") ? (
+        {(
+          !loadingAchievements &&
+          hasAchievement("reward_determination") &&
+          !hasAchievement("eryndor_mode")
+        ) ?
           <Text>
-            Your determination has been rewarded.
-            <br />A shiny new theme is available for your collection!
+            {j.rewardMessage?.split("\n").map((line: string, i: number) => (
+              <span key={i}>
+                {i > 0 && <br />}
+                {line}
+              </span>
+            ))}
           </Text>
-        ) : (
-          <>
+        : <>
             <Text>
-              Eryndor is available in the theme menu.
-              <br />I hope you had as much fun finding this as I had hiding it.
+              {j.eryndorAvailableMessage?.split("\n").map((line: string, i: number) => (
+                <span key={i}>
+                  {i > 0 && <br />}
+                  {line}
+                </span>
+              ))}
             </Text>
-            <Text>Thanks for participating.</Text>
+            <Text>{j.thanksParticipating}</Text>
           </>
-        )}
+        }
         <Button
           pageName="journey-to-eryndor"
           disabled={activating}
@@ -68,7 +86,7 @@ const JourneysEnd = () => {
             setTheme(loreTheme);
 
             if (prefersReducedMotion) {
-              navigate("/");
+              navigate({ to: "/" });
               return;
             }
 
@@ -79,12 +97,12 @@ const JourneysEnd = () => {
               overlay.style.pointerEvents = "all";
             }
             setTimeout(() => {
-              navigate("/");
+              navigate({ to: "/" });
             }, 800);
           }}
         >
           <Icon name="bow" />
-          <span>Activate Eryndor</span>
+          <span>{j.activateButton}</span>
         </Button>
       </div>
     );
@@ -104,83 +122,43 @@ const JourneysEnd = () => {
           transition: "opacity 0.5s ease",
         }}
       />
-    <PageContent
-      pageName="journey-to-eryndor"
-      header={{
-        meta: "﹖﹖﹖﹖",
-        title: "Journey's End",
-        icon: "bow",
-      }}
-    >
-      <div className="contentBody">
-        {loreButtonActive || hasAchievement("reward_determination") ? (
-          <>
-            {renderRewardUI()}
-            {hasAchievement("eryndor_mode") && (
-              <div className={styles.loreContent}>
-                <Text>
-                  <em>
-                    The following is a story. It is not about code. Or maybe it
-                    is — you can decide.
-                  </em>
-                </Text>
-                <Text>
-                  There was once a traveler who spent a long time building a
-                  road that no one was meant to finish. Not because it was
-                  cruel, but because the builder never believed anyone would
-                  bother. Roads like that have a way of proving their builders
-                  wrong.
-                </Text>
-                <Text>
-                  You bothered. You found the clues, typed the commands, and
-                  followed a trail that was only half-lit. That says something
-                  about you — patience, maybe, or the kind of curiosity that
-                  doesn't turn off when it's supposed to.
-                </Text>
-                <Text>
-                  The theme you've unlocked is called Eryndor. It's a place
-                  that only appears to those who look for it — you go somewhere
-                  new, but you always come back. That felt right for a site
-                  that asked you to keep exploring and then led you home.
-                </Text>
-                <Text>
-                  Thanks for walking the road.
-                  <br />
-                  <em>— Ryan</em>
-                </Text>
-              </div>
-            )}
-          </>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {codeParam ? (
-              <Text>
-                You actually did it. You followed the clues, found the code,
-                and made it all the way here. I genuinely didn't expect everyone
-                to go this far — but here you are.
-              </Text>
-            ) : (
-              <Text>
-                You got here fast. Maybe you knew where you were going, or maybe
-                you were just wandering and got lucky. Either way — welcome.
-              </Text>
-            )}
-            <Text>
-              If you've found the code along your travels, enter it here to
-              claim your reward.
-            </Text>
-            <CodeForm setLoreButtonActive={setLoreButtonActive} />
-          </div>
-        )}
-      </div>
-    </PageContent>
+      <PageContent
+        pageName="journey-to-eryndor"
+        header={{
+          meta: j.meta ?? "",
+          title: j.title ?? "",
+          icon: "bow",
+        }}
+      >
+        <GameContentBody>
+          {loreButtonActive || hasAchievement("reward_determination") ?
+            <>
+              {renderRewardUI()}
+              {hasAchievement("eryndor_mode") && (
+                <div className={styles.loreContent}>
+                  {j.story?.length ?
+                    <PortableText value={j.story} />
+                  : null}
+                </div>
+              )}
+            </>
+          : <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {codeParam ?
+                <Text>{j.introWithCode}</Text>
+              : <Text>{j.introNoCode}</Text>}
+              <Text>{j.enterCodePrompt}</Text>
+              <CodeForm setLoreButtonActive={setLoreButtonActive} />
+            </div>
+          }
+        </GameContentBody>
+      </PageContent>
     </>
   );
 };

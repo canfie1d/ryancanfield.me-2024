@@ -1,17 +1,17 @@
 import { MutableRefObject, useRef } from "react";
 import { useAchievementStore } from "~/stores/achievements";
+import { useUiStrings } from "~/hooks/useSanityContent";
 import Button from "~/components/Button";
 import styles from "./Form.module.scss";
 
 type InputType = MutableRefObject<HTMLInputElement>;
 
-const CodeForm = ({
-  setLoreButtonActive,
-}: {
-  setLoreButtonActive: (arg: boolean) => void;
-}) => {
+const CodeForm = ({ setLoreButtonActive }: { setLoreButtonActive: (arg: boolean) => void }) => {
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
+  const { data: ui } = useUiStrings();
+  const clearLabel = ui?.formCodeButtonClear ?? "";
+  const ariaCodeDigitTemplate = ui?.ariaCodeDigitTemplate ?? "";
 
   const inputs: InputType[] = [
     useRef<HTMLInputElement>(null!),
@@ -26,12 +26,7 @@ const CodeForm = ({
     const digit3 = inputs[2].current.value;
     const digit4 = inputs[3].current.value;
 
-    const formatCode = (
-      digit1: string,
-      digit2: string,
-      digit3: string,
-      digit4: string
-    ) => {
+    const formatCode = (digit1: string, digit2: string, digit3: string, digit4: string) => {
       return parseInt(digit1 + digit2 + digit3 + digit4);
     };
     const code = formatCode(digit1, digit2, digit3, digit4);
@@ -59,13 +54,10 @@ const CodeForm = ({
         type="text"
         maxLength={1}
         ref={input}
-        aria-label={`Code Digit ${index + 1}`}
+        aria-label={ariaCodeDigitTemplate.replace("{n}", String(index + 1))}
         onChange={handleOnChange}
         onKeyDown={(e) => {
-          if (
-            (!e.key.match("^[0-9]*$") && e.key !== "Tab") ||
-            e.key === "Backspace"
-          ) {
+          if ((!e.key.match("^[0-9]*$") && e.key !== "Tab") || e.key === "Backspace") {
             e.preventDefault();
           }
         }}
@@ -76,8 +68,12 @@ const CodeForm = ({
   return (
     <>
       <form className={styles.codeForm}>{renderInputs()}</form>
-      <Button pageName="contact" type="reset" onClick={resetForm}>
-        <span>Clear</span>
+      <Button
+        pageName="contact"
+        type="reset"
+        onClick={resetForm}
+      >
+        <span>{clearLabel}</span>
       </Button>
     </>
   );

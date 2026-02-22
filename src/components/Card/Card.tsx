@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import classNames from "classnames";
 import Button from "~/components/Button";
 import styles from "./Card.module.scss";
-import { getColorsFromTheme } from "~/helpers/getColorsFromTheme";
+import { useGetColorsFromTheme } from "~/helpers/getColorsFromTheme";
 import { PageNames } from "~/data/themeConfig";
 
 const Card = ({
@@ -33,11 +33,11 @@ const Card = ({
   pageName: PageNames;
   children: ReactNode;
 }) => {
-  const { textColor, backgroundColor } = getColorsFromTheme(pageName);
+  const { textColor, backgroundColor } = useGetColorsFromTheme(pageName);
   const headerStyles = classNames(
     styles.h3,
     smallTitle && styles.smallTitle,
-    centerTitle && styles.centerTitle
+    centerTitle && styles.centerTitle,
   );
 
   const body = (
@@ -54,20 +54,31 @@ const Card = ({
         styles.card,
         type && styles[`${type}Card`],
         variant && styles[`${variant}Card`],
-        className
+        className,
       )}
       style={{ color: backgroundColor, backgroundColor: textColor }}
     >
-      {href ? (
-        <Link
-          to={href as string}
-          className={styles.cardContent}
-          target={opensInNewPage ? "_blank" : "_self"}
-          onClick={onClick}
-        >
-          {body}
-        </Link>
-      ) : onClick ? (
+      {href ?
+        href.startsWith("http") || opensInNewPage ?
+          <a
+            href={href}
+            className={styles.cardContent}
+            target={opensInNewPage ? "_blank" : "_self"}
+            rel={opensInNewPage ? "noreferrer" : undefined}
+            onClick={onClick}
+          >
+            {body}
+          </a>
+        : <Link
+            to={href as string}
+            className={styles.cardContent}
+            target="_self"
+            onClick={onClick}
+          >
+            {body}
+          </Link>
+
+      : onClick ?
         <Button
           variant="transparent"
           onClick={onClick}
@@ -75,27 +86,14 @@ const Card = ({
         >
           {body}
         </Button>
-      ) : (
-        <div className={styles.cardContent}>{body}</div>
-      )}
+      : <div className={styles.cardContent}>{body}</div>}
     </div>
   );
 };
 
-const CardWrapper = ({
-  columns,
-  children,
-}: {
-  columns?: number;
-  children: ReactNode;
-}) => {
+const CardWrapper = ({ columns, children }: { columns?: number; children: ReactNode }) => {
   return (
-    <div
-      className={classNames(
-        styles.cardWrapper,
-        columns && styles[`cardWrapper-${columns}col`]
-      )}
-    >
+    <div className={classNames(styles.cardWrapper, columns && styles[`cardWrapper-${columns}col`])}>
       {children}
     </div>
   );

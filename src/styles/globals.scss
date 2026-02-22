@@ -53,10 +53,12 @@ img {
   }
 }
 
-// Sword cursor when Eryndor (hidden) theme is active (32px, hotspot at tip)
+// Sword cursor when Eryndor theme is active OR when sword is in inventory (32px, hotspot at tip)
 // !important ensures it applies to every element, overriding pointer/default/etc.
 .eryndor,
-.eryndor * {
+.eryndor *,
+.hasSword,
+.hasSword * {
   cursor:
     url("/sword-cursor-32.png") 2 1,
     auto !important;

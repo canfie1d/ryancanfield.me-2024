@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "@tanstack/react-router";
 import Modal from "~/components/Modal";
 import Button from "~/components/Button";
 import Icon from "~/components/Icon";
 import { useInventoryStore } from "~/stores/inventory";
-import type { InventoryItemId } from "~/data/inventory";
+import { useUiStrings } from "~/hooks/useSanityContent";
+import { type InventoryItemId, INVENTORY_DISPLAY_ORDER } from "~/data/inventory";
 import styles from "./InventoryModal.module.scss";
 
 const InventoryModal = ({
@@ -17,7 +18,13 @@ const InventoryModal = ({
 }) => {
   const { pathname } = useLocation();
   const { items, getItem } = useInventoryStore();
+  const { data: ui } = useUiStrings();
   const [inspectingItem, setInspectingItem] = useState<InventoryItemId | null>(null);
+
+  const sortedItems = useMemo(
+    () => INVENTORY_DISPLAY_ORDER.filter((id) => items.includes(id)),
+    [items],
+  );
 
   const getTriggerLocation = () => {
     if (pathname === "/") return "23% 108%";
@@ -29,6 +36,8 @@ const InventoryModal = ({
   };
 
   const item = inspectingItem ? getItem(inspectingItem) : null;
+
+  if (typeof document === "undefined") return null;
 
   return (
     <>
@@ -54,7 +63,7 @@ const InventoryModal = ({
                 />
               </span>
               <div className={styles.modalHeaderText}>
-                <h2 className={styles.modalHeaderTitle}>inventory</h2>
+                <h2 className={styles.modalHeaderTitle}>{ui?.inventoryTitle ?? ""}</h2>
                 <h3 className={styles.modalHeaderSubtitle}>
                   {items.length === 0 ?
                     "0 items"
@@ -67,7 +76,7 @@ const InventoryModal = ({
                   setInspectingItem(null);
                   handleCloseClick();
                 }}
-                ariaLabel="Close modal"
+                ariaLabel={ui?.ariaCloseModal ?? ""}
               >
                 <Icon name="circle-x" />
               </Button>
@@ -90,7 +99,7 @@ const InventoryModal = ({
                 variant="secondary"
                 onClick={() => setInspectingItem(null)}
               >
-                Back
+                {ui?.inventoryButtonBack ?? ""}
               </Button>
             </div>
           : items.length === 0 ?
@@ -104,19 +113,20 @@ const InventoryModal = ({
                   size="medium"
                 />
               </span>
-              <h3 className={styles.emptyTitle}>Your pockets are empty. For now.</h3>
-              <p className={styles.emptyMessage}>
-                Explore the site and the console. Some items await discovery.
-              </p>
+              <h3 className={styles.emptyTitle}>{ui?.inventoryEmptyTitle ?? ""}</h3>
+              <p className={styles.emptyMessage}>{ui?.inventoryEmptyMessage ?? ""}</p>
             </div>
           : <ul className={styles.itemList}>
-              {items.map((id) => {
+              {sortedItems.map((id) => {
                 const invItem = getItem(id);
                 if (!invItem) return null;
+                const isAddOn = invItem.addOnFor != null;
                 return (
                   <li
                     key={id}
-                    className={styles.itemRow}
+                    className={
+                      isAddOn ? `${styles.itemRow} ${styles.itemRowAddOn}` : styles.itemRow
+                    }
                   >
                     <span className={styles.itemIcon}>
                       <Icon
@@ -132,7 +142,7 @@ const InventoryModal = ({
                       variant="secondary"
                       onClick={() => handleUse(id)}
                     >
-                      Use
+                      {ui?.inventoryButtonUse ?? ""}
                     </Button>
                   </li>
                 );

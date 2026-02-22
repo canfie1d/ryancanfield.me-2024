@@ -4,26 +4,25 @@ const imageFields = `{ ..., asset-> }`
 export const queries = {
   caseStudies: `
     *[_type == "caseStudy"] | order(order asc) {
-      "id": id.current,
+      id,
       title,
-      path,
       subtitle,
       link,
       problem {
         content,
-        images[] { image ${imageFields}, caption }
+        images[] { src, caption }
       },
       solution {
         content,
-        images[] { image ${imageFields}, caption }
+        images[] { src, caption }
       },
       result {
         content,
-        images[] { image ${imageFields}, caption }
+        images[] { src, caption }
       },
-      additionalImages[] { image ${imageFields}, caption },
+      additionalImages[] { src, caption },
       videoUrl,
-      videoPoster ${imageFields}
+      videoPoster
     }
   `,
 
@@ -35,8 +34,8 @@ export const queries = {
   `,
 
   articleLinks: `
-    *[_type == "articleLink"] | order(order asc) {
-      title, description, url, length,
+    *[_type == "article"] | order(order asc) {
+      title, description, url, length, imageUrl,
       image ${imageFields}
     }
   `,
@@ -76,7 +75,174 @@ export const queries = {
     *[_type == "about"][0] {
       meBio,
       siteBio,
-      "resumeUrl": resumeUrl.asset->url
+      metaText,
+      metaCodeHint,
+      "resumeUrl": resumeUrl.asset->url,
+      tabLabelMe,
+      tabLabelSite,
+      lorePrompt,
+      loreYes,
+      loreLook,
+      loreGo,
+      loreNo,
+      loreInventoryEmpty,
+      loreInventoryKey,
+      loreInventoryList
+    }
+  `,
+
+  pageContent: (pageSlug: string) => `
+    *[_type == "pageContent" && pageSlug == "${pageSlug}"][0] {
+      _id,
+      pageSlug,
+      title,
+      subtitle,
+      icon,
+      gameTitle,
+      gameSubtitle,
+      gameIcon,
+      introText,
+      sections
+    }
+  `,
+
+  achievements: `
+    *[_type == "achievement"] | order(order asc) {
+      id,
+      title,
+      description,
+      icon,
+      order
+    }
+  `,
+
+  siteSettings: `
+    *[_type == "siteSettings"][0] {
+      siteTitle,
+      metaDescription,
+      ogTitle,
+      ogDescription,
+      "ogImageUrl": ogImage.asset->url,
+      ogUrl,
+      identityUrl
+    }
+  `,
+
+  inventoryItems: `
+    *[_type == "inventoryItem"] | order(order asc) {
+      id,
+      name,
+      description,
+      icon,
+      useContent,
+      addOnFor,
+      order
+    }
+  `,
+
+  themes: `
+    *[_type == "theme"] | order(order asc) {
+      id,
+      displayName,
+      backgroundColors,
+      textColors,
+      order,
+      unlockable
+    }
+  `,
+
+  uiStrings: `
+    *[_type == "uiStrings"][0] {
+      formLabelName,
+      formLabelEmail,
+      formLabelMessage,
+      formButtonSend,
+      formSuccessMessage,
+      formGameLabelUserName,
+      formGamePlaceholderName,
+      formGamePlaceholderEmail,
+      formGamePlaceholderMessage,
+      formGameButtonSubmit,
+      formGameSuccessMessage,
+      formCodeButtonClear,
+      settingsTitle,
+      settingsSubtitle,
+      settingsToggleAbout,
+      settingsToggleAboutDesc,
+      settingsToggleWork,
+      settingsToggleWorkDesc,
+      settingsToggleWriting,
+      settingsToggleWritingDesc,
+      settingsToggleContact,
+      settingsToggleContactDesc,
+      settingsToggleDelete,
+      settingsToggleDeleteDesc,
+      settingsButtonCancel,
+      settingsButtonDelete,
+      inventoryTitle,
+      inventoryEmptyTitle,
+      inventoryEmptyMessage,
+      inventoryButtonBack,
+      inventoryButtonUse,
+      themeModalTitle,
+      themeLockedTooltip,
+      themeLockMessage,
+      linkGithub,
+      linkLinkedIn,
+      linkThemes,
+      linkInventory,
+      linkSettings,
+      siteName,
+      notFoundMeta,
+      notFoundTitle,
+      notFoundMessage,
+      notFoundLink,
+      githubModalTitle,
+      githubModalSubtitle,
+      githubButtonLabel,
+      githubPollKeep,
+      githubPollRemove,
+      cardTitleThemes,
+      cardTitleAchievements,
+      cardTitleLore,
+      loreCountTotal,
+      loadingText,
+      loadingMessages,
+      ariaCloseModal,
+      ariaClose,
+      ariaLockedTheme,
+      ariaLockColor,
+      ariaHome,
+      ariaCodeDigitTemplate,
+      caseStudyProblem,
+      caseStudySolution,
+      caseStudyResult,
+      workSectionOpenSource,
+      aboutSectionMeta,
+      loginButtonGithub,
+      colorCopy,
+      colorLock,
+      colorChooseNew,
+      colorCopiedToast
+    }
+  `,
+
+  journeyContent: `
+    *[_type == "journeyContent"][0] {
+      meta,
+      title,
+      introWithCode,
+      introNoCode,
+      enterCodePrompt,
+      journeyEndsIntro,
+      noCodeHint,
+      rewardMessage,
+      eryndorAvailableMessage,
+      thanksParticipating,
+      activateButton,
+      switchButton,
+      story,
+      thanksWalking
     }
   `,
 }

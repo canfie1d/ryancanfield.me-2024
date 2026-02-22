@@ -2,7 +2,7 @@ import { PageNames, pageNames } from "~/data/themeConfig";
 import { useThemeStore } from "~/stores/theme";
 import { getTextColor } from "./getTextColor";
 
-export const getColorsFromTheme = (pageName: PageNames) => {
+export const useGetColorsFromTheme = (pageName: PageNames) => {
   const textColors = useThemeStore((store) => store.textColors);
   const backgroundColors = useThemeStore((store) => store.backgroundColors);
   const indexOfPage = pageNames.indexOf(pageName);

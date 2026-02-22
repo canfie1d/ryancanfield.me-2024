@@ -72,7 +72,7 @@
   top: 0;
   display: flex;
   align-items: center;
-  gap: var(--spacing-unit-half);
+  gap: var(--spacing-unit);
   border-bottom: 1px solid var(--border-color);
   color: var(--unremarkable-medium-gray);
   padding: var(--spacing-unit-half) var(--spacing-unit);
@@ -84,28 +84,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 auto;
-    width: 2rem;
-    height: 2rem;
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
     background: var(--unremarkable-semi-opaque-light-gray);
-    border-radius: var(--border-radius-small);
+    border-radius: var(--border-radius-medium);
     color: var(--unremarkable-dark-gray);
-
-    svg {
-      width: 1rem;
-      height: 1rem;
-    }
   }
 
   .modalHeaderTitle {
-    flex: 1;
     font-family: var(--body-font);
     font-weight: 800;
     color: var(--unremarkable-darker-gray);
     letter-spacing: 0.05em;
-    font-size: var(--font-x-large);
+    font-size: var(--font-large);
     margin: 0;
-    line-height: 1.1;
 
     &.modalHeaderTitleSpray {
       background: linear-gradient(to right, #c998fb 0%, #8754ba 15%, #333 100%);
@@ -124,6 +117,7 @@
 
   div {
     flex: 1;
+    min-width: 0;
   }
 
   button {

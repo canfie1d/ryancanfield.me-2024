@@ -23,6 +23,38 @@ export const pageContent = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'title',
+      type: 'string',
+      title: 'Page Title (normal mode)',
+    }),
+    defineField({
+      name: 'subtitle',
+      type: 'string',
+      title: 'Page Subtitle (normal mode)',
+    }),
+    defineField({
+      name: 'icon',
+      type: 'string',
+      title: 'Icon (normal mode)',
+      description: 'Icon name from design system, e.g. signs, apps, writing, satellite',
+    }),
+    defineField({
+      name: 'gameTitle',
+      type: 'string',
+      title: 'Page Title (game mode)',
+    }),
+    defineField({
+      name: 'gameSubtitle',
+      type: 'string',
+      title: 'Page Subtitle (game mode)',
+    }),
+    defineField({
+      name: 'gameIcon',
+      type: 'string',
+      title: 'Icon (game mode)',
+      description: 'Icon name for game mode, e.g. map, hall, bow, scroll',
+    }),
+    defineField({
       name: 'introText',
       type: 'text',
       title: 'Intro / Main content',

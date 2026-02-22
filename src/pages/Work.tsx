@@ -1,7 +1,12 @@
 import { Suspense, useEffect } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "motion/react";
-import { useCaseStudies } from "~/hooks/useSanityContent";
+import {
+  useCaseStudies,
+  usePageContent,
+  useProjects,
+  useUiStrings,
+} from "~/hooks/useSanityContent";
 import { useAchievementStore } from "~/stores/achievements";
 import { useGameModeStore } from "~/stores/game-mode";
 import { usePageMeta } from "~/hooks/usePageMeta";
@@ -12,13 +17,12 @@ import Icon from "~/components/Icon";
 import Loader from "~/components/Loader";
 
 const Work = () => {
+  const { data: ui } = useUiStrings();
   const metaData = usePageMeta("work");
   const activeGameModes = useGameModeStore((store) => store.activeGameModes);
   const gameModeActive = activeGameModes?.work;
 
-  const loadingAchievements = useAchievementStore(
-    (store) => store.loadingAchievements
-  );
+  const loadingAchievements = useAchievementStore((store) => store.loadingAchievements);
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
 
@@ -26,15 +30,20 @@ const Work = () => {
     if (!loadingAchievements && !hasAchievement("all_work_no_play")) {
       addAchievement("all_work_no_play");
     }
-  }, [loadingAchievements]);
+  }, [loadingAchievements, addAchievement, hasAchievement]);
 
   const prefersReducedMotion = useReducedMotion();
   const { pathname } = useLocation();
 
   const { data: caseStudies } = useCaseStudies();
-  const caseStudy = caseStudies?.find(
-    (caseStudy) => caseStudy.path === pathname
-  );
+  const { isLoading: pageContentLoading } = usePageContent("work");
+  const { isLoading: projectsLoading } = useProjects();
+  const { isLoading: caseStudiesLoading } = useCaseStudies();
+
+  const caseStudy = caseStudies?.find((caseStudy) => `/work/${caseStudy.id}` === pathname);
+  const isCaseStudyView = pathname.startsWith("/work/") && pathname !== "/work";
+  const contentLoading =
+    isCaseStudyView ? caseStudiesLoading : pageContentLoading || projectsLoading;
 
   return (
     <motion.div
@@ -48,33 +57,33 @@ const Work = () => {
       <PageContent
         pageName="work"
         header={
-          caseStudy
-            ? {
-                meta: (
-                  <Link to="/work">
-                    <Icon name="circle-x" />
-                    <span className="visually-hidden">Close</span>
-                  </Link>
-                ),
-                title: caseStudy.title,
-                subtitle: caseStudy.subtitle,
-              }
-            : {
-                meta: "②",
-                title: metaData.title,
-                subtitle: metaData.subtitle,
-                icon: metaData.icon,
-              }
+          caseStudy ?
+            {
+              meta: (
+                <Link to="/work">
+                  <Icon name="circle-x" />
+                  <span className="visually-hidden">{ui?.ariaClose ?? ""}</span>
+                </Link>
+              ),
+              title: caseStudy.title ?? "",
+              subtitle: caseStudy.subtitle ?? "",
+            }
+          : {
+              meta: "②",
+              title: metaData.title,
+              subtitle: metaData.subtitle,
+              icon: metaData.icon,
+            }
         }
       >
         <Suspense fallback={<Loader />}>
-          {caseStudy ? (
+          {contentLoading ?
+            <Loader />
+          : caseStudy ?
             <Outlet />
-          ) : gameModeActive ? (
+          : gameModeActive ?
             <WorkGameContent />
-          ) : (
-            <WorkContent />
-          )}
+          : <WorkContent />}
         </Suspense>
       </PageContent>
     </motion.div>

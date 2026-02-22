@@ -1,7 +1,8 @@
 import classNames from "classnames";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { useAchievementStore } from "~/stores/achievements";
+import { useInventoryStore } from "~/stores/inventory";
+import { useUiStrings } from "~/hooks/useSanityContent";
 import Button from "~/components/Button";
 import Text from "~/components/Text";
 import styles from "./Form.module.scss";
@@ -24,28 +25,32 @@ const DEFAULT_FORM_DATA: FormData = {
 const ContactForm = () => {
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
+  const addItem = useInventoryStore((store) => store.addItem);
+  const hasItem = useInventoryStore((store) => store.hasItem);
+  const { data: ui } = useUiStrings();
 
-  const { search } = useLocation();
   const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
-  const formSuccess = search.includes("success=true");
-  const handleChange = (event: any) => {
+  const formSuccess =
+    typeof window !== "undefined" && window.location.search.includes("success=true");
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const name = event.target.name;
     const value = event.target.value;
     setFormData({ ...formData, [name]: value });
   };
 
   useEffect(() => {
-    if (formSuccess && !hasAchievement("first_contact")) {
-      addAchievement("first_contact");
+    if (formSuccess) {
+      if (!hasAchievement("first_contact")) {
+        addAchievement("first_contact");
+      }
+      if (!hasItem("jewel-contact")) {
+        addItem("jewel-contact");
+      }
     }
-  }, [formSuccess]);
+  }, [formSuccess, addAchievement, addItem, hasAchievement, hasItem]);
 
   if (formSuccess) {
-    return (
-      <Text className={classNames(styles.submitMessage)}>
-        Thanks for reaching out! I'll get back to you as soon as possible.
-      </Text>
-    );
+    return <Text className={classNames(styles.submitMessage)}>{ui?.formSuccessMessage ?? ""}</Text>;
   }
 
   return (
@@ -55,9 +60,16 @@ const ContactForm = () => {
       method="post"
       action="/contact?success=true"
     >
-      <input type="hidden" name="form-name" value="contact" />
-      <label className={styles.label} htmlFor="name">
-        Name
+      <input
+        type="hidden"
+        name="form-name"
+        value="contact"
+      />
+      <label
+        className={styles.label}
+        htmlFor="name"
+      >
+        {ui?.formLabelName ?? ""}
       </label>
       <input
         className={styles.input}
@@ -68,8 +80,11 @@ const ContactForm = () => {
         onChange={handleChange}
         value={formData.name}
       />
-      <label className={styles.label} htmlFor="email">
-        Email Address
+      <label
+        className={styles.label}
+        htmlFor="email"
+      >
+        {ui?.formLabelEmail ?? ""}
       </label>
       <input
         id="email"
@@ -80,8 +95,11 @@ const ContactForm = () => {
         onChange={handleChange}
         value={formData.email}
       />
-      <label className={styles.label} htmlFor="message">
-        Message
+      <label
+        className={styles.label}
+        htmlFor="message"
+      >
+        {ui?.formLabelMessage ?? ""}
       </label>
       <textarea
         id="message"
@@ -90,8 +108,11 @@ const ContactForm = () => {
         onChange={handleChange}
         value={formData.message}
       />
-      <Button pageName="contact" type="submit">
-        <span>Send</span>
+      <Button
+        pageName="contact"
+        type="submit"
+      >
+        <span>{ui?.formButtonSend ?? ""}</span>
       </Button>
     </form>
   );

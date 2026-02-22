@@ -98,6 +98,11 @@
   background: var(--unremarkable-semi-opaque-gray);
 }
 
+.itemRowAddOn {
+  margin-left: var(--spacing-unit);
+  border-left: 3px solid var(--unremarkable-medium-gray);
+}
+
 .itemIcon {
   flex-shrink: 0;
   display: flex;

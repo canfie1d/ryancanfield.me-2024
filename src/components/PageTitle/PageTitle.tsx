@@ -1,33 +1,31 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useAchievementStore } from "~/stores/achievements";
 import { useInventoryStore } from "~/stores/inventory";
+import { useUiStrings } from "~/hooks/useSanityContent";
 import { useWindowSize } from "~/hooks/useWindowSize";
 import SettingsPanel from "~/components/SettingsModal";
 import IconMenu from "~/components/IconMenu";
 import ThemeModal from "~/components/ThemeModal";
 import ThemePanel from "~/components/ThemePanel";
 import InventoryModal from "~/components/InventoryModal";
-import styles from "./PageTitle.module.scss";
 import { useGameModeStore } from "~/stores/game-mode";
+import styles from "./PageTitle.module.scss";
 
 const PageTitle = () => {
   const { pathname } = useLocation();
   const { width } = useWindowSize();
+  const { data: ui } = useUiStrings();
   const isSmallScreen = width <= 768;
-
+  const username = "user_name";
   const activeGameModes = useGameModeStore((store) => store.activeGameModes);
-  const allGameModesActive = useGameModeStore(
-    (store) => store.allGameModesActive
-  );
+  const allGameModesActive = useGameModeStore((store) => store.allGameModesActive);
 
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
   const [themeModalOpen, setThemeModalOpen] = useState(false);
   const [inventoryModalOpen, setInventoryModalOpen] = useState(false);
 
-  const loadingAchievements = useAchievementStore(
-    (store) => store.loadingAchievements
-  );
+  const loadingAchievements = useAchievementStore((store) => store.loadingAchievements);
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
   const addItem = useInventoryStore((store) => store.addItem);
@@ -43,7 +41,7 @@ const PageTitle = () => {
     const pageLinks = [
       {
         icon: "github",
-        label: "Website's Github Profile",
+        label: String(ui?.linkGithub ?? ""),
         href: "https://github.com/canfie1d/ryancanfield.me-2024",
         onClick: () => {
           if (!hasAchievement("octocat_abides")) {
@@ -56,7 +54,7 @@ const PageTitle = () => {
       },
       {
         icon: "linkedin",
-        label: "LinkedIn Profile",
+        label: String(ui?.linkLinkedIn ?? ""),
         href: "https://www.linkedin.com/in/ryanmcanfield",
         onClick: () => {
           if (!hasAchievement("link_up")) {
@@ -66,19 +64,29 @@ const PageTitle = () => {
       },
       {
         icon: "spray",
-        label: "Themes",
+        label: String(ui?.linkThemes ?? ""),
         active: pathname === "/" && !isSmallScreen, // whether the buttons state appears active visually
         disabled: pathname === "/" && !isSmallScreen,
         onClick: () => {
           setThemeModalOpen(true);
         },
       },
-    ];
+      Object.values(activeGameModes).some((mode) => mode) && {
+        icon: "backpack",
+        label: String(ui?.linkInventory ?? ""),
+        onClick: () => {
+          if (!loadingAchievements && !hasAchievement("gatherer")) {
+            addAchievement("gatherer");
+          }
+          setInventoryModalOpen(true);
+        },
+      },
+    ].filter((link) => typeof link === "object" && link !== null);
 
     if (!loadingAchievements && hasAchievement("the_journey_begins")) {
       pageLinks.push({
         icon: "gamepad",
-        label: "Settings",
+        label: String(ui?.linkSettings ?? ""),
         active: false, // whether the buttons state appears active visually
         disabled: false,
         onClick: () => {
@@ -99,10 +107,10 @@ const PageTitle = () => {
 
   return (
     <>
-      {Object.values(activeGameModes).some((mode) => mode) && (
+      {/* {Object.values(activeGameModes).some((mode) => mode) && (
         <IconMenu
           align={pathname !== "/" ? "right" : undefined}
-          justify="start"
+          justify="center"
           actions={[
             {
               icon: "backpack",
@@ -117,45 +125,45 @@ const PageTitle = () => {
           ]}
           reverse={pathname !== "/" && !isSmallScreen}
         />
-      )}
+      )} */}
       <InventoryModal
         open={inventoryModalOpen}
         handleCloseClick={() => setInventoryModalOpen(false)}
       />
-      {pathname === "/" ? (
+      {pathname === "/" ?
         <main className={styles.pageWrapper}>
-          <h1 className={styles.pageTitle}>ryan canfield</h1>
+          <h1 className={styles.pageTitle}>{ui?.siteName ?? ""}</h1>
           {renderPageLinks()}
-          {isSmallScreen ? (
+          {isSmallScreen ?
             <ThemeModal
               open={themeModalOpen}
               handleCloseClick={() => setThemeModalOpen(false)}
             />
-          ) : (
-            <ThemePanel />
-          )}
+          : <ThemePanel />}
         </main>
-      ) : (
-        <header className={styles.pageHeader}>
+      : <header className={styles.pageHeader}>
           {/*
             @todo when in game mode, use username,
             allow for username to be changed with
             a tiny pencil icon
           */}
-          {allGameModesActive ? (
-            <h1 className={styles.pageTitle}>user_name</h1>
-          ) : (
-            <Link to="/" className={styles.pageTitle} aria-label="Home">
-              ryan canfield
+          {allGameModesActive ?
+            <h1 className={styles.pageTitle}>{username}</h1>
+          : <Link
+              to="/"
+              className={styles.pageTitle}
+              aria-label={ui?.ariaHome ?? ""}
+            >
+              {ui?.siteName ?? ""}
             </Link>
-          )}
+          }
           {renderPageLinks()}
           <ThemeModal
             open={themeModalOpen}
             handleCloseClick={() => setThemeModalOpen(false)}
           />
         </header>
-      )}
+      }
       {!loadingAchievements && hasAchievement("the_journey_begins") && (
         <SettingsPanel
           open={settingsModalOpen}

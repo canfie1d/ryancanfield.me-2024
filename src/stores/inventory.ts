@@ -1,14 +1,17 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { getSSRSafeStorage } from "~/lib/ssrStorage";
 import {
   type InventoryItemId,
   INVENTORY_ITEMS,
   type InventoryItem,
 } from "~/data/inventory";
+import { getInventoryItemsLookup } from "~/lib/inventoryItemsOverride";
 
 type InventoryState = {
   items: InventoryItemId[];
   addItem: (id: InventoryItemId) => void;
+  removeItem: (id: InventoryItemId) => void;
   hasItem: (id: InventoryItemId) => boolean;
   getItem: (id: InventoryItemId) => InventoryItem | null;
   resetInventory: () => void;
@@ -24,12 +27,19 @@ export const useInventoryStore = create<InventoryState>()(
         set((state) => ({ items: [...state.items, id] }));
       },
 
+      removeItem: (id: InventoryItemId) => {
+        set((state) => ({
+          items: state.items.filter((i) => i !== id),
+        }));
+      },
+
       hasItem: (id: InventoryItemId) => {
         return get().items.includes(id);
       },
 
       getItem: (id: InventoryItemId) => {
-        const def = INVENTORY_ITEMS[id];
+        const lookup = getInventoryItemsLookup() ?? INVENTORY_ITEMS;
+        const def = lookup[id];
         if (!def) return null;
         return { id, ...def };
       },
@@ -38,7 +48,7 @@ export const useInventoryStore = create<InventoryState>()(
     }),
     {
       name: "inventory-storage",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(getSSRSafeStorage),
     }
   )
 );

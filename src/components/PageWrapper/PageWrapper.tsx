@@ -21,8 +21,6 @@ const PageWrapper = ({
   const prefersReducedMotion = useReducedMotion();
   const { slide } = useAnimate();
   // const { user, isLoggedIn } = useIdentityContext();
-  // console.log("user: ", user);
-  // console.log("isLoggedIn: ", isLoggedIn);
 
   return (
     <motion.div
@@ -31,7 +29,7 @@ const PageWrapper = ({
       className={classNames(
         styles.pageWrapper,
         isCurrent && styles.pageWrapperCurrent,
-        isHome && styles.pageWrapperHome
+        isHome && styles.pageWrapperHome,
       )}
       initial={initial}
     >

@@ -25,6 +25,11 @@ form:not([hidden]) {
     font-size: var(--font-medium);
     line-height: var(--line-height-tall);
     border: 2px solid transparent;
+    color: inherit;
+
+    &::placeholder {
+      color: color-mix(in srgb, currentColor 45%, transparent);
+    }
 
     &:focus-visible {
       outline: none;
