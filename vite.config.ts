@@ -24,12 +24,17 @@ export default defineConfig({
         theme_color: "#d3d3d3",
       },
     }),
-    mkcert({
-      savePath: "./certs",
-      force: true,
-      keyFileName: "net-fn-key.pem",
-      certFileName: "net-fn.pem",
-    }),
+    // mkcert only in local dev — it breaks prerender in CI (Netlify) when vite.preview() runs
+    ...(process.env.CI
+      ? []
+      : [
+        mkcert({
+          savePath: "./certs",
+          force: true,
+          keyFileName: "net-fn-key.pem",
+          certFileName: "net-fn.pem",
+        }),
+      ]),
     eslintPlugin(),
   ],
 

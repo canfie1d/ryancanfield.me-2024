@@ -16,8 +16,7 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
   const { data: ui } = useUiStrings();
   const themeLockedTooltip = ui?.themeLockedTooltip ?? "";
   const ariaLockedTheme = ui?.ariaLockedTheme ?? "";
-  const themeLockMessage =
-    ui?.themeLockMessage ?? "To change your theme unlock one color at minimum.";
+  const themeLockMessage = ui?.themeLockMessage ?? "";
   // const backgroundColors = useThemeStore((store) => store.backgroundColors);
   const setTheme = useThemeStore((store) => store.setTheme);
   const lockedColors = useThemeStore((store) => store.lockedColors);
@@ -158,22 +157,16 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
             </Button>
           : <div
               className={styles.themeSwatchLocked}
+              style={{
+                background: `linear-gradient(to right, ${loreTheme.backgroundColors.join(", ")})`,
+              }}
               aria-label={ariaLockedTheme}
               title={themeLockedTooltip}
             >
-              <div className={styles.themeSwatchColors}>
-                {loreTheme.backgroundColors.map((color) => (
-                  <span
-                    key={color}
-                    className={styles.themeSwatchColor}
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
               <div className={styles.lockedOverlay}>
                 <Icon
-                  name="lock"
-                  size="x-small"
+                  name="lock2"
+                  size="small"
                 />
               </div>
             </div>
@@ -210,13 +203,15 @@ const ThemeMenu = ({ showHeader }: { showHeader: boolean }) => {
           <span>{ui?.themeModalTitle ?? ""}</span>
         </span>
       )}
-      {lockedColors?.length >= 4 && (
+      {lockedColors?.length >= 4 ?
         <Text className={styles.themeMenuMessage}>
-          <Icon name="lock" />
+          <Icon
+            name="lock"
+            size="large"
+          />
           {themeLockMessage}
         </Text>
-      )}
-      <ul>{renderThemeOptions()}</ul>
+      : <ul>{renderThemeOptions()}</ul>}
     </div>
   );
 };

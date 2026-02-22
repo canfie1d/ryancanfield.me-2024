@@ -30,12 +30,47 @@ const ContactForm = () => {
   const { data: ui } = useUiStrings();
 
   const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
+  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const formSuccess =
     typeof window !== "undefined" && window.location.search.includes("success=true");
+  const showSuccess = formSuccess || submitted;
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const name = event.target.name;
     const value = event.target.value;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    const encoded = new URLSearchParams({
+      "form-name": "contact",
+      name: formData.name,
+      email: formData.email,
+      message: formData.message,
+    }).toString();
+
+    try {
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encoded,
+      });
+
+      if (!res.ok) throw new Error("Submission failed");
+      setSubmitted(true);
+      if (!hasAchievement("first_contact")) addAchievement("first_contact");
+      if (!hasItem("jewel-contact")) addItem("jewel-contact");
+    } catch {
+      setSubmitError("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   useEffect(() => {
@@ -49,7 +84,7 @@ const ContactForm = () => {
     }
   }, [formSuccess, addAchievement, addItem, hasAchievement, hasItem]);
 
-  if (formSuccess) {
+  if (showSuccess) {
     return <Text className={classNames(styles.submitMessage)}>{ui?.formSuccessMessage ?? ""}</Text>;
   }
 
@@ -59,6 +94,7 @@ const ContactForm = () => {
       name="contact"
       method="post"
       action="/contact?success=true"
+      onSubmit={handleSubmit}
     >
       <input
         type="hidden"
@@ -108,11 +144,20 @@ const ContactForm = () => {
         onChange={handleChange}
         value={formData.message}
       />
+      {submitError && (
+        <p
+          className={styles.error}
+          role="alert"
+        >
+          {submitError}
+        </p>
+      )}
       <Button
         pageName="contact"
         type="submit"
+        disabled={isSubmitting}
       >
-        <span>{ui?.formButtonSend ?? ""}</span>
+        <span>{isSubmitting ? "Sending…" : (ui?.formButtonSend ?? "")}</span>
       </Button>
     </form>
   );

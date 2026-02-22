@@ -2,12 +2,15 @@
   position: relative;
   display: flex;
   align-items: center;
+  outline: 2px solid transparent;
+  border-radius: var(--border-radius-large);
   transition: all var(--transition-duration) var(--animation-timing);
+  padding: var(--spacing-unit-half) 0 var(--spacing-unit-half);
 
   &.colorMenuLocked {
     outline: 2px solid currentColor;
     outline-offset: -2px;
-    border-radius: var(--border-radius-small);
+    border: 0;
     opacity: 0.85;
   }
 

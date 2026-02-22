@@ -8,6 +8,7 @@ import Text from "~/components/Text";
 import Tag from "~/components/Tag";
 import styles from "./PageContent.module.scss";
 import { useGetColorsFromTheme } from "~/helpers/getColorsFromTheme";
+import { urlFor } from "~/sanity/image";
 
 const WorkContent = () => {
   const viewed = useRef<boolean>(false);
@@ -60,7 +61,7 @@ const WorkContent = () => {
             }
           >
             <img
-              src={project.image?.asset?.url}
+              src={project.image ? urlFor(project.image).url() : ""}
               alt=""
             />
             <Text size="small">{project.description}</Text>

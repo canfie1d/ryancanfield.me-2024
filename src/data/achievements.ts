@@ -271,7 +271,7 @@ export const ACHIEVEMENTS: AchievementType[] = [
   {
     id: "chalice",
     title: "The Chalice",
-    description: "Delete all your progress",
+    description: "Those who live close to danger know what they risk",
     collectedDate: null,
     icon: "chalice",
   },

@@ -8,6 +8,7 @@ import Card from "~/components/Card/Card";
 import Tag from "~/components/Tag";
 import Text from "~/components/Text";
 import { useGetColorsFromTheme } from "~/helpers/getColorsFromTheme";
+import { urlFor } from "~/sanity/image";
 
 const WritingContent = () => {
   const viewed = useRef<boolean>(false);
@@ -74,7 +75,7 @@ const WritingContent = () => {
             }
           >
             <img
-              src={article.image?.asset?.url ?? article.imageUrl}
+              src={article.image ? urlFor(article.image).url() : (article.imageUrl ?? "")}
               alt=""
             />
             <Text size="small">{article.description}</Text>

@@ -21,7 +21,10 @@ type AchievementStateTypes = {
   achievementsLookup: AchievementLookup | null;
   setAchievementsLookup: (lookup: AchievementLookup | null) => void;
   hasAchievement: (achievementId: AchievementType["id"]) => boolean;
-  addAchievement: (achievementId: AchievementType["id"]) => Promise<void>;
+  addAchievement: (
+    achievementId: AchievementType["id"],
+    options?: { silent?: boolean }
+  ) => Promise<void>;
   resetAchievements: () => Promise<void>;
   loadAchievements: () => Promise<void>;
   toast: {
@@ -48,7 +51,10 @@ export const useAchievementStore = create<AchievementStateTypes>()(
       setToast: (toast: AchievementStateTypes["toast"]) => {
         set({ toast });
       },
-      addAchievement: async (achievementId: AchievementType["id"]) => {
+      addAchievement: async (
+        achievementId: AchievementType["id"],
+        options?: { silent?: boolean }
+      ) => {
         const lookup = get().achievementsLookup ?? ACHIEVEMENTS;
         const found = lookup.find((a) => a.id === achievementId);
         if (!found || get().hasAchievement(achievementId)) return;
@@ -71,11 +77,13 @@ export const useAchievementStore = create<AchievementStateTypes>()(
 
         set((state) => ({
           achievements: [...state.achievements, achievement],
-          toast: {
-            open: true,
-            title: achievement.title,
-            message: achievement.description,
-          },
+          toast: options?.silent
+            ? state.toast
+            : {
+              open: true,
+              title: achievement.title,
+              message: achievement.description,
+            },
         }));
       },
       hasAchievement: (achievementId: AchievementType["id"]) => {

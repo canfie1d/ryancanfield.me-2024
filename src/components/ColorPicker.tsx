@@ -6,6 +6,7 @@ import { getTextColor } from "~/helpers/getTextColor";
 import useClickOutside from "~/hooks/useClickOutside";
 import styles from "./ColorMenu/ColorMenu.module.scss";
 import { useThemeStore } from "~/stores/theme";
+import { useAchievementStore } from "~/stores/achievements";
 
 type ColorPickerProps = {
   active: boolean;
@@ -17,25 +18,25 @@ type ColorPickerProps = {
   backgroundColor: string;
 };
 
-const ColorPicker = ({
-  active,
-  onClose,
-  location,
-  backgroundColor,
-}: ColorPickerProps) => {
+const ColorPicker = ({ active, onClose, location, backgroundColor }: ColorPickerProps) => {
   const ref = useRef(null);
   useClickOutside(ref, onClose);
   const textColors = useThemeStore((store) => store.textColors);
   const backgroundColors = useThemeStore((store) => store.backgroundColors);
   const replaceLockedColor = useThemeStore((store) => store.replaceLockedColor);
   const setTheme = useThemeStore((store) => store.setTheme);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
 
   const handleColorChange = (value: string) => {
+    if (!hasAchievement("custom")) {
+      addAchievement("custom");
+    }
     const indexToReplace = backgroundColors.indexOf(backgroundColor);
 
     replaceLockedColor(
       { hex: backgroundColor, position: indexToReplace },
-      { hex: value, position: indexToReplace }
+      { hex: value, position: indexToReplace },
     );
 
     const newBgColors = [...backgroundColors];
@@ -57,10 +58,7 @@ const ColorPicker = ({
     <div
       ref={ref}
       style={{ top: location.top, left: location.left }}
-      className={classNames(
-        styles.previewColorPicker,
-        active && styles.previewColorPickerActive
-      )}
+      className={classNames(styles.previewColorPicker, active && styles.previewColorPickerActive)}
     >
       <HexColorPicker
         id={`color-picker-${backgroundColor}`}

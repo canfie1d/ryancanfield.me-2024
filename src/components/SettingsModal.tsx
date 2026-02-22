@@ -10,7 +10,7 @@ import Modal from "~/components/Modal";
 import Button from "~/components/Button";
 import Icon from "~/components/Icon";
 import Toggle from "~/components/Toggle";
-import { JEWEL_SOCKET_PAGES, JEWEL_FOR_PAGE } from "~/data/inventory";
+import { JEWEL_SOCKET_PAGES, JEWEL_FOR_PAGE, INVENTORY_ITEMS } from "~/data/inventory";
 import classNames from "classnames";
 import styles from "./SettingsModal.module.scss";
 
@@ -84,7 +84,7 @@ const SettingsModal = ({
               <div className={styles.modalHeaderText}>
                 <h2 className={styles.modalHeaderTitle}>{ui?.settingsTitle ?? ""}</h2>
                 <h3 className={styles.modalHeaderSubtitle}>
-                  {ui?.settingsSubtitle ?? "Place jewels to unlock game modes"}
+                  {ui?.settingsSubtitle ?? "Place jewels in their sockets to reveal new paths"}
                 </h3>
               </div>
               <Button
@@ -107,7 +107,9 @@ const SettingsModal = ({
                 : page === "work" ? (ui?.settingsToggleWork ?? "Work")
                 : page === "writing" ? (ui?.settingsToggleWriting ?? "Writing")
                 : (ui?.settingsToggleContact ?? "Contact");
-              const desc = `Place jewel to unlock ${label} game mode`;
+              const jewel = INVENTORY_ITEMS[jewelId];
+              const jewelName = jewel?.name ?? "jewel";
+              const desc = `Place the ${jewelName} to reveal this path`;
 
               return (
                 <div

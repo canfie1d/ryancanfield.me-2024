@@ -17,8 +17,12 @@ const ThemePanel = () => {
   const addAchievement = useAchievementStore((store) => store.addAchievement);
 
   useEffect(() => {
-    if (!loadingAchievements && !hasAchievement("lock_down") && lockedColors?.length >= 4) {
+    if (loadingAchievements) return;
+    if (!hasAchievement("lock_down") && lockedColors?.length >= 4) {
       addAchievement("lock_down");
+    }
+    if (!hasAchievement("fully_custom") && lockedColors?.length >= 4) {
+      addAchievement("fully_custom");
     }
   }, [lockedColors, addAchievement, hasAchievement, loadingAchievements]);
 

@@ -68,15 +68,7 @@ const ColorMenu = ({
         icon: isLocked ? "lock" : "unlock",
         label: ui?.colorLock ?? "",
         checked: isLocked,
-        onChange: () => {
-          if (!hasAchievement("custom")) {
-            addAchievement("custom");
-          }
-          if (!hasAchievement("fully_custom") && lockedColors?.length === 4) {
-            addAchievement("fully_custom");
-          }
-          setLockedColor({ hex: backgroundColor, position: index });
-        },
+        onChange: () => setLockedColor({ hex: backgroundColor, position: index }),
       },
       {
         icon: "eyedropper",
@@ -88,9 +80,6 @@ const ColorMenu = ({
   }, [
     copyColor,
     isLocked,
-    hasAchievement,
-    addAchievement,
-    lockedColors,
     backgroundColor,
     index,
     colorPickerActive,
