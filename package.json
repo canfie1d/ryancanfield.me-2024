@@ -18,7 +18,7 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "deploy-sanity": "cd sanity; pnpm exec sanity schema deploy; cd ..",
+    "deploy-sanity": "cd sanity && SANITY_AUTH_TOKEN=${SANITY_DEPLOY_TOKEN:-$SANITY_AUTH_TOKEN} pnpm exec sanity schema deploy && cd ..",
     "seed-sanity": "npx tsx scripts/seed-sanity-content.ts",
     "migrate-article-images": "npx tsx scripts/migrate-article-images.ts",
     "migrate-cloudfront": "node scripts/cloudfront-to-sanity-migrate.mjs"

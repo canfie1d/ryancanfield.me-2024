@@ -1,5 +1,5 @@
 [build]
-  command = "pnpm build"
+  command = "pnpm run deploy-sanity && pnpm build"
   publish = "dist/client"
 
 # SPA client-side routing: serve shell for all non-asset routes so direct navigation/bookmarks work
