@@ -7,7 +7,7 @@ import { VitePWA } from "vite-plugin-pwa";
 import mkcert from "vite-plugin-mkcert";
 import eslintPlugin from "@nabla/vite-plugin-eslint";
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [
     tanstackStart({
       srcDirectory: "src",
@@ -24,17 +24,17 @@ export default defineConfig({
         theme_color: "#d3d3d3",
       },
     }),
-    // mkcert only in local dev — it breaks prerender in CI (Netlify) when vite.preview() runs
-    ...(process.env.CI
-      ? []
-      : [
+    // mkcert only for dev server — excluded from build to avoid prerender cert issues
+    ...(command === "serve"
+      ? [
         mkcert({
           savePath: "./certs",
           force: true,
           keyFileName: "net-fn-key.pem",
           certFileName: "net-fn.pem",
         }),
-      ]),
+      ]
+      : []),
     eslintPlugin(),
   ],
 
@@ -44,8 +44,6 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    // mkcert plugin provides https cert paths (force: true)
-    // open: true,
     // proxy: {
     //   "/api": {
     //     target: "https://localhost:8888/functions",
@@ -54,4 +52,4 @@ export default defineConfig({
     //   },
     // },
   },
-});
+}));
