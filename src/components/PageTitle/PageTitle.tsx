@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { useAchievementStore } from "~/stores/achievements";
 import { useInventoryStore } from "~/stores/inventory";
+import { useThemeStore } from "~/stores/theme";
 import { useUiStrings } from "~/hooks/useSanityContent";
 import { useWindowSize } from "~/hooks/useWindowSize";
 import SettingsPanel from "~/components/SettingsModal";
@@ -31,11 +32,23 @@ const PageTitle = () => {
   const addItem = useInventoryStore((store) => store.addItem);
   const hasItem = useInventoryStore((store) => store.hasItem);
 
+  const lockedColors = useThemeStore((store) => store.lockedColors);
+
   useEffect(() => {
     if (!loadingAchievements && !hasAchievement("first_timer")) {
       addAchievement("first_timer");
     }
   }, [loadingAchievements, hasAchievement, addAchievement]);
+
+  useEffect(() => {
+    if (loadingAchievements) return;
+    if (!hasAchievement("lock_down") && lockedColors?.length >= 4) {
+      addAchievement("lock_down");
+    }
+    if (!hasAchievement("fully_custom") && lockedColors?.length >= 4) {
+      addAchievement("fully_custom");
+    }
+  }, [lockedColors, addAchievement, hasAchievement, loadingAchievements]);
 
   const renderPageLinks = () => {
     const pageLinks = [
@@ -71,7 +84,8 @@ const PageTitle = () => {
           setThemeModalOpen(true);
         },
       },
-      Object.values(activeGameModes).some((mode) => mode) && {
+      (hasAchievement("the_journey_begins") ||
+        Object.values(activeGameModes).some((mode) => mode)) && {
         icon: "backpack",
         label: String(ui?.linkInventory ?? ""),
         onClick: () => {

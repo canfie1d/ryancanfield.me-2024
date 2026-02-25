@@ -3,12 +3,14 @@ import { useAchievementStore } from "~/stores/achievements";
 import { useInventoryStore } from "~/stores/inventory";
 import { useJewelDiscoveryStore } from "~/stores/jewel-discovery";
 import { useCaseStudies, useUiStrings } from "~/hooks/useSanityContent";
+import { INVENTORY_ITEMS } from "~/data/inventory";
 import Text from "~/components/Text";
 
 const CaseStudy = ({ id }: { id: string }) => {
   const loadingAchievements = useAchievementStore((store) => store.loadingAchievements);
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
+  const setToast = useAchievementStore((store) => store.setToast);
   const markCaseStudyViewed = useJewelDiscoveryStore((store) => store.markCaseStudyViewed);
   const viewedCaseStudyIds = useJewelDiscoveryStore((store) => store.viewedCaseStudyIds);
   const addItem = useInventoryStore((store) => store.addItem);
@@ -32,8 +34,14 @@ const CaseStudy = ({ id }: { id: string }) => {
       !hasItem("jewel-work")
     ) {
       addItem("jewel-work");
+      const jewel = INVENTORY_ITEMS["jewel-work"];
+      setToast({
+        open: true,
+        title: jewel.name,
+        message: jewel.description,
+      });
     }
-  }, [loadingAchievements, hasAchievement, viewedCaseStudyIds.length, hasItem, addItem]);
+  }, [loadingAchievements, hasAchievement, viewedCaseStudyIds.length, hasItem, addItem, setToast]);
 
   const { data: caseStudies } = useCaseStudies();
   const { data: ui } = useUiStrings();

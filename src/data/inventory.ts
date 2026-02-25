@@ -111,3 +111,11 @@ export const JEWEL_FOR_PAGE: Record<JewelSocketPage, JewelId> = {
   writing: "jewel-writing",
   contact: "jewel-contact",
 };
+
+/** Maps jewel IDs to their page for color lookup */
+export const PAGE_FOR_JEWEL: Record<JewelId, JewelSocketPage> = {
+  "jewel-about": "about",
+  "jewel-work": "work",
+  "jewel-writing": "writing",
+  "jewel-contact": "contact",
+};

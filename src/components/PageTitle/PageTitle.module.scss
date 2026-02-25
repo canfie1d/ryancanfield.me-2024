@@ -26,6 +26,7 @@
 // if not home page
 .pageHeader {
   position: fixed;
+  z-index: 10;
   top: auto;
   right: var(--spacing-unit-half);
   bottom: var(--spacing-unit-half);

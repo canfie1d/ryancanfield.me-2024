@@ -458,23 +458,27 @@ const ARTICLE_LINKS = [
 async function seedArticleLinks() {
   for (const article of ARTICLE_LINKS) {
     const doc = { _type: "article", ...article };
-    const existing = await client.fetch(
-      `*[_type == "article" && title == $title][0]._id`,
+    const existing = await client.fetch<{ _id: string; image?: unknown } | null>(
+      `*[_type == "article" && title == $title][0] { _id, image }`,
       { title: article.title }
     );
     if (existing) {
-      await client.createOrReplace({ ...doc, _id: existing });
+      // Preserve existing Sanity image when replacing - don't overwrite migrated images
+      const docToReplace = existing.image
+        ? { ...doc, _id: existing._id, image: existing.image }
+        : { ...doc, _id: existing._id };
+      await client.createOrReplace(docToReplace);
     } else {
       await client.create(doc);
     }
   }
 }
 
-const GITHUB_README_URL =
-  "https://github.com/canfie1d/ryancanfield.me-2024/blob/main/README.md";
+const LORE_PR_URL =
+  "https://github.com/canfie1d/ryancanfield.me-2024/pull/1";
 const LORE_YES_CORRECT = `Oh good, I was afraid you'd say no.
 
-${GITHUB_README_URL}`;
+${LORE_PR_URL}`;
 
 async function seedAboutLoreFix() {
   const about = await client.fetch<{ _id: string; loreYes?: string }>(
@@ -484,7 +488,7 @@ async function seedAboutLoreFix() {
 
   const current = about.loreYes ?? "";
   const needsFix =
-    current.includes("nhttps") || !current.includes(GITHUB_README_URL);
+    current.includes("nhttps") || !current.includes(LORE_PR_URL);
 
   if (needsFix) {
     await client

@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from "react";
+import React, { ReactNode, useRef } from "react";
 import classNames from "classnames";
 import { useWindowSize } from "react-use";
 import { Waypoint } from "react-waypoint";
@@ -25,7 +25,13 @@ const PageContent = ({
   pageName: PageNames;
   children: ReactNode;
 }) => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLElement | null>(null);
+  const [scrollContainer, setScrollContainer] = React.useState<HTMLElement | null>(null);
+
+  const setRef = React.useCallback((node: HTMLElement | null) => {
+    ref.current = node;
+    setScrollContainer(node);
+  }, []);
   const activeGameModes = useGameModeStore((store) => store.activeGameModes);
   const gameModeActive = activeGameModes?.[pageName as keyof typeof activeGameModes];
   const { width } = useWindowSize();
@@ -36,7 +42,7 @@ const PageContent = ({
 
   return (
     <main
-      ref={ref}
+      ref={setRef}
       style={{
         color: textColor,
         backgroundColor: backgroundColor,
@@ -66,7 +72,7 @@ const PageContent = ({
             )}
           </div>
           <Waypoint
-            scrollableAncestor={ref.current}
+            scrollableAncestor={scrollContainer}
             onEnter={() => setScrolled(false)}
             onLeave={() => setScrolled(true)}
           />

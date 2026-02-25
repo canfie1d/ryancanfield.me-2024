@@ -23,20 +23,48 @@ if (!token) {
 
 const client = createClient({ projectId, dataset, apiVersion, token, useCdn: false });
 
+const S3_BASE = "https://s3-us-west-2.amazonaws.com/ryancanfield.me-images";
+const CLOUDFRONT_BASE = process.env.VITE_IMAGE_CDN_URL ?? "https://d2b4ewtpli0u9y.cloudfront.net";
+
+function toCloudFrontUrl(s3Url: string): string {
+  if (s3Url.startsWith(S3_BASE)) {
+    return s3Url.replace(S3_BASE, CLOUDFRONT_BASE);
+  }
+  return s3Url;
+}
+
+type ArticleDoc = {
+  _id: string;
+  _type: string;
+  title?: string;
+  description?: string;
+  url?: string;
+  length?: string;
+  order?: number;
+  imageUrl?: string;
+  image?: { _type: string; asset: { _type: string; _ref: string } };
+};
+
 async function main() {
-  const articles = await client.fetch<{ _id: string; title: string; imageUrl?: string }[]>(
-    `*[_type == "article" && defined(imageUrl) && !defined(image)] { _id, title, imageUrl }`
+  // Phase 1: Migrate articles with imageUrl but no image (upload + createOrReplace)
+  const toMigrate = await client.fetch<ArticleDoc[]>(
+    `*[_type in ["article", "articleLink"] && defined(imageUrl) && !defined(image)] { _id, _type, title, description, url, length, order, imageUrl }`
   );
 
-  if (articles.length === 0) {
-    return;
-  }
+  // Phase 2: Republish articles that have image (patch may have created drafts - createOrReplace makes them visible)
+  const toRepublish = await client.fetch<ArticleDoc[]>(
+    `*[_type in ["article", "articleLink"] && defined(imageUrl) && defined(image)] { _id, _type, title, description, url, length, order, imageUrl, image }`
+  );
 
-  for (const article of articles) {
+  console.log(`Found ${toMigrate.length} articles to migrate, ${toRepublish.length} to republish`);
+
+  for (const article of toMigrate) {
     if (!article.imageUrl) continue;
 
-    const res = await fetch(article.imageUrl);
+    const fetchUrl = toCloudFrontUrl(article.imageUrl);
+    const res = await fetch(fetchUrl);
     if (!res.ok) {
+      console.warn(`Failed to fetch ${fetchUrl} for "${article.title}" (HTTP ${res.status})`);
       continue;
     }
 
@@ -49,11 +77,23 @@ async function main() {
       contentType,
     });
 
-    await client
-      .patch(article._id)
-      .set({ image: { _type: "image", asset: { _type: "reference", _ref: asset._id } } })
-      .commit();
+    const image = { _type: "image" as const, asset: { _type: "reference" as const, _ref: asset._id } };
+    // Use createOrReplace to update published doc directly (patch can create drafts that aren't visible to reads)
+    await client.createOrReplace({
+      ...article,
+      image,
+    });
+
+    console.log(`Migrated: ${article.title}`);
   }
+
+  for (const article of toRepublish) {
+    // createOrReplace ensures the published doc has the image (fixes draft visibility)
+    await client.createOrReplace(article);
+    console.log(`Republished: ${article.title}`);
+  }
+
+  console.log(`Done. Migrated ${toMigrate.length}, republished ${toRepublish.length} article images.`);
 }
 
 main().catch((err) => {

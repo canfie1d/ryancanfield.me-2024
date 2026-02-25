@@ -82,12 +82,7 @@ export const queries = {
       tabLabelSite,
       lorePrompt,
       loreYes,
-      loreLook,
-      loreGo,
-      loreNo,
-      loreInventoryEmpty,
-      loreInventoryKey,
-      loreInventoryList
+      loreNo
     }
   `,
 

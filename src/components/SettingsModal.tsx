@@ -10,9 +10,28 @@ import Modal from "~/components/Modal";
 import Button from "~/components/Button";
 import Icon from "~/components/Icon";
 import Toggle from "~/components/Toggle";
-import { JEWEL_SOCKET_PAGES, JEWEL_FOR_PAGE, INVENTORY_ITEMS } from "~/data/inventory";
+import {
+  JEWEL_SOCKET_PAGES,
+  JEWEL_FOR_PAGE,
+  INVENTORY_ITEMS,
+  type JewelSocketPage,
+} from "~/data/inventory";
+import { useGetColorsFromTheme } from "~/helpers/getColorsFromTheme";
 import classNames from "classnames";
 import styles from "./SettingsModal.module.scss";
+
+const JewelIcon = ({ page }: { page: JewelSocketPage }) => {
+  const { backgroundColor } = useGetColorsFromTheme(page);
+  return (
+    <span className={styles.jewelBg}>
+      <Icon
+        name="jewel"
+        size="small"
+        color={backgroundColor}
+      />
+    </span>
+  );
+};
 
 const SettingsModal = ({
   open,
@@ -133,10 +152,7 @@ const SettingsModal = ({
                         aria-label={`Remove jewel from ${label} socket`}
                         title="Click to remove jewel"
                       >
-                        <Icon
-                          name="jewel"
-                          size="small"
-                        />
+                        <JewelIcon page={page} />
                       </button>
                     : hasJewel ?
                       <button

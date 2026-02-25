@@ -96,35 +96,9 @@ export const about = defineType({
       description: 'yes()? no()?',
     }),
     defineField({
-      name: 'loreLook',
-      type: 'string',
-      title: 'Lore: look() response',
-    }),
-    defineField({
-      name: 'loreGo',
-      type: 'string',
-      title: 'Lore: go() response',
-    }),
-    defineField({
       name: 'loreNo',
       type: 'string',
       title: 'Lore: no() response',
-    }),
-    defineField({
-      name: 'loreInventoryEmpty',
-      type: 'string',
-      title: 'Lore: inventory empty',
-    }),
-    defineField({
-      name: 'loreInventoryKey',
-      type: 'string',
-      title: 'Lore: key found',
-    }),
-    defineField({
-      name: 'loreInventoryList',
-      type: 'string',
-      title: 'Lore: inventory list template',
-      description: 'Use {names} as placeholder for item names',
     }),
   ],
 })

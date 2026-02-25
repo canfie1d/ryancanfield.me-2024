@@ -6,8 +6,37 @@ import Button from "~/components/Button";
 import Icon from "~/components/Icon";
 import { useInventoryStore } from "~/stores/inventory";
 import { useUiStrings } from "~/hooks/useSanityContent";
-import { type InventoryItemId, INVENTORY_DISPLAY_ORDER } from "~/data/inventory";
+import {
+  type InventoryItemId,
+  type JewelId,
+  INVENTORY_DISPLAY_ORDER,
+  PAGE_FOR_JEWEL,
+} from "~/data/inventory";
+import { useGetColorsFromTheme } from "~/helpers/getColorsFromTheme";
 import styles from "./InventoryModal.module.scss";
+
+const SLOT_COUNT = 9; // 3x3 grid
+
+const ItemIcon = ({ icon, itemId }: { icon: string; itemId: InventoryItemId }) => {
+  const page =
+    icon === "jewel" && itemId in PAGE_FOR_JEWEL ? PAGE_FOR_JEWEL[itemId as JewelId] : "about";
+  const { backgroundColor } = useGetColorsFromTheme(page);
+  const color = icon === "jewel" && itemId in PAGE_FOR_JEWEL ? backgroundColor : undefined;
+  const isJewel = icon === "jewel" && itemId in PAGE_FOR_JEWEL;
+  return isJewel ?
+      <span className={styles.jewelBg}>
+        <Icon
+          name={icon}
+          size="small"
+          color={color}
+        />
+      </span>
+    : <Icon
+        name={icon}
+        size="small"
+        color={color}
+      />;
+};
 
 const InventoryModal = ({
   open,
@@ -25,6 +54,13 @@ const InventoryModal = ({
     () => INVENTORY_DISPLAY_ORDER.filter((id) => items.includes(id)),
     [items],
   );
+
+  // Build slot array: items fill slots in order, remaining slots are empty
+  const slots = useMemo(() => {
+    const filled: Array<InventoryItemId | null> = sortedItems.slice(0, SLOT_COUNT);
+    while (filled.length < SLOT_COUNT) filled.push(null);
+    return filled;
+  }, [sortedItems]);
 
   const getTriggerLocation = () => {
     if (pathname === "/") return "23% 108%";
@@ -87,9 +123,9 @@ const InventoryModal = ({
             <div className={styles.inspecting}>
               <div className={styles.inspectingHeader}>
                 <span className={styles.inspectingIcon}>
-                  <Icon
-                    name={item.icon}
-                    size="small"
+                  <ItemIcon
+                    icon={item.icon}
+                    itemId={item.id}
                   />
                 </span>
                 <h3 className={styles.inspectingTitle}>{item.name}</h3>
@@ -116,8 +152,24 @@ const InventoryModal = ({
               <h3 className={styles.emptyTitle}>{ui?.inventoryEmptyTitle ?? ""}</h3>
               <p className={styles.emptyMessage}>{ui?.inventoryEmptyMessage ?? ""}</p>
             </div>
-          : <ul className={styles.itemList}>
-              {sortedItems.map((id) => {
+          : <ul
+              className={styles.itemGrid}
+              role="list"
+            >
+              {slots.map((id, index) => {
+                if (!id) {
+                  return (
+                    <li
+                      key={`empty-${index}`}
+                      className={styles.itemSlot}
+                    >
+                      <span
+                        className={styles.itemSlotEmpty}
+                        aria-hidden
+                      />
+                    </li>
+                  );
+                }
                 const invItem = getItem(id);
                 if (!invItem) return null;
                 const isAddOn = invItem.addOnFor != null;
@@ -125,25 +177,23 @@ const InventoryModal = ({
                   <li
                     key={id}
                     className={
-                      isAddOn ? `${styles.itemRow} ${styles.itemRowAddOn}` : styles.itemRow
+                      isAddOn ? `${styles.itemSlot} ${styles.itemSlotAddOn}` : styles.itemSlot
                     }
                   >
-                    <span className={styles.itemIcon}>
-                      <Icon
-                        name={invItem.icon}
-                        size="small"
-                      />
-                    </span>
-                    <div className={styles.itemInfo}>
-                      <span className={styles.itemName}>{invItem.name}</span>
-                      <span className={styles.itemDesc}>{invItem.description}</span>
-                    </div>
-                    <Button
-                      variant="secondary"
+                    <button
+                      type="button"
+                      className={styles.itemSlotButton}
                       onClick={() => handleUse(id)}
+                      aria-label={`Use ${invItem.name}`}
                     >
-                      {ui?.inventoryButtonUse ?? ""}
-                    </Button>
+                      <span className={styles.itemSlotIcon}>
+                        <ItemIcon
+                          icon={invItem.icon}
+                          itemId={id}
+                        />
+                      </span>
+                      <span className={styles.itemSlotName}>{invItem.name}</span>
+                    </button>
                   </li>
                 );
               })}

@@ -18,11 +18,13 @@ import { Route as ApiGithubContributionsRouteImport } from './routes/api/github-
 import { Route as ApiGetAchievementsRouteImport } from './routes/api/get-achievements'
 import { Route as ApiDeleteAchievementsRouteImport } from './routes/api/delete-achievements'
 import { Route as ApiAddAchievementRouteImport } from './routes/api/add-achievement'
+import { Route as AppChar9466Char9463Char9467Char9464RouteImport } from './routes/_app.⓺⓷⓻⓸'
 import { Route as AppWritingRouteImport } from './routes/_app.writing'
 import { Route as AppWorkRouteImport } from './routes/_app.work'
 import { Route as AppJourneyToEryndorRouteImport } from './routes/_app.journey-to-eryndor'
 import { Route as AppContactRouteImport } from './routes/_app.contact'
 import { Route as AppAboutRouteImport } from './routes/_app.about'
+import { Route as App6374RouteImport } from './routes/_app.6374'
 import { Route as AppWorkIndexRouteImport } from './routes/_app.work.index'
 import { Route as AppWorkIdRouteImport } from './routes/_app.work.$id'
 
@@ -70,6 +72,12 @@ const ApiAddAchievementRoute = ApiAddAchievementRouteImport.update({
   path: '/api/add-achievement',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppChar9466Char9463Char9467Char9464Route =
+  AppChar9466Char9463Char9467Char9464RouteImport.update({
+    id: '/⓺⓷⓻⓸',
+    path: '/⓺⓷⓻⓸',
+    getParentRoute: () => AppRoute,
+  } as any)
 const AppWritingRoute = AppWritingRouteImport.update({
   id: '/writing',
   path: '/writing',
@@ -95,6 +103,11 @@ const AppAboutRoute = AppAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => AppRoute,
 } as any)
+const App6374Route = App6374RouteImport.update({
+  id: '/6374',
+  path: '/6374',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppWorkIndexRoute = AppWorkIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -109,11 +122,13 @@ const AppWorkIdRoute = AppWorkIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/$': typeof SplatRoute
   '/': typeof AppIndexRoute
+  '/6374': typeof App6374Route
   '/about': typeof AppAboutRoute
   '/contact': typeof AppContactRoute
   '/journey-to-eryndor': typeof AppJourneyToEryndorRoute
   '/work': typeof AppWorkRouteWithChildren
   '/writing': typeof AppWritingRoute
+  '/⓺⓷⓻⓸': typeof AppChar9466Char9463Char9467Char9464Route
   '/api/add-achievement': typeof ApiAddAchievementRoute
   '/api/delete-achievements': typeof ApiDeleteAchievementsRoute
   '/api/get-achievements': typeof ApiGetAchievementsRoute
@@ -125,10 +140,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/$': typeof SplatRoute
+  '/6374': typeof App6374Route
   '/about': typeof AppAboutRoute
   '/contact': typeof AppContactRoute
   '/journey-to-eryndor': typeof AppJourneyToEryndorRoute
   '/writing': typeof AppWritingRoute
+  '/⓺⓷⓻⓸': typeof AppChar9466Char9463Char9467Char9464Route
   '/api/add-achievement': typeof ApiAddAchievementRoute
   '/api/delete-achievements': typeof ApiDeleteAchievementsRoute
   '/api/get-achievements': typeof ApiGetAchievementsRoute
@@ -143,11 +160,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/$': typeof SplatRoute
   '/_app': typeof AppRouteWithChildren
+  '/_app/6374': typeof App6374Route
   '/_app/about': typeof AppAboutRoute
   '/_app/contact': typeof AppContactRoute
   '/_app/journey-to-eryndor': typeof AppJourneyToEryndorRoute
   '/_app/work': typeof AppWorkRouteWithChildren
   '/_app/writing': typeof AppWritingRoute
+  '/_app/⓺⓷⓻⓸': typeof AppChar9466Char9463Char9467Char9464Route
   '/api/add-achievement': typeof ApiAddAchievementRoute
   '/api/delete-achievements': typeof ApiDeleteAchievementsRoute
   '/api/get-achievements': typeof ApiGetAchievementsRoute
@@ -163,11 +182,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/$'
     | '/'
+    | '/6374'
     | '/about'
     | '/contact'
     | '/journey-to-eryndor'
     | '/work'
     | '/writing'
+    | '/⓺⓷⓻⓸'
     | '/api/add-achievement'
     | '/api/delete-achievements'
     | '/api/get-achievements'
@@ -179,10 +200,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/$'
+    | '/6374'
     | '/about'
     | '/contact'
     | '/journey-to-eryndor'
     | '/writing'
+    | '/⓺⓷⓻⓸'
     | '/api/add-achievement'
     | '/api/delete-achievements'
     | '/api/get-achievements'
@@ -196,11 +219,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/$'
     | '/_app'
+    | '/_app/6374'
     | '/_app/about'
     | '/_app/contact'
     | '/_app/journey-to-eryndor'
     | '/_app/work'
     | '/_app/writing'
+    | '/_app/⓺⓷⓻⓸'
     | '/api/add-achievement'
     | '/api/delete-achievements'
     | '/api/get-achievements'
@@ -288,6 +313,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAddAchievementRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/⓺⓷⓻⓸': {
+      id: '/_app/⓺⓷⓻⓸'
+      path: '/⓺⓷⓻⓸'
+      fullPath: '/⓺⓷⓻⓸'
+      preLoaderRoute: typeof AppChar9466Char9463Char9467Char9464RouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/writing': {
       id: '/_app/writing'
       path: '/writing'
@@ -323,6 +355,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAboutRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/6374': {
+      id: '/_app/6374'
+      path: '/6374'
+      fullPath: '/6374'
+      preLoaderRoute: typeof App6374RouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/work/': {
       id: '/_app/work/'
       path: '/'
@@ -354,20 +393,25 @@ const AppWorkRouteWithChildren =
   AppWorkRoute._addFileChildren(AppWorkRouteChildren)
 
 interface AppRouteChildren {
+  App6374Route: typeof App6374Route
   AppAboutRoute: typeof AppAboutRoute
   AppContactRoute: typeof AppContactRoute
   AppJourneyToEryndorRoute: typeof AppJourneyToEryndorRoute
   AppWorkRoute: typeof AppWorkRouteWithChildren
   AppWritingRoute: typeof AppWritingRoute
+  AppChar9466Char9463Char9467Char9464Route: typeof AppChar9466Char9463Char9467Char9464Route
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  App6374Route: App6374Route,
   AppAboutRoute: AppAboutRoute,
   AppContactRoute: AppContactRoute,
   AppJourneyToEryndorRoute: AppJourneyToEryndorRoute,
   AppWorkRoute: AppWorkRouteWithChildren,
   AppWritingRoute: AppWritingRoute,
+  AppChar9466Char9463Char9467Char9464Route:
+    AppChar9466Char9463Char9467Char9464Route,
   AppIndexRoute: AppIndexRoute,
 }
 

@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Suspense } from "react";
 import { Outlet } from "@tanstack/react-router";
 import PagePreview from "~/components/Preview/PagePreview";
+import { PageTransition } from "~/components/PageTransition/PageTransition";
 import type { PageNames } from "~/data/themeConfig";
 
 const PageContentArea = ({ pageName, fallback }: { pageName: PageNames; fallback?: ReactNode }) => {
@@ -11,19 +12,23 @@ const PageContentArea = ({ pageName, fallback }: { pageName: PageNames; fallback
         minHeight: "100%",
       }}
     >
-      <Suspense
-        fallback={
-          fallback ?? (
-            <PagePreview
-              key={pageName}
-              pageName={pageName}
-              hideAll
-            />
-          )
-        }
-      >
-        <Outlet />
-      </Suspense>
+      <PageTransition pageName={pageName}>
+        <div style={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
+          <Suspense
+            fallback={
+              fallback ?? (
+                <PagePreview
+                  key={pageName}
+                  pageName={pageName}
+                  hideAll
+                />
+              )
+            }
+          >
+            <Outlet />
+          </Suspense>
+        </div>
+      </PageTransition>
     </div>
   );
 };

@@ -12,6 +12,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const backgroundColors = useThemeStore((store) => store.backgroundColors);
   const scrolled = usePageScrollStore((store) => store.scrolled);
   const hasSword = useInventoryStore((store) => store.hasItem("sword"));
+  const hasKey = useInventoryStore((store) => store.hasItem("key"));
   const { pathname } = useLocation();
 
   return (
@@ -23,6 +24,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         styles.layout,
         name,
         hasSword && name === "eryndor" && "hasSword",
+        hasKey && "hasKey",
         pathname === "/" && styles.layoutHome,
         scrolled && styles.layoutScrolled,
         scrolled && "layoutScrolled",

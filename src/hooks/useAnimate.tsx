@@ -18,12 +18,13 @@ export const useAnimate = () => {
 
     if (pathname === "/") {
       if (isSmallScreen) {
-        return { height: "20%" };
+        return { flex: "1 1 0%" }; // Equal vertical distribution
       }
       return { width: "calc(20% - 24px)" };
     } else if (isCurrent || caseStudy) {
       if (isSmallScreen) {
-        return { height: "100%" };
+        // Mirror horizontal: current takes full main-axis (flex), full cross-axis (width)
+        return { flex: "1 1 0%", minHeight: 0, width: "100%" };
       }
       return { width: "100%" };
     } else {

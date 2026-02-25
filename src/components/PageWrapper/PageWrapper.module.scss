@@ -2,6 +2,7 @@
 .pageWrapper {
   border-radius: var(--border-radius-large);
   box-shadow: var(--box-shadow);
+  overflow: auto;
   transition: all var(--transition-duration) var(--animation-timing);
 
   @media screen and (max-width: 768px) {
@@ -14,7 +15,7 @@
 
     // applies to all non-active pages
     :global(.layoutScrolled) & {
-      &:not(.pageWrapperCurrent) {
+      &:not(.pageWrapperCurrent):not(.pageWrapperHome) {
         min-height: 24px;
         height: 24px !important;
       }

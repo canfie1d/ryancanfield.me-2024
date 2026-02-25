@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { LayoutGroup } from "motion/react";
-import { createFileRoute, useLocation } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router";
 import { useShortcuts } from "~/hooks/useShortcuts";
 import { usePageScrollStore } from "~/stores/scroll";
 import PageContentArea from "~/components/PageContentArea/PageContentArea";
@@ -119,6 +119,9 @@ function AppLayout() {
             <PageContentArea pageName="journey-to-eryndor" />
           </PageWrapper>
         );
+      }
+      if (pathname === "/6374" || pathname === "/⓺⓷⓻⓸") {
+        return <Outlet />;
       }
       // Home: all previews
       return (

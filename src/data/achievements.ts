@@ -2,6 +2,13 @@ import { AchievementType } from "~/stores/achievements";
 
 export const ACHIEVEMENTS: AchievementType[] = [
   {
+    id: "lore_discovered", // ✔️
+    title: "Lore Keeper",
+    description: "Discover the hidden lore",
+    collectedDate: null,
+    icon: "scroll",
+  },
+  {
     id: "the_journey_begins", // ✔️
     title: "The Journey Begins",
     description: "Find the start of the journey",
@@ -302,5 +309,19 @@ export const ACHIEVEMENTS: AchievementType[] = [
     description: "Open your inventory for the first time",
     collectedDate: null,
     icon: "backpack",
+  },
+  {
+    id: "number_cruncher",
+    title: "Number Cruncher",
+    description: "Find the numbers",
+    collectedDate: null,
+    icon: "map",
+  },
+  {
+    id: "circle_around",
+    title: "Circle Around",
+    description: "Find the circled path",
+    collectedDate: null,
+    icon: "path",
   },
 ];

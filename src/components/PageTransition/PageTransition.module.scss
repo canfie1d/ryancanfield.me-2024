@@ -1,0 +1,70 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-large);
+  pointer-events: none;
+}
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-unit);
+  padding: var(--spacing-unit-double);
+  width: 100%;
+  max-width: 480px;
+}
+
+.skeletonLine {
+  height: 1.25rem;
+  border-radius: var(--border-radius-small);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer var(--transition-duration-slow) ease-in-out infinite;
+}
+
+.skeletonLine:nth-child(1) {
+  width: 60%;
+  margin-top: var(--spacing-unit);
+}
+
+.skeletonLine:nth-child(2) {
+  width: 85%;
+}
+
+.skeletonLine:nth-child(3) {
+  width: 75%;
+}
+
+.skeletonLine:nth-child(4) {
+  width: 90%;
+}
+
+.skeletonLine:nth-child(5) {
+  width: 40%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonLine {
+    animation: none;
+    background: rgba(255, 255, 255, 0.25);
+  }
+}

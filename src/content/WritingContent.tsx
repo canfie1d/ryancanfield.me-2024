@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useAchievementStore } from "~/stores/achievements";
 import { useInventoryStore } from "~/stores/inventory";
 import { useJewelDiscoveryStore } from "~/stores/jewel-discovery";
+import { INVENTORY_ITEMS } from "~/data/inventory";
 import { useIntersectionObserver } from "~/hooks/useIntersectionObserver";
 import { useArticleLinks, usePageContent } from "~/hooks/useSanityContent";
 import Card from "~/components/Card/Card";
@@ -17,6 +18,7 @@ const WritingContent = () => {
   const { textColor, backgroundColor } = useGetColorsFromTheme("writing");
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
+  const setToast = useAchievementStore((store) => store.setToast);
   const markArticleViewed = useJewelDiscoveryStore((store) => store.markArticleViewed);
   const viewedArticleIds = useJewelDiscoveryStore((store) => store.viewedArticleIds);
   const addItem = useInventoryStore((store) => store.addItem);
@@ -40,8 +42,14 @@ const WritingContent = () => {
       !hasItem("jewel-writing")
     ) {
       addItem("jewel-writing");
+      const jewel = INVENTORY_ITEMS["jewel-writing"];
+      setToast({
+        open: true,
+        title: jewel.name,
+        message: jewel.description,
+      });
     }
-  }, [articleLinks?.length, hasAchievement, viewedArticleIds.length, hasItem, addItem]);
+  }, [articleLinks?.length, hasAchievement, viewedArticleIds.length, hasItem, addItem, setToast]);
 
   const introText = pageContent?.introText ?? "";
 

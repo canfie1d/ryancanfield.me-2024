@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useAchievementStore } from "~/stores/achievements";
 import { useInventoryStore } from "~/stores/inventory";
+import { INVENTORY_ITEMS } from "~/data/inventory";
 import { useUiStrings } from "~/hooks/useSanityContent";
 import Button from "~/components/Button";
 import Text from "~/components/Text";
@@ -25,6 +26,7 @@ const DEFAULT_FORM_DATA: FormData = {
 const ContactForm = () => {
   const hasAchievement = useAchievementStore((store) => store.hasAchievement);
   const addAchievement = useAchievementStore((store) => store.addAchievement);
+  const setToast = useAchievementStore((store) => store.setToast);
   const addItem = useInventoryStore((store) => store.addItem);
   const hasItem = useInventoryStore((store) => store.hasItem);
   const { data: ui } = useUiStrings();
@@ -65,7 +67,15 @@ const ContactForm = () => {
       if (!res.ok) throw new Error("Submission failed");
       setSubmitted(true);
       if (!hasAchievement("first_contact")) addAchievement("first_contact");
-      if (!hasItem("jewel-contact")) addItem("jewel-contact");
+      if (!hasItem("jewel-contact")) {
+        addItem("jewel-contact");
+        const jewel = INVENTORY_ITEMS["jewel-contact"];
+        setToast({
+          open: true,
+          title: jewel.name,
+          message: jewel.description,
+        });
+      }
     } catch {
       setSubmitError("Something went wrong. Please try again.");
     } finally {
@@ -80,9 +90,15 @@ const ContactForm = () => {
       }
       if (!hasItem("jewel-contact")) {
         addItem("jewel-contact");
+        const jewel = INVENTORY_ITEMS["jewel-contact"];
+        setToast({
+          open: true,
+          title: jewel.name,
+          message: jewel.description,
+        });
       }
     }
-  }, [formSuccess, addAchievement, addItem, hasAchievement, hasItem]);
+  }, [formSuccess, addAchievement, addItem, hasAchievement, hasItem, setToast]);
 
   if (showSuccess) {
     return <Text className={classNames(styles.submitMessage)}>{ui?.formSuccessMessage ?? ""}</Text>;
