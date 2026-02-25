@@ -1,6 +1,6 @@
 import React, { ReactNode, useRef } from "react";
 import classNames from "classnames";
-import { useWindowSize } from "react-use";
+import { useWindowSize } from "~/hooks/useWindowSize";
 import { Waypoint } from "react-waypoint";
 import { usePageScrollStore } from "~/stores/scroll";
 import { pagesUsingThemeColor, PageNames, pageNames } from "~/data/themeConfig";

@@ -53,7 +53,7 @@ export const getVisibleJewelColor = (
 ): string => {
   if (!color?.startsWith("#")) return color;
   if (getContrast(color, containerBg) >= minContrast) return color;
-  let [r, g, b] = hexToRgb(color);
+  const [r, g, b] = hexToRgb(color);
   let factor = 0.2;
   let darkColor: string;
   do {

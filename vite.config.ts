@@ -7,8 +7,33 @@ import { VitePWA } from "vite-plugin-pwa";
 import mkcert from "vite-plugin-mkcert";
 import eslintPlugin from "@nabla/vite-plugin-eslint";
 
+/** Polyfill res.setHeaders for preview server (Netlify plugin may provide a different res object) */
+function previewSetHeadersPolyfill() {
+  return {
+    name: "preview-setheaders-polyfill",
+    configurePreviewServer: {
+      order: "pre",
+      handler(server) {
+        server.middlewares.use((req, res, next) => {
+          if (typeof res.setHeaders !== "function") {
+            res.setHeaders = function (headers: Headers | Map<string, string>) {
+              if (headers instanceof Headers) {
+                headers.forEach((value, key) => res.setHeader(key, value));
+              } else if (headers instanceof Map) {
+                headers.forEach((value, key) => res.setHeader(key, value));
+              }
+            };
+          }
+          next();
+        });
+      },
+    },
+  };
+}
+
 export default defineConfig(({ command }) => ({
   plugins: [
+    previewSetHeadersPolyfill(),
     tanstackStart({
       srcDirectory: "src",
       spa: {
