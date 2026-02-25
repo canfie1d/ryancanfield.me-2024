@@ -31,7 +31,7 @@ function previewSetHeadersPolyfill() {
   };
 }
 
-export default defineConfig(({ command }) => ({
+export default defineConfig(({ command, isPreview }) => ({
   plugins: [
     previewSetHeadersPolyfill(),
     tanstackStart({
@@ -49,8 +49,8 @@ export default defineConfig(({ command }) => ({
         theme_color: "#d3d3d3",
       },
     }),
-    // mkcert only for dev server — excluded from build to avoid prerender cert issues
-    ...(command === "serve"
+    // mkcert only for dev server — excluded from build/preview to avoid prerender cert issues
+    ...(command === "serve" && !isPreview
       ? [
         mkcert({
           savePath: "./certs",
