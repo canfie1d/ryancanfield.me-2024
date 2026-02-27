@@ -16,8 +16,7 @@
     bottom: var(--spacing-unit);
     left: auto;
     height: var(--full-minus-20);
-    width: min(var(--fifth), 200px);
-    max-width: 200px;
+    width: var(--fifth);
     transform-origin: right; // used in js
     padding: var(--spacing-unit-half) 0;
   }
