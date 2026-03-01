@@ -1,19 +1,14 @@
 import { Handler } from "@netlify/functions";
+import { headers } from "../config";
 
-let headers = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "Origin, X-Requested-With, Content-Type, Accept",
-  "Content-Type": "application/json",
-  "Access-Control-Allow-Methods": "*",
-  "Access-Control-Max-Age": "2592000",
-  "Access-Control-Allow-Credentials": "true",
-};
-
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = async (event) => {
+  const username =
+    event.queryStringParameters?.username ??
+    process.env.GITHUB_USERNAME ??
+    "canfie1d";
   try {
     const response = await fetch(
-      "https://github-contributions.vercel.app/api/v1/canfie1d"
+      `https://github-contributions.vercel.app/api/v1/${username}`
     );
     const data = await response.json();
     return {

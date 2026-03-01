@@ -1,0 +1,23 @@
+.tabsHeader {
+  display: flex;
+  justify-content: center;
+
+  button {
+    flex: 0 0 auto;
+    margin: 0;
+    min-width: 105px;
+    border: 1px solid var(--white);
+
+    &:first-of-type {
+      border-right-width: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:last-of-type {
+      border-left-width: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}

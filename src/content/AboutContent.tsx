@@ -1,104 +1,129 @@
-import classNames from "classnames";
-import styles from "../styles/content.module.scss";
+import { useEffect, useRef, memo } from "react";
+
+declare global {
+  interface Window {
+    wait: (ms: number) => Promise<void>;
+    lore: () => string;
+    yes: () => void;
+    no: () => string;
+  }
+}
+
+import { useAchievementStore } from "~/stores/achievements";
+import { useInventoryStore } from "~/stores/inventory";
+import { useAbout, useUiStrings } from "~/hooks/useSanityContent";
+import { textFallOff } from "~/helpers/textFallOff";
+import Tabs from "~/components/Tabs";
+import PortableText from "~/components/PortableText";
+
+type AboutData = {
+  meBio?: unknown[] | null;
+  siteBio?: unknown[] | null;
+  metaText?: string | null;
+  metaCodeHint?: string | null;
+  resumeUrl?: string | null;
+  tabLabelMe?: string | null;
+  tabLabelSite?: string | null;
+  lorePrompt?: string | null;
+  loreYes?: string | null;
+  loreNo?: string | null;
+};
 
 const AboutContent = () => {
-  return (
-    <div className={styles.contentBody}>
-      <h2>the site</h2>
-      <p className={styles.p}>
-        After reviewing the site analytics of my previous website iterations, I
-        noticed that many users only visited one time. That result aligned with
-        my general assumption that portfolio sites don't have frequent
-        non-unique visitors, but I thought that there must be a way to improve
-        that statistic for myself and my site.
-      </p>
-      <p className={styles.p}>
-        I began by thinking of the type of users that might be visiting my
-        website— developers, engineering managers, tech recruiters, and
-        designers. I decided that because developers &amp; designers had the
-        least to gain from interacting with and revisiting my site, adding some
-        tooling for them would create value for them (you) to come back.
-      </p>
-      <ul className={styles.featuresList}>
-        <li>
-          <h3>theming</h3>
-          <p className={styles.p}>
-            This site includes a theming feature that enables the ability to
-            switch between premade themes or create fully custom themes that can
-            easily be applied to other projects. The feature is built directly
-            into the fabric of the website enabling it to be utilized in two
-            completely separate ways.
-          </p>
-          <p className={styles.p}>
-            To assist with theme generation, I've included an API from{" "}
-            <a href="colormind.io" target="_blank">
-              colormind.io
-            </a>
-            . This API generates color palettes based on provided colors or, if
-            none are provided, at random.
-          </p>
-        </li>
-        <li>
-          <h3>motion</h3>
-          <p className={styles.p}>
-            I have utilized Framer Motion, a powerful animation library for
-            React, to add smooth and engaging animations throughout the site,
-            creating a more interactive and engaging experience (I mean, how
-            satisfying is that scroll animation?).
-          </p>
-          <p className={styles.p}>
-            And of course, for users that have a preference for reduced motion,
-            those animations are completely muted.
-          </p>
-        </li>
-        <li>
-          <h3>JavaScript, React, and CSS features</h3>
-          <p className={styles.p}>
-            The{" "}
-            <a
-              target="_blank"
-              href="https://github.com/canfie1d/ryancanfield.me-2024"
-            >
-              codebase of this site
-            </a>{" "}
-            reflects the entire spectum of modern JavaScript features from the
-            latest React hooks (and some custom ones), latest CSS selectors and
-            properties, you'll find a diverse set of techniques and best
-            practices implemented.
-          </p>
-        </li>
-      </ul>
+  const codeRef = useRef<HTMLDivElement>(null);
 
-      <h2>me</h2>
-      <p className={styles.p}>
-        I'm <strong>a software engineering manager</strong> based in Seattle and
-        currently working at{" "}
-        <a
-          className={classNames(styles.a, styles.aInline)}
-          href="https://asmbl.digital/"
-          target="_blank"
-        >
-          ASMBL
-        </a>
-        , a software consultancy where I lead a team of engineers building
-        software for some of the largest companies in the world.
-      </p>
-      <p className={styles.p}>
-        Although I have <strong>a background in user interface design</strong>,
-        I've focused my career in software development. I'm{" "}
-        <strong>
-          passionate about building products that make a positive impact&nbsp;
-        </strong>
-        on people's lives - being mindful of equity, accessibility, globalism
-        and sustainability.
-      </p>
-      <p className={styles.p}>
-        Outside of work, I really enjoy skateboarding, woodworking (poorly), and
-        tinkering in my workshop (its like inventing but you never actually make
-        anything novel).
-      </p>
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
+  const addItem = useInventoryStore((store) => store.addItem);
+
+  const { data, isLoading } = useAbout();
+  const { data: ui } = useUiStrings();
+  const about = data as AboutData | undefined;
+
+  useEffect(() => {
+    const lore = {
+      prompt: about?.lorePrompt ?? "",
+      yes: about?.loreYes ?? "",
+      no: about?.loreNo ?? "",
+    };
+
+    // Console functions for curious visitors.
+    window.lore = () => {
+      // First call: give achievement + key + note
+      if (!hasAchievement("lore_discovered")) {
+        addAchievement("lore_discovered");
+        addItem("key");
+        addItem("note");
+      }
+
+      window.yes = () => {
+        if (!hasAchievement("the_journey_begins")) {
+          addAchievement("the_journey_begins");
+        }
+        return lore.yes;
+      };
+      window.no = () => lore.no;
+      return lore.prompt;
+    };
+
+    window.wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+  }, [hasAchievement, addAchievement, addItem, about]);
+
+  // the_journey_begins now comes only from yes() in the lore flow
+
+  useEffect(() => {
+    if (!hasAchievement("about_face")) {
+      addAchievement("about_face");
+    }
+  }, [addAchievement, hasAchievement]);
+
+  // jewel-about is now unlocked via key on the journey page, not here
+
+  const options = [
+    { id: "me", label: about?.tabLabelMe ?? "" },
+    { id: "site", label: about?.tabLabelSite ?? "" },
+  ];
+
+  if (isLoading || !about) {
+    return (
+      <div className="contentBody">
+        <p>{ui?.loadingText ?? ""}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="contentBody">
+      <Tabs
+        pageName="about"
+        options={options}
+      >
+        <div id="me">
+          <PortableText
+            value={about.meBio}
+            resumeUrl={about.resumeUrl}
+          />
+        </div>
+        <div id="site">
+          <PortableText
+            value={about.siteBio}
+            resumeUrl={about.resumeUrl}
+          />
+          {(about.metaText || about.metaCodeHint) && (
+            <>
+              <h2>{ui?.aboutSectionMeta ?? ""}</h2>
+              {about.metaText && <p>{textFallOff(about.metaText, 9)}</p>}
+              {about.metaCodeHint && (
+                <div ref={codeRef}>
+                  <code className="inlineBlock">{about.metaCodeHint}</code>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </Tabs>
     </div>
   );
 };
 
-export default AboutContent;
+export default memo(AboutContent);

@@ -1,0 +1,197 @@
+.themePanel {
+  flex-shrink: 0;
+  margin-top: auto;
+  border-radius: var(--border-radius-medium);
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  padding: var(--spacing-unit);
+  background-color: var(--off-white);
+  box-shadow: var(--box-shadow);
+  transition: all var(--transition-duration-quick) var(--animation-timing);
+  overflow-y: auto;
+  max-height: min(60vh, 400px);
+}
+
+.themeMenu {
+  z-index: 2;
+  background-color: transparent;
+  width: auto;
+
+  ul {
+    list-style: none;
+    margin: var(--spacing-unit) 0 0;
+    padding: 0;
+    border: 1px solid var(--unremarkable-medium-gray);
+    border-radius: calc(var(--border-radius-medium) + 1px);
+    overflow: hidden;
+
+    li {
+      button,
+      .themeSwatchLocked {
+        min-height: 42px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-bottom: 0;
+        border-width: 0 !important;
+        border-bottom: 1px solid var(--unremarkable-medium-gray) !important;
+      }
+
+      &:first-child {
+        button,
+        .themeSwatchLocked {
+          border-top-left-radius: var(--border-radius-medium);
+          border-top-right-radius: var(--border-radius-medium);
+        }
+      }
+
+      + li {
+        button,
+        .themeSwatchLocked {
+          border-top: 0;
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
+      }
+
+      &:last-child {
+        button,
+        .themeSwatchLocked {
+          border-bottom: 0 !important;
+          border-bottom-left-radius: var(--border-radius-medium);
+          border-bottom-right-radius: var(--border-radius-medium);
+        }
+      }
+    }
+  }
+}
+
+.themeMenuHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--unremarkable-medium-gray);
+  transition: transform var(--transition-duration-super-quick) var(--animation-timing);
+
+  span {
+    margin-left: var(--spacing-unit-quarter);
+    font-family: var(--body-font);
+    font-weight: 800;
+    background: linear-gradient(to right, #000 0%, #555 25%, #777 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.1em;
+    font-size: var(--font-large);
+
+    @media (min-width: 769px) and (max-width: 968px) {
+      margin-left: calc(var(--spacing-unit-quarter) * -1.9);
+      font-size: var(--font-medium);
+    }
+  }
+}
+
+button.themeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-unit-half);
+  padding: var(--spacing-unit-half) var(--spacing-unit);
+  cursor: pointer;
+  color: var(--unremarkable-dark-gray);
+  box-shadow: none;
+  width: 100%;
+  border: 0;
+  font: inherit;
+
+  &.themeButtonActive {
+    color: var(--unremarkable-dark-gray);
+    background-color: var(--white) !important;
+  }
+
+  &.themeButtonEryndor {
+    color: #c8e6c8;
+    background-color: #1a2e1a;
+
+    &:hover,
+    &:focus-visible {
+      color: #c8e6c8;
+      background-color: #2d4a2d;
+    }
+
+    &.themeButtonActive {
+      color: #c8e6c8;
+      background-color: #2d4a2d !important;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(0.6);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
+.themeSwatchLocked {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  min-height: 42px;
+  animation: shimmer 2.5s ease-in-out infinite;
+  cursor: default;
+  overflow: hidden;
+}
+
+.themeSwatchColors {
+  display: flex;
+  flex: 1;
+}
+
+.themeSwatchColor {
+  flex: 1;
+  display: block;
+}
+
+.lockedOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--white);
+  mix-blend-mode: difference;
+}
+
+.themeMenuMessage {
+  text-align: center;
+  max-width: 195px;
+  background: var(--off-white);
+  padding: var(--spacing-unit-half);
+  border-radius: var(--border-radius-medium);
+  font-size: var(--font-small);
+
+  div {
+    margin: auto;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    background: var(--unremarkable-semi-opaque-light-gray);
+    border-radius: var(--border-radius-medium);
+    color: var(--unremarkable-dark-gray);
+    padding: var(--spacing-unit-half);
+  }
+}

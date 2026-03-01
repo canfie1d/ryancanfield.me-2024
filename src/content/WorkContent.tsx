@@ -1,62 +1,121 @@
-import { OPEN_SOURCE, PROJECTS } from "../data/content";
-import GithubContributions from "../components/GithubContributions";
-import Card from "../components/Card";
-import styles from "../styles/content.module.scss";
-import cardStyles from "../styles/card.module.scss";
+import { lazy, Suspense, useEffect, useRef } from "react";
+import { useAchievementStore } from "~/stores/achievements";
+import { useProjects, useOpenSource, usePageContent, useUiStrings } from "~/hooks/useSanityContent";
+import { useIntersectionObserver } from "~/hooks/useIntersectionObserver";
+
+const GithubContributions = lazy(() => import("~/components/GithubContributions"));
+import Card from "~/components/Card/Card";
+import Text from "~/components/Text";
+import Tag from "~/components/Tag";
+import styles from "./PageContent.module.scss";
+import { useGetColorsFromTheme } from "~/helpers/getColorsFromTheme";
+import { urlFor, urlForOptimized } from "~/sanity/image";
 
 const WorkContent = () => {
+  const viewed = useRef<boolean>(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useIntersectionObserver(ref?.current);
+  const { textColor, backgroundColor } = useGetColorsFromTheme("work");
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
+
+  const { data: projects } = useProjects();
+  const { data: openSource } = useOpenSource();
+  const { data: pageContent } = usePageContent("work");
+  const { data: ui } = useUiStrings();
+
+  useEffect(() => {
+    if (!hasAchievement("writers_block") && inView && !viewed.current) {
+      addAchievement("writers_block");
+    }
+  }, [inView, addAchievement, hasAchievement]);
+
+  const introText = pageContent?.introText ?? "";
+  const introParagraphs = introText.split(/\n\n+/).filter(Boolean) as string[];
+
   return (
-    <div className={styles.contentBody}>
-      <h2 className={styles.h2}>case studies</h2>
-      <p className={styles.p}>
-        Portfolio sites often showcase the work that was performed without
-        providing additional context for the thinking that led to that outcome.
-        These case studies break down my understanding of the problem that the
-        software should solve, how I think about turning business objectives
-        into user value, and the result of that work.
-      </p>
-      <p className={styles.p}>
-        While most of my work is either behind a login or under NDA, I do have a
-        few case studies available:
-      </p>
-      <div className={cardStyles.cardWrapper}>
-        {PROJECTS.map((project, i) => (
+    <div className="contentBody">
+      {introParagraphs.map((para: string, i: number) => (
+        <Text key={i}>{para}</Text>
+      ))}
+      <Card.Wrapper>
+        {projects?.map((project, i) => (
           <Card
+            pageName="work"
             key={`project-${i}`}
-            title={project.title}
-            href={project.url}
+            title={project.title ?? ""}
+            href={project.url ?? ""}
             className={styles.caseStudy}
+            footer={
+              <div>
+                {project.tags?.length &&
+                  project.tags.map((tag: string, i: number) => (
+                    <Tag
+                      textColor={textColor}
+                      backgroundColor={backgroundColor}
+                      key={`tag-${i}`}
+                    >
+                      {tag}
+                    </Tag>
+                  ))}
+              </div>
+            }
           >
-            <img src={project.image} alt="" />
-            <p className={styles.p}>{project.description}</p>
-            <div className={styles.tag}>UI/UX Design</div>
-            <div className={styles.tag}>Frontend Development</div>
+            <img
+              src={
+                project.image ?
+                  i === 0 ?
+                    urlForOptimized(project.image)
+                  : urlFor(project.image).width(500).quality(75).auto("format").url()
+                : ""
+              }
+              alt={project.title ?? ""}
+              loading={i === 0 ? "eager" : "lazy"}
+              fetchPriority={i === 0 ? "high" : undefined}
+            />
+            <Text size="small">{project.description}</Text>
           </Card>
         ))}
-      </div>
-      <h2 className={styles.h2}>open source</h2>
-      <div className={cardStyles.cardWrapper}>
-        {OPEN_SOURCE.map((item, i) => (
+      </Card.Wrapper>
+      <h3>{ui?.workSectionOpenSource ?? ""}</h3>
+      <Card.Wrapper>
+        {openSource?.map((item, i) => (
           <Card
+            pageName="work"
             key={`item-${i}`}
-            title={item.title}
+            title={item.title ?? ""}
             className={styles.caseStudy}
+            footer={
+              <div>
+                {item.githubUrl && (
+                  <Tag
+                    textColor={textColor}
+                    backgroundColor={backgroundColor}
+                    url={item.githubUrl}
+                  >
+                    Github
+                  </Tag>
+                )}
+                {item.npmUrl && (
+                  <Tag
+                    textColor={textColor}
+                    backgroundColor={backgroundColor}
+                    url={item.npmUrl}
+                  >
+                    NPM
+                  </Tag>
+                )}
+              </div>
+            }
           >
-            <p className={styles.p}>{item.description}</p>
-            {item.githubUrl && (
-              <div className={styles.tag}>
-                <a href={item.githubUrl}>Github</a>
-              </div>
-            )}
-            {item.npmUrl && (
-              <div className={styles.tag}>
-                <a href={item.npmUrl}>NPM</a>
-              </div>
-            )}
+            <Text>{item.description}</Text>
           </Card>
         ))}
-      </div>
-      <GithubContributions />
+      </Card.Wrapper>
+      <Suspense fallback={null}>
+        <GithubContributions />
+      </Suspense>
+      <div ref={ref} />
     </div>
   );
 };

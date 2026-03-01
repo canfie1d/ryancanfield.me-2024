@@ -1,0 +1,113 @@
+.wrapper {
+  margin-inline: auto;
+  max-width: 760px;
+  // Extra vertical padding so overhanging foliage doesn't clip
+  padding: 2rem var(--spacing-unit) calc(var(--spacing-unit-double) + 1.5rem);
+
+  .contentBodyHeader {
+    display: flex;
+    gap: var(--spacing-unit-half);
+    margin-bottom: var(--spacing-unit);
+
+    > div {
+      flex: 1 1 calc(33% - var(--spacing-unit));
+    }
+  }
+}
+
+.parchment {
+  position: relative;
+  overflow: visible;
+  padding: var(--spacing-unit-double) var(--spacing-unit-double);
+
+  // Aged parchment background
+  background-color: #f5e8c0;
+  background-image:
+    // Corner age stains
+    radial-gradient(ellipse 220px 180px at 0% 0%, rgba(175, 135, 55, 0.14) 0%, transparent 100%),
+    radial-gradient(ellipse 180px 160px at 100% 0%, rgba(160, 125, 50, 0.1) 0%, transparent 100%),
+    radial-gradient(
+      ellipse 200px 170px at 100% 100%,
+      rgba(170, 130, 55, 0.12) 0%,
+      transparent 100%
+    ),
+    radial-gradient(ellipse 160px 180px at 0% 100%, rgba(155, 115, 45, 0.11) 0%, transparent 100%),
+    // Mid-page aging
+    radial-gradient(ellipse 140px 120px at 62% 35%, rgba(185, 148, 62, 0.07) 0%, transparent 100%),
+    radial-gradient(ellipse 120px 100px at 30% 65%, rgba(165, 130, 48, 0.06) 0%, transparent 100%);
+
+  // Worn parchment border
+  border: 2px solid #c4a050;
+  border-radius: 1px;
+
+  // Depth and aging shadows
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.1),
+    0 8px 28px rgba(0, 0, 0, 0.18),
+    inset 0 0 50px rgba(155, 118, 45, 0.08),
+    inset 0 0 12px rgba(180, 140, 55, 0.06);
+
+  // Old ink color for text within
+  color: #2a1f14;
+}
+
+// Foliage SVG base positioning
+.foliage {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 2;
+}
+
+.foliageTopLeft {
+  top: -28px;
+  left: -28px;
+}
+
+.foliageTopRight {
+  top: -28px;
+  right: -28px;
+}
+
+.foliageBottomLeft {
+  bottom: -28px;
+  left: -28px;
+}
+
+.foliageBottomRight {
+  bottom: -28px;
+  right: -28px;
+}
+
+// Content sits above the foliage overlay at the edges
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+// ─── Responsive: scale foliage down on small viewports ───────────────────────
+@media (max-width: 500px) {
+  .foliage {
+    width: 130px;
+    height: 130px;
+  }
+
+  .foliageTopRight {
+    right: -18px;
+  }
+
+  .foliageBottomLeft {
+    bottom: -18px;
+  }
+
+  .foliageBottomRight {
+    right: -18px;
+    bottom: -18px;
+  }
+
+  .parchment {
+    padding: var(--spacing-unit) var(--spacing-unit);
+  }
+}

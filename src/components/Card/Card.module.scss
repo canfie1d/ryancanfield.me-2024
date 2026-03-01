@@ -1,0 +1,124 @@
+.cardWrapper {
+  display: grid;
+  align-items: stretch;
+  gap: var(--spacing-unit-half);
+  height: 100%;
+  margin-bottom: var(--spacing-unit);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  animation: fadeIn var(--transition-duration) var(--animation-timing);
+  animation-fill-mode: forwards;
+  opacity: 0;
+
+  &.cardWrapper-3col {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  @media screen and (min-width: 769px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.card {
+  background-color: var(--unremarkable-semi-opaque-light-gray);
+  border-radius: var(--border-radius-medium);
+  outline: 2px solid transparent;
+  width: 100%;
+
+  .body {
+    display: grid;
+    height: 100%;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-unit-half);
+    grid-template-rows: auto 1fr auto;
+    padding: var(--spacing-unit);
+
+    border-radius: var(--border-radius-medium);
+    border: 2px solid transparent;
+
+    &:focus-within {
+      outline: none;
+      border: 2px solid var(--unremarkable-semi-opaque-dark-gray);
+    }
+  }
+
+  h3,
+  p {
+    margin: 0;
+  }
+
+  p {
+    font-size: var(--font-small);
+  }
+
+  .smallTitle {
+    font-size: var(--font-small);
+    min-height: 44px;
+  }
+
+  .centerTitle {
+    text-align: center;
+  }
+
+  img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--border-radius-medium);
+  }
+
+  &:focus-within {
+    outline: 2px solid var(--another-unremarkable-semi-opaque-gray);
+  }
+
+  @media screen and (min-width: 1025px) {
+    flex: 0 0 calc(50% - var(--spacing-unit-quarter));
+  }
+
+  .cardContent {
+    height: 100%;
+    width: inherit;
+    padding: 0;
+    margin: 0;
+    align-items: stretch;
+    color: inherit;
+    display: block;
+    text-decoration: none;
+    border-radius: var(--border-radius-medium);
+
+    border: 2px solid transparent;
+    &:focus-visible {
+      outline: none;
+      border: 2px solid var(--unremarkable-semi-opaque-dark-gray);
+    }
+  }
+
+  &.achievementCard {
+    flex: 0 0 calc(50% - var(--spacing-unit-half));
+    padding: var(--spacing-unit-half);
+    min-height: 92px;
+    background: var(--off-white);
+    color: var(--unremarkable-semi-opaque-dark-gray);
+
+    .cardContent {
+      padding: 0 !important;
+    }
+
+    @media screen and (min-width: 1249px) {
+      flex: 0 0 calc(33.3333% - (var(--spacing-unit-half) * 1.5));
+    }
+
+    &.disabledCard {
+      background: var(--unremarkable-semi-opaque-dark-gray);
+      color: var(--off-white);
+    }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,30 +1,42 @@
-# React + TypeScript + Vite
+<!-- @todo merge pull request with updated lore content
+  -->
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# ryancanfield.me
 
-Currently, two official plugins are available:
+Personal site for Ryan Canfield — Seattle-based software engineering leader.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Framework:** React 19, TanStack Start, TanStack Router
+- **Build:** Vite 7
+- **State:** Zustand (client), React Query (server)
+- **Animations:** Motion
+- **CMS:** Sanity
+- **Storage:** Local Storage, Netlify Blobs
+- **Linting:** ESLint, TypeScript
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Netlify
 
-- Configure the top-level `parserOptions` property like this:
+- **Functions** — serverless API (achievements, GitHub contributions, theme picker)
+- **Forms** — contact form submission
+- **Identity** — authentication (GoTrue)
+- **Blobs** — achievement storage
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
-    project: ["./tsconfig.json", "./tsconfig.node.json"],
-    tsconfigRootDir: __dirname,
-  },
-};
+## Development
+
+```bash
+pnpm install
+pnpm dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Scripts
+
+| Command           | Description                     |
+| ----------------- | ------------------------------- |
+| `pnpm dev`        | Start dev server                |
+| `pnpm dev:live`   | Netlify dev (functions + local) |
+| `pnpm build`      | Type-check and build            |
+| `pnpm preview`    | Preview production build        |
+| `pnpm lint`       | Run ESLint                      |
+| `pnpm type-check` | TypeScript check                |
+| `pnpm storybook`  | Start Storybook                 |

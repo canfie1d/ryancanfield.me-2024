@@ -1,34 +1,47 @@
-import PageContent from "../components/PageContent";
-import AboutContent from "../content/AboutContent";
-import Atom from "../icons/atom.svg?react";
-import { useScroll } from "react-use";
-import { usePageScrollContext } from "../contexts/PageScrollProvider";
-import { useRef } from "react";
+import { useEffect } from "react";
+import { useAchievementStore } from "~/stores/achievements";
+import { usePageMeta } from "~/hooks/usePageMeta";
+import { useAbout } from "~/hooks/useSanityContent";
+import PageContent from "~/content/PageContent";
+import AboutContent from "~/content/AboutContent";
+import AboutGameContent from "~/content/AboutGameContent";
+import DelayedFallback from "~/components/DelayedFallback";
+import Loader from "~/components/Loader";
+import { useGameModeStore } from "~/stores/game-mode";
 
 const About = () => {
-  const ref = useRef(null);
-  const { scrolled, setScrolled } = usePageScrollContext();
-  const { y } = useScroll(ref);
+  const metaData = usePageMeta("about");
+  const activeGameModes = useGameModeStore((store) => store.activeGameModes);
+  const gameModeActive = activeGameModes?.about;
+  const { isLoading } = useAbout();
 
-  if (ref.current) {
-    if ((scrolled === false || scrolled === undefined) && y > 100) {
-      setScrolled(true);
-    } else if (scrolled === true && y <= 100) {
-      setScrolled(false);
+  const loadingAchievements = useAchievementStore((store) => store.loadingAchievements);
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
+
+  useEffect(() => {
+    if (!loadingAchievements && !hasAchievement("about_face")) {
+      addAchievement("about_face");
     }
-  }
+  }, [loadingAchievements, addAchievement, hasAchievement]);
 
   return (
     <PageContent
-      ref={ref}
       pageName="about"
       header={{
         meta: "①",
-        title: "About",
-        icon: <Atom />,
+        title: metaData.title,
+        subtitle: metaData.subtitle,
+        icon: metaData.icon,
       }}
     >
-      <AboutContent />
+      {isLoading ?
+        <DelayedFallback>
+          <Loader />
+        </DelayedFallback>
+      : gameModeActive ?
+        <AboutGameContent />
+      : <AboutContent />}
     </PageContent>
   );
 };

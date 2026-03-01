@@ -1,32 +1,50 @@
-import { Suspense, useRef } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
-import { usePageScrollContext } from "../contexts/PageScrollProvider";
-import { useScroll } from "react-use";
-import { caseStudies } from "../data/caseStudies";
-import PageContent from "../components/PageContent";
-import WorkContent from "../content/WorkContent";
-import CodeCircle from "../icons/code-circle.svg?react";
-import CircleX from "../icons/circle-x.svg?react";
-import Loader from "../components/Loader";
+import { Suspense, useEffect } from "react";
+import { Link, Outlet, useLocation } from "@tanstack/react-router";
+import { motion, useReducedMotion } from "motion/react";
+import {
+  useCaseStudies,
+  usePageContent,
+  useProjects,
+  useUiStrings,
+} from "~/hooks/useSanityContent";
+import { useAchievementStore } from "~/stores/achievements";
+import { useGameModeStore } from "~/stores/game-mode";
+import { usePageMeta } from "~/hooks/usePageMeta";
+import PageContent from "~/content/PageContent";
+import WorkContent from "~/content/WorkContent";
+import WorkGameContent from "~/content/WorkGameContent";
+import DelayedFallback from "~/components/DelayedFallback";
+import Icon from "~/components/Icon";
+import Loader from "~/components/Loader";
 
 const Work = () => {
-  const { scrolled, setScrolled } = usePageScrollContext();
+  const { data: ui } = useUiStrings();
+  const metaData = usePageMeta("work");
+  const activeGameModes = useGameModeStore((store) => store.activeGameModes);
+  const gameModeActive = activeGameModes?.work;
 
-  const ref = useRef(null);
-  const { y } = useScroll(ref);
+  const loadingAchievements = useAchievementStore((store) => store.loadingAchievements);
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
+
+  useEffect(() => {
+    if (!loadingAchievements && !hasAchievement("all_work_no_play")) {
+      addAchievement("all_work_no_play");
+    }
+  }, [loadingAchievements, addAchievement, hasAchievement]);
+
   const prefersReducedMotion = useReducedMotion();
   const { pathname } = useLocation();
-  const isCaseStudy = caseStudies.includes(pathname);
-  const caseStudy = pathname.split("/")[2];
 
-  if (ref.current) {
-    if ((scrolled === false || scrolled === undefined) && y > 100) {
-      setScrolled(true);
-    } else if (scrolled === true && y <= 100) {
-      setScrolled(false);
-    }
-  }
+  const { data: caseStudies } = useCaseStudies();
+  const { isLoading: pageContentLoading } = usePageContent("work");
+  const { isLoading: projectsLoading } = useProjects();
+  const { isLoading: caseStudiesLoading } = useCaseStudies();
+
+  const caseStudy = caseStudies?.find((caseStudy) => `/work/${caseStudy.id}` === pathname);
+  const isCaseStudyView = pathname.startsWith("/work/") && pathname !== "/work";
+  const contentLoading =
+    isCaseStudyView ? caseStudiesLoading : pageContentLoading || projectsLoading;
 
   return (
     <motion.div
@@ -38,28 +56,43 @@ const Work = () => {
       className="h-full"
     >
       <PageContent
-        ref={ref}
         pageName="work"
         header={
-          isCaseStudy
-            ? {
-                meta: (
-                  <Link to="/work">
-                    <CircleX />
-                    <span className="sr-only">Close</span>
-                  </Link>
-                ),
-                title: caseStudy,
-              }
-            : {
-                meta: "②",
-                title: "Work",
-                icon: <CodeCircle />,
-              }
+          caseStudy ?
+            {
+              meta: (
+                <Link to="/work">
+                  <Icon name="circle-x" />
+                  <span className="visually-hidden">{ui?.ariaClose ?? ""}</span>
+                </Link>
+              ),
+              title: caseStudy.title ?? "",
+              subtitle: caseStudy.subtitle ?? "",
+            }
+          : {
+              meta: "②",
+              title: metaData.title,
+              subtitle: metaData.subtitle,
+              icon: metaData.icon,
+            }
         }
       >
-        <Suspense fallback={<Loader />}>
-          {isCaseStudy ? <Outlet /> : <WorkContent />}
+        <Suspense
+          fallback={
+            <DelayedFallback>
+              <Loader />
+            </DelayedFallback>
+          }
+        >
+          {contentLoading ?
+            <DelayedFallback>
+              <Loader />
+            </DelayedFallback>
+          : caseStudy ?
+            <Outlet />
+          : gameModeActive ?
+            <WorkGameContent />
+          : <WorkContent />}
         </Suspense>
       </PageContent>
     </motion.div>

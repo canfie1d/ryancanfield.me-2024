@@ -1,0 +1,19 @@
+.heading {
+  margin-top: var(--spacing-unit-double);
+  margin-bottom: var(--spacing-unit-half);
+}
+
+.subheading {
+  margin-top: var(--spacing-unit);
+  margin-bottom: var(--spacing-unit-half);
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--another-unremarkable-semi-opaque-gray);
+  }
+}

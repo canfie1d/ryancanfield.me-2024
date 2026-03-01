@@ -1,30 +1,50 @@
-import PageContent from "../components/PageContent";
-import WritingContent from "../content/WritingContent";
-import Brain from "../icons/brain.svg?react";
-import { useScroll } from "react-use";
-import { usePageScrollContext } from "../contexts/PageScrollProvider";
-import { useRef } from "react";
+import { useEffect } from "react";
+import { useAchievementStore } from "~/stores/achievements";
+import { usePageMeta } from "~/hooks/usePageMeta";
+import { useArticleLinks, usePageContent } from "~/hooks/useSanityContent";
+import PageContent from "~/content/PageContent";
+import WritingContent from "~/content/WritingContent";
+import WritingGameContent from "~/content/WritingGameContent";
+import DelayedFallback from "~/components/DelayedFallback";
+import Loader from "~/components/Loader";
+import { useGameModeStore } from "~/stores/game-mode";
 
 const Writing = () => {
-  const ref = useRef(null);
-  const { scrolled, setScrolled } = usePageScrollContext();
-  const { y } = useScroll(ref);
+  const metaData = usePageMeta("writing");
+  const activeGameModes = useGameModeStore((store) => store.activeGameModes);
+  const gameModeActive = activeGameModes?.writing;
+  const { isLoading: pageContentLoading } = usePageContent("writing");
+  const { isLoading: articleLinksLoading } = useArticleLinks();
 
-  if (ref.current) {
-    if ((scrolled === false || scrolled === undefined) && y > 100) {
-      setScrolled(true);
-    } else if (scrolled === true && y <= 100) {
-      setScrolled(false);
+  const loadingAchievements = useAchievementStore((store) => store.loadingAchievements);
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
+
+  useEffect(() => {
+    if (!loadingAchievements && !hasAchievement("writers_block")) {
+      addAchievement("writers_block");
     }
-  }
+  }, [loadingAchievements, addAchievement, hasAchievement]);
+
+  const contentLoading = pageContentLoading || articleLinksLoading;
 
   return (
     <PageContent
-      ref={ref}
       pageName="writing"
-      header={{ meta: "③", title: "Writing", icon: <Brain /> }}
+      header={{
+        meta: "③",
+        title: metaData.title,
+        subtitle: metaData.subtitle,
+        icon: metaData.icon,
+      }}
     >
-      <WritingContent />
+      {contentLoading ?
+        <DelayedFallback>
+          <Loader />
+        </DelayedFallback>
+      : gameModeActive ?
+        <WritingGameContent />
+      : <WritingContent />}
     </PageContent>
   );
 };

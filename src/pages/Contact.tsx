@@ -1,34 +1,47 @@
-import PageContent from "../components/PageContent";
-import ContactContent from "../content/ContactContent";
-import At from "../icons/at.svg?react";
-import { useScroll } from "react-use";
-import { usePageScrollContext } from "../contexts/PageScrollProvider";
-import { useRef } from "react";
+import { useEffect } from "react";
+import { useAchievementStore } from "~/stores/achievements";
+import { usePageMeta } from "~/hooks/usePageMeta";
+import { usePageContent } from "~/hooks/useSanityContent";
+import PageContent from "~/content/PageContent";
+import ContactContent from "~/content/ContactContent";
+import ContactGameContent from "~/content/ContactGameContent";
+import DelayedFallback from "~/components/DelayedFallback";
+import Loader from "~/components/Loader";
+import { useGameModeStore } from "~/stores/game-mode";
 
 const Contact = () => {
-  const ref = useRef(null);
-  const { scrolled, setScrolled } = usePageScrollContext();
-  const { y } = useScroll(ref);
+  const metaData = usePageMeta("contact");
+  const activeGameModes = useGameModeStore((store) => store.activeGameModes);
+  const gameModeActive = activeGameModes?.contact;
+  const { isLoading } = usePageContent("contact");
 
-  if (ref.current) {
-    if ((scrolled === false || scrolled === undefined) && y > 100) {
-      setScrolled(true);
-    } else if (scrolled === true && y <= 100) {
-      setScrolled(false);
+  const loadingAchievements = useAchievementStore((store) => store.loadingAchievements);
+  const hasAchievement = useAchievementStore((store) => store.hasAchievement);
+  const addAchievement = useAchievementStore((store) => store.addAchievement);
+
+  useEffect(() => {
+    if (!loadingAchievements && !hasAchievement("reach_out")) {
+      addAchievement("reach_out");
     }
-  }
+  }, [loadingAchievements, addAchievement, hasAchievement]);
 
   return (
     <PageContent
-      ref={ref}
       pageName="contact"
       header={{
         meta: "④",
-        title: "Contact",
-        icon: <At />,
+        title: metaData.title,
+        subtitle: metaData.subtitle,
+        icon: metaData.icon,
       }}
     >
-      <ContactContent />
+      {isLoading ?
+        <DelayedFallback>
+          <Loader />
+        </DelayedFallback>
+      : gameModeActive ?
+        <ContactGameContent />
+      : <ContactContent />}
     </PageContent>
   );
 };

@@ -1,0 +1,18 @@
+.loreReward {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-unit-half);
+  margin-top: var(--spacing-unit-double);
+}
+
+.loreContent {
+  margin-top: var(--spacing-unit-double);
+  padding-top: var(--spacing-unit-double);
+  border-top: 1px solid var(--unremarkable-medium-gray);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -1,0 +1,132 @@
+import { create } from "zustand";
+import { generateUsername } from "unique-username-generator";
+import { ACHIEVEMENTS } from "~/data/achievements";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { getSSRSafeStorage } from "~/lib/ssrStorage";
+
+export type AchievementType = {
+  id: string;
+  title: string;
+  description: string;
+  collectedDate: string | null;
+  icon: string;
+};
+
+type AchievementLookup = { id: string; title: string; description: string; icon: string }[];
+
+type AchievementStateTypes = {
+  loadingAchievements: boolean;
+  username: string;
+  achievements: AchievementType[];
+  achievementsLookup: AchievementLookup | null;
+  setAchievementsLookup: (lookup: AchievementLookup | null) => void;
+  hasAchievement: (achievementId: AchievementType["id"]) => boolean;
+  addAchievement: (
+    achievementId: AchievementType["id"],
+    options?: { silent?: boolean }
+  ) => Promise<void>;
+  resetAchievements: () => Promise<void>;
+  loadAchievements: () => Promise<void>;
+  toast: {
+    open: boolean;
+    title: string;
+    message: string;
+  };
+  setToast: (toast: AchievementStateTypes["toast"]) => void;
+};
+
+export const useAchievementStore = create<AchievementStateTypes>()(
+  persist(
+    (set, get) => ({
+      loadingAchievements: false,
+      username: generateUsername("-"),
+      achievements: [],
+      achievementsLookup: null,
+      setAchievementsLookup: (lookup) => set({ achievementsLookup: lookup }),
+      toast: {
+        open: false,
+        title: "",
+        message: "",
+      },
+      setToast: (toast: AchievementStateTypes["toast"]) => {
+        set({ toast });
+      },
+      addAchievement: async (
+        achievementId: AchievementType["id"],
+        options?: { silent?: boolean }
+      ) => {
+        const lookup = get().achievementsLookup ?? ACHIEVEMENTS;
+        const found = lookup.find((a) => a.id === achievementId);
+        if (!found || get().hasAchievement(achievementId)) return;
+
+        const achievement: AchievementType = {
+          ...found,
+          collectedDate: new Date().toISOString(),
+        };
+
+        await fetch("/api/add-achievement", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            achievement,
+            username: get().username,
+          }),
+        }).catch(() => {
+          // Fail silently — achievements still saved locally
+        });
+
+        set((state) => ({
+          achievements: [...state.achievements, achievement],
+          toast: options?.silent
+            ? state.toast
+            : {
+              open: true,
+              title: achievement.title,
+              message: achievement.description,
+            },
+        }));
+      },
+      hasAchievement: (achievementId: AchievementType["id"]) => {
+        return get().achievements.some(
+          (achievement: AchievementType) => achievement.id === achievementId
+        );
+      },
+      resetAchievements: async () => {
+        await fetch("/api/delete-achievements", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: get().username }),
+        }).catch(() => {
+          // Fail silently
+        });
+        set({ achievements: [] });
+      },
+      loadAchievements: async () => {
+        const { username } = get();
+        if (!username) return;
+        set({ loadingAchievements: true });
+        try {
+          const response = await fetch(
+            `/api/get-achievements?user=${username}`
+          );
+          if (!response.ok) {
+            set({ loadingAchievements: false });
+            return;
+          }
+          const data = await response.json();
+          if (data.achievements) {
+            set({ achievements: data.achievements, loadingAchievements: false });
+          } else {
+            set({ loadingAchievements: false });
+          }
+        } catch {
+          set({ loadingAchievements: false });
+        }
+      },
+    }),
+    {
+      name: "achievement-storage",
+      storage: createJSONStorage(getSSRSafeStorage),
+    }
+  )
+);

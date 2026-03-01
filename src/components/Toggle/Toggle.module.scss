@@ -1,0 +1,80 @@
+.toggleInput {
+  display: none;
+}
+
+.toggle {
+  flex: 1;
+  margin-bottom: var(--spacing-unit-double);
+
+  label {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .toggleTrack {
+    position: relative;
+    margin: 0;
+    width: 50px;
+    min-width: 50px;
+    height: 30px;
+    border-radius: var(--border-radius-large);
+    background-color: var(--white);
+
+    @media screen and (max-width: 768px) {
+      width: 56px;
+      min-width: 56px;
+      height: 34px;
+    }
+
+    .toggleHandle {
+      position: absolute;
+      height: 28px;
+      width: 28px;
+      top: 1px;
+      left: 1px;
+      border-radius: var(--border-radius-large);
+      background-color: var(--off-black);
+      box-shadow: var(--box-shadow);
+      transition: all var(--transition-duration-quick) var(--animation-timing);
+
+      &.toggleHandleChecked {
+        left: calc(100% - 29px);
+      }
+
+      @media screen and (max-width: 768px) {
+        height: 30px;
+        width: 30px;
+
+        &.toggleHandleChecked {
+          left: calc(100% - 31px);
+        }
+      }
+    }
+  }
+
+  .toggleLabel {
+    color: var(--off-black);
+    margin-left: var(--spacing-unit-half);
+    font-size: var(--font-small);
+    font-family: var(--body-font);
+  }
+
+  .toggleDescription {
+    margin: 0 0 0 var(--spacing-unit-half);
+    font-size: var(--font-x-small);
+    color: var(--unremarkable-dark-gray);
+  }
+
+  &.toggleDanger {
+    .toggleLabel {
+      color: #b03050;
+      font-weight: 700;
+    }
+
+    .toggleDescription {
+      color: #a04055;
+    }
+  }
+}

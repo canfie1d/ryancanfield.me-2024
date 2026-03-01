@@ -7,7 +7,21 @@ nextjs
 
 # Local Netlify folder
 .netlify
-
 net-fn-key.pem
 net-fn.pem
 .nvmrc
+.env
+.env.local
+NOTES.md
+
+.eslintcache
+.tanstack/
+/docs
+
+/certs
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

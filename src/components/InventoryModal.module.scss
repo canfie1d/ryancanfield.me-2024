@@ -1,0 +1,200 @@
+.modalHeader {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-unit);
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--spacing-unit-half) var(--spacing-unit);
+  background: var(--off-white);
+  z-index: 2;
+}
+
+.modalHeaderIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--unremarkable-semi-opaque-light-gray);
+  border-radius: var(--border-radius-medium);
+  color: var(--unremarkable-dark-gray);
+}
+
+.modalHeaderText {
+  flex: 1;
+  min-width: 0;
+}
+
+.modalHeaderTitle {
+  margin: 0;
+  font-size: var(--font-large);
+  font-weight: 800;
+  color: var(--unremarkable-darker-gray);
+  letter-spacing: 0.05em;
+}
+
+.modalHeaderSubtitle {
+  margin: 0.125rem 0 0;
+  font-size: var(--font-small);
+  color: var(--unremarkable-medium-gray);
+  font-weight: 400;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-unit-double) var(--spacing-unit);
+  text-align: center;
+  min-height: 8rem;
+}
+
+.emptyIcon {
+  margin-bottom: var(--spacing-unit);
+  padding: var(--spacing-unit);
+  background: var(--unremarkable-semi-opaque-light-gray);
+  border-radius: var(--border-radius-medium);
+  color: var(--unremarkable-dark-gray);
+}
+
+.emptyTitle {
+  margin: 0 0 var(--spacing-unit-half);
+  font-size: var(--font-medium);
+  font-weight: 600;
+  color: var(--unremarkable-darker-gray);
+}
+
+.emptyMessage {
+  margin: 0;
+  font-size: var(--font-small);
+  line-height: 1.6;
+  color: var(--unremarkable-medium-gray);
+  max-width: 20rem;
+}
+
+.itemList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-unit);
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-unit);
+  padding: var(--spacing-unit);
+  background: var(--unremarkable-semi-opaque-light-gray);
+  border-radius: var(--border-radius-medium);
+  transition: background var(--transition-duration-quick) ease;
+}
+
+.itemRow:hover {
+  background: var(--unremarkable-semi-opaque-gray);
+}
+
+.itemRowAddOn {
+  margin-left: var(--spacing-unit);
+  border-left: 3px solid var(--unremarkable-medium-gray);
+}
+
+.itemIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  background: var(--off-white);
+  border-radius: var(--border-radius-small);
+  color: var(--unremarkable-dark-gray);
+}
+
+.itemInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.itemName {
+  font-weight: 600;
+  color: var(--unremarkable-darker-gray);
+  font-size: var(--font-medium);
+}
+
+.itemDesc {
+  font-size: var(--font-small);
+  color: var(--unremarkable-medium-gray);
+  line-height: 1.4;
+}
+
+.jewelBg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  background: rgba(54, 54, 54, 0.12);
+  border-radius: var(--border-radius-small);
+}
+
+.itemSlotEmpty {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 2.5rem;
+  background: var(--unremarkable-semi-opaque-light-gray);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--border-radius-medium);
+}
+
+.inspecting {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-unit-double);
+}
+
+.inspectingHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-unit);
+  padding-bottom: var(--spacing-unit-half);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.inspectingIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-unit-half);
+  background: var(--unremarkable-semi-opaque-light-gray);
+  border-radius: var(--border-radius-small);
+}
+
+.inspectingTitle {
+  margin: 0;
+  font-size: var(--font-large);
+  font-weight: 700;
+  color: var(--unremarkable-darker-gray);
+}
+
+.useContent {
+  margin: 0;
+  padding: var(--spacing-unit-double);
+  background: var(--unremarkable-semi-opaque-light-gray);
+  border-radius: var(--border-radius-medium);
+  font-family: var(--mono-font, monospace);
+  font-size: var(--font-small);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--unremarkable-darker-gray);
+  border: 1px solid var(--border-color);
+}
