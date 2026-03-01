@@ -1,5 +1,7 @@
+import { lazy, Suspense } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import CaseStudy from "~/pages/CaseStudy";
+
+const CaseStudy = lazy(() => import("~/pages/CaseStudy"));
 
 export const Route = createFileRoute("/_app/work/$id")({
   component: CaseStudyRoute,
@@ -7,5 +9,9 @@ export const Route = createFileRoute("/_app/work/$id")({
 
 function CaseStudyRoute() {
   const { id } = Route.useParams();
-  return <CaseStudy id={id} />;
+  return (
+    <Suspense fallback={null}>
+      <CaseStudy id={id} />
+    </Suspense>
+  );
 }

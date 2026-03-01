@@ -5,6 +5,7 @@ import { useAbout } from "~/hooks/useSanityContent";
 import PageContent from "~/content/PageContent";
 import AboutContent from "~/content/AboutContent";
 import AboutGameContent from "~/content/AboutGameContent";
+import DelayedFallback from "~/components/DelayedFallback";
 import Loader from "~/components/Loader";
 import { useGameModeStore } from "~/stores/game-mode";
 
@@ -35,7 +36,9 @@ const About = () => {
       }}
     >
       {isLoading ?
-        <Loader />
+        <DelayedFallback>
+          <Loader />
+        </DelayedFallback>
       : gameModeActive ?
         <AboutGameContent />
       : <AboutContent />}

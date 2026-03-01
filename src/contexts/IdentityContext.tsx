@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { useSiteSettings } from "~/hooks/useSanityContent";
 
 const DEFAULT_IDENTITY_URL = "https://ryancanfield.netlify.app";
@@ -110,16 +110,13 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
     init();
   }, [identityUrl]);
 
-  const loginProvider = useCallback(
-    async (provider: string) => {
-      const auth = await getAuth(identityUrl);
-      if (!auth) return;
-      window.location.href = auth.loginExternalUrl(provider);
-    },
-    [identityUrl],
-  );
+  const loginProvider = async (provider: string) => {
+    const auth = await getAuth(identityUrl);
+    if (!auth) return;
+    window.location.href = auth.loginExternalUrl(provider);
+  };
 
-  const logout = useCallback(async () => {
+  const logout = async () => {
     const auth = await getAuth(identityUrl);
     if (!auth) return;
     const gotrueUser = auth.currentUser();
@@ -127,7 +124,7 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
       await gotrueUser.logout();
       setUser(null);
     }
-  }, [identityUrl]);
+  };
 
   const value: IdentityContextValue = {
     user,

@@ -5,6 +5,7 @@ import { usePageContent } from "~/hooks/useSanityContent";
 import PageContent from "~/content/PageContent";
 import ContactContent from "~/content/ContactContent";
 import ContactGameContent from "~/content/ContactGameContent";
+import DelayedFallback from "~/components/DelayedFallback";
 import Loader from "~/components/Loader";
 import { useGameModeStore } from "~/stores/game-mode";
 
@@ -35,7 +36,9 @@ const Contact = () => {
       }}
     >
       {isLoading ?
-        <Loader />
+        <DelayedFallback>
+          <Loader />
+        </DelayedFallback>
       : gameModeActive ?
         <ContactGameContent />
       : <ContactContent />}

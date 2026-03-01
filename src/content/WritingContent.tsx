@@ -9,7 +9,7 @@ import Card from "~/components/Card/Card";
 import Tag from "~/components/Tag";
 import Text from "~/components/Text";
 import { useGetColorsFromTheme } from "~/helpers/getColorsFromTheme";
-import { urlFor } from "~/sanity/image";
+import { urlFor, urlForOptimized } from "~/sanity/image";
 
 const WritingContent = () => {
   const viewed = useRef<boolean>(false);
@@ -83,8 +83,16 @@ const WritingContent = () => {
             }
           >
             <img
-              src={article.image ? urlFor(article.image).url() : (article.imageUrl ?? "")}
-              alt=""
+              src={
+                article.image ?
+                  i === 0 ?
+                    urlForOptimized(article.image)
+                  : urlFor(article.image).width(500).quality(75).auto("format").url()
+                : (article.imageUrl ?? "")
+              }
+              alt={article.title ?? ""}
+              loading={i === 0 ? "eager" : "lazy"}
+              fetchPriority={i === 0 ? "high" : undefined}
             />
             <Text size="small">{article.description}</Text>
           </Card>

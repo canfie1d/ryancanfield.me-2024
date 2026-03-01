@@ -60,6 +60,7 @@ const CaseStudy = ({ id }: { id: string }) => {
           key={`image-${i}`}
           src={img.src ?? ""}
           alt={img.caption ?? ""}
+          loading="lazy"
         />
       ))}
 
@@ -72,6 +73,7 @@ const CaseStudy = ({ id }: { id: string }) => {
           key={`image-${i}`}
           src={img.src ?? ""}
           alt={img.caption ?? ""}
+          loading="lazy"
         />
       ))}
 
@@ -84,6 +86,7 @@ const CaseStudy = ({ id }: { id: string }) => {
           key={`image-${i}`}
           src={img.src ?? ""}
           alt={img.caption ?? ""}
+          loading="lazy"
         />
       ))}
     </div>

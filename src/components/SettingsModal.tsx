@@ -20,12 +20,14 @@ import { useGetColorsFromTheme } from "~/helpers/getColorsFromTheme";
 import classNames from "classnames";
 import styles from "./SettingsModal.module.scss";
 
-const JewelIcon = ({ page }: { page: JewelSocketPage }) => {
+const SocketItemIcon = ({ page }: { page: JewelSocketPage }) => {
+  const jewelId = JEWEL_FOR_PAGE[page];
+  const item = INVENTORY_ITEMS[jewelId];
   const { backgroundColor } = useGetColorsFromTheme(page);
   return (
     <span className={styles.jewelBg}>
       <Icon
-        name="jewel"
+        name={item?.icon ?? "jewel"}
         size="small"
         color={backgroundColor}
       />
@@ -103,7 +105,7 @@ const SettingsModal = ({
               <div className={styles.modalHeaderText}>
                 <h2 className={styles.modalHeaderTitle}>{ui?.settingsTitle ?? ""}</h2>
                 <h3 className={styles.modalHeaderSubtitle}>
-                  {ui?.settingsSubtitle ?? "Place jewels in their sockets to reveal new paths"}
+                  {ui?.settingsSubtitle ?? "Place items in their sockets to reveal new paths"}
                 </h3>
               </div>
               <Button
@@ -149,25 +151,25 @@ const SettingsModal = ({
                         type="button"
                         className={styles.socketButton}
                         onClick={() => removeJewel(page)}
-                        aria-label={`Remove jewel from ${label} socket`}
-                        title="Click to remove jewel"
+                        aria-label={`Remove ${jewelName} from ${label} socket`}
+                        title={`Click to remove ${jewelName}`}
                       >
-                        <JewelIcon page={page} />
+                        <SocketItemIcon page={page} />
                       </button>
                     : hasJewel ?
                       <button
                         type="button"
                         className={styles.socketButton}
                         onClick={() => placeJewel(page)}
-                        aria-label={`Place jewel in ${label} socket`}
-                        title="Click to place jewel"
+                        aria-label={`Place ${jewelName} in ${label} socket`}
+                        title={`Click to place ${jewelName}`}
                       >
                         <span className={styles.socketEmpty}>+</span>
                       </button>
                     : <span
                         className={styles.socketEmpty}
                         aria-hidden
-                        title="Find the jewel to unlock this mode"
+                        title={`Find the ${jewelName} to unlock this mode`}
                       >
                         ◇
                       </span>

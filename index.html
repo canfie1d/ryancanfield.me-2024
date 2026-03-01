@@ -25,9 +25,23 @@
       crossorigin
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@300;600;800&family=Noto+Serif:wght@400;600&display=swap"
-      rel="stylesheet"
+      rel="preconnect"
+      href="https://cdn.sanity.io"
+      crossorigin
     />
+    <!-- Load fonts async to avoid render-blocking (media=print defers until onload) -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@300;600;800&family=Noto+Serif:wght@400;600&display=swap"
+      media="print"
+      onload="this.media = 'all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@300;600;800&family=Noto+Serif:wght@400;600&display=swap"
+      />
+    </noscript>
     <title>Ryan Canfield — Seattle-based software engineering leader</title>
     <meta
       property="og:title"

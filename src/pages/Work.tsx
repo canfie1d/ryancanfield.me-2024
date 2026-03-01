@@ -13,6 +13,7 @@ import { usePageMeta } from "~/hooks/usePageMeta";
 import PageContent from "~/content/PageContent";
 import WorkContent from "~/content/WorkContent";
 import WorkGameContent from "~/content/WorkGameContent";
+import DelayedFallback from "~/components/DelayedFallback";
 import Icon from "~/components/Icon";
 import Loader from "~/components/Loader";
 
@@ -76,9 +77,17 @@ const Work = () => {
             }
         }
       >
-        <Suspense fallback={<Loader />}>
+        <Suspense
+          fallback={
+            <DelayedFallback>
+              <Loader />
+            </DelayedFallback>
+          }
+        >
           {contentLoading ?
-            <Loader />
+            <DelayedFallback>
+              <Loader />
+            </DelayedFallback>
           : caseStudy ?
             <Outlet />
           : gameModeActive ?

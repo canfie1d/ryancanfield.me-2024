@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Suspense } from "react";
 import { Outlet } from "@tanstack/react-router";
+import DelayedFallback from "~/components/DelayedFallback";
 import PagePreview from "~/components/Preview/PagePreview";
 import { PageTransition } from "~/components/PageTransition/PageTransition";
 import type { PageNames } from "~/data/themeConfig";
@@ -16,13 +17,15 @@ const PageContentArea = ({ pageName, fallback }: { pageName: PageNames; fallback
         <div style={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
           <Suspense
             fallback={
-              fallback ?? (
-                <PagePreview
-                  key={pageName}
-                  pageName={pageName}
-                  hideAll
-                />
-              )
+              <DelayedFallback>
+                {fallback ?? (
+                  <PagePreview
+                    key={pageName}
+                    pageName={pageName}
+                    hideAll
+                  />
+                )}
+              </DelayedFallback>
             }
           >
             <Outlet />

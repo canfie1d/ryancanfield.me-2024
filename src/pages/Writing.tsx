@@ -5,6 +5,7 @@ import { useArticleLinks, usePageContent } from "~/hooks/useSanityContent";
 import PageContent from "~/content/PageContent";
 import WritingContent from "~/content/WritingContent";
 import WritingGameContent from "~/content/WritingGameContent";
+import DelayedFallback from "~/components/DelayedFallback";
 import Loader from "~/components/Loader";
 import { useGameModeStore } from "~/stores/game-mode";
 
@@ -38,7 +39,9 @@ const Writing = () => {
       }}
     >
       {contentLoading ?
-        <Loader />
+        <DelayedFallback>
+          <Loader />
+        </DelayedFallback>
       : gameModeActive ?
         <WritingGameContent />
       : <WritingContent />}

@@ -43,10 +43,8 @@ export const Route = createRootRoute({
         href: "https://fonts.gstatic.com",
         crossOrigin: "anonymous",
       },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&family=Noto+Serif:wght@400;600&display=swap",
-      },
+      { rel: "preconnect", href: "https://cdn.sanity.io", crossOrigin: "anonymous" },
+      // Fonts loaded async in index.html to avoid render-blocking
     ],
   }),
   component: RootComponent,
@@ -69,21 +67,23 @@ function RootComponent() {
 
   return (
     <RootDocument>
-      <QueryClientProvider client={queryClient}>
-        <ErrorBoundary>
-          <IdentityProvider>
-            <AchievementLookupProvider>
-              <InventoryItemsProvider>
-                <SiteMetaUpdater />
-                <Layout>
-                  <PageTitle />
-                  <Outlet />
-                </Layout>
-              </InventoryItemsProvider>
-            </AchievementLookupProvider>
-          </IdentityProvider>
-        </ErrorBoundary>
-      </QueryClientProvider>
+      <React.StrictMode>
+        <QueryClientProvider client={queryClient}>
+          <ErrorBoundary>
+            <IdentityProvider>
+              <AchievementLookupProvider>
+                <InventoryItemsProvider>
+                  <SiteMetaUpdater />
+                  <Layout>
+                    <PageTitle />
+                    <Outlet />
+                  </Layout>
+                </InventoryItemsProvider>
+              </AchievementLookupProvider>
+            </IdentityProvider>
+          </ErrorBoundary>
+        </QueryClientProvider>
+      </React.StrictMode>
     </RootDocument>
   );
 }

@@ -8,6 +8,7 @@ import CodeForm from "~/components/Form/CodeForm";
 import GameContentBody from "~/components/GameContentBody/GameContentBody";
 import PageContent from "~/content/PageContent";
 import Button from "~/components/Button";
+import DelayedFallback from "~/components/DelayedFallback";
 import Loader from "~/components/Loader";
 import Icon from "~/components/Icon";
 import Text from "~/components/Text";
@@ -99,7 +100,9 @@ const JourneyToEryndor = () => {
       }}
     >
       {isLoading ?
-        <Loader />
+        <DelayedFallback>
+          <Loader />
+        </DelayedFallback>
       : <GameContentBody>
           {loreButtonActive || hasAchievement("reward_determination") ?
             renderRewardUI()

@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import Button from "~/components/Button";
 import Icon from "~/components/Icon";
 import { useInventoryStore } from "~/stores/inventory";
@@ -24,12 +23,11 @@ const ItemIcon = ({
   itemId: InventoryItemId;
   locked: boolean;
 }) => {
-  const page =
-    icon === "jewel" && itemId in PAGE_FOR_JEWEL ? PAGE_FOR_JEWEL[itemId as JewelId] : "about";
+  const page = itemId in PAGE_FOR_JEWEL ? PAGE_FOR_JEWEL[itemId as JewelId] : "about";
   const { backgroundColor } = useGetColorsFromTheme(page);
-  const color = icon === "jewel" && itemId in PAGE_FOR_JEWEL ? backgroundColor : undefined;
-  const isJewel = icon === "jewel" && itemId in PAGE_FOR_JEWEL && !locked;
-  return isJewel ?
+  const color = itemId in PAGE_FOR_JEWEL ? backgroundColor : undefined;
+  const isSocketItem = itemId in PAGE_FOR_JEWEL && !locked;
+  return isSocketItem ?
       <span className={styles.jewelBg}>
         <Icon
           name={icon}
@@ -67,7 +65,7 @@ const JourneyBackpack = () => {
   };
 
   // Combine: locked items (shown as locked) + regular items. Locked items appear in display order.
-  const displayItems = useMemo(() => {
+  const displayItems = (() => {
     const seen = new Set<InventoryItemId>();
     const result: { id: InventoryItemId; locked: boolean }[] = [];
 
@@ -89,7 +87,7 @@ const JourneyBackpack = () => {
     }
 
     return result;
-  }, [items, locked, isLocked]);
+  })();
 
   const totalCount = displayItems.length;
 

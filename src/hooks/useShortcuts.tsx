@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { useAchievementStore } from "~/stores/achievements";
 
@@ -16,13 +16,13 @@ export const useShortcuts = () => {
     }
   }, [kCode, addAchievement]);
 
-  const shortcutPressed = useCallback(() => {
-    if (!hasAchievement("power_user")) {
-      addAchievement("power_user");
-    }
-  }, [addAchievement, hasAchievement]);
-
   useEffect(() => {
+    const shortcutPressed = () => {
+      if (!hasAchievement("power_user")) {
+        addAchievement("power_user");
+      }
+    };
+
     const handleKeyDown = (e: KeyboardEvent) => {
       const formFocused = Array.from(document.forms).some((form) => {
         return form.contains(document.activeElement);
@@ -89,5 +89,5 @@ export const useShortcuts = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [addAchievement, hasAchievement, navigate, shortcutPressed]);
+  }, [addAchievement, hasAchievement, navigate]);
 };

@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState } from "react";
 import classNames from "classnames";
 
 import { useAchievementStore } from "~/stores/achievements";
@@ -42,7 +42,7 @@ const ColorMenu = ({
   const setLockedColor = useThemeStore((store) => store.setLockedColor);
   const [showCopiedToast, setShowCopiedToast] = useState(false);
   const { data: ui } = useUiStrings();
-  const copyColor = useCallback(() => {
+  const copyColor = () => {
     if (!hasAchievement("copy_pasta")) {
       addAchievement("copy_pasta");
     } else {
@@ -50,44 +50,30 @@ const ColorMenu = ({
     }
 
     navigator.clipboard.writeText(backgroundColor);
-  }, [hasAchievement, addAchievement, backgroundColor]);
+  };
 
-  const isLocked = useMemo(
-    () => lockedColors?.some((lockedColor) => lockedColor.hex === backgroundColor),
-    [lockedColors, backgroundColor],
-  );
+  const isLocked =
+    lockedColors?.some((lockedColor) => lockedColor.hex === backgroundColor) ?? false;
 
-  const actions = useMemo(() => {
-    return [
-      {
-        icon: "copy",
-        label: ui?.colorCopy ?? "",
-        onClick: copyColor,
-      },
-      {
-        icon: isLocked ? "lock" : "unlock",
-        label: ui?.colorLock ?? "",
-        checked: isLocked,
-        onChange: () => setLockedColor({ hex: backgroundColor, position: index }),
-      },
-      {
-        icon: "eyedropper",
-        label: ui?.colorChooseNew ?? "",
-        active: colorPickerActive,
-        onClick: () => setColorPickerActive(true),
-      },
-    ];
-  }, [
-    copyColor,
-    isLocked,
-    backgroundColor,
-    index,
-    colorPickerActive,
-    setLockedColor,
-    ui?.colorCopy,
-    ui?.colorLock,
-    ui?.colorChooseNew,
-  ]);
+  const actions = [
+    {
+      icon: "copy",
+      label: ui?.colorCopy ?? "",
+      onClick: copyColor,
+    },
+    {
+      icon: isLocked ? "lock" : "unlock",
+      label: ui?.colorLock ?? "",
+      checked: isLocked,
+      onChange: () => setLockedColor({ hex: backgroundColor, position: index }),
+    },
+    {
+      icon: "eyedropper",
+      label: ui?.colorChooseNew ?? "",
+      active: colorPickerActive,
+      onClick: () => setColorPickerActive(true),
+    },
+  ];
 
   return (
     <div

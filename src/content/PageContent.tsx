@@ -28,10 +28,10 @@ const PageContent = ({
   const ref = useRef<HTMLElement | null>(null);
   const [scrollContainer, setScrollContainer] = React.useState<HTMLElement | null>(null);
 
-  const setRef = React.useCallback((node: HTMLElement | null) => {
+  const setRef = (node: HTMLElement | null) => {
     ref.current = node;
     setScrollContainer(node);
-  }, []);
+  };
   const activeGameModes = useGameModeStore((store) => store.activeGameModes);
   const gameModeActive = activeGameModes?.[pageName as keyof typeof activeGameModes];
   const { width } = useWindowSize();

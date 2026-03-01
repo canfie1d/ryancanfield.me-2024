@@ -1,14 +1,15 @@
-import { useEffect, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { useAchievementStore } from "~/stores/achievements";
 import { useProjects, useOpenSource, usePageContent, useUiStrings } from "~/hooks/useSanityContent";
 import { useIntersectionObserver } from "~/hooks/useIntersectionObserver";
-import GithubContributions from "~/components/GithubContributions";
+
+const GithubContributions = lazy(() => import("~/components/GithubContributions"));
 import Card from "~/components/Card/Card";
 import Text from "~/components/Text";
 import Tag from "~/components/Tag";
 import styles from "./PageContent.module.scss";
 import { useGetColorsFromTheme } from "~/helpers/getColorsFromTheme";
-import { urlFor } from "~/sanity/image";
+import { urlFor, urlForOptimized } from "~/sanity/image";
 
 const WorkContent = () => {
   const viewed = useRef<boolean>(false);
@@ -61,8 +62,16 @@ const WorkContent = () => {
             }
           >
             <img
-              src={project.image ? urlFor(project.image).url() : ""}
-              alt=""
+              src={
+                project.image ?
+                  i === 0 ?
+                    urlForOptimized(project.image)
+                  : urlFor(project.image).width(500).quality(75).auto("format").url()
+                : ""
+              }
+              alt={project.title ?? ""}
+              loading={i === 0 ? "eager" : "lazy"}
+              fetchPriority={i === 0 ? "high" : undefined}
             />
             <Text size="small">{project.description}</Text>
           </Card>
@@ -103,7 +112,9 @@ const WorkContent = () => {
           </Card>
         ))}
       </Card.Wrapper>
-      <GithubContributions />
+      <Suspense fallback={null}>
+        <GithubContributions />
+      </Suspense>
       <div ref={ref} />
     </div>
   );

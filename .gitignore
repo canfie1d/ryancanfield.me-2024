@@ -19,3 +19,9 @@ NOTES.md
 /docs
 
 /certs
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

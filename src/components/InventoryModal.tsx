@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useLocation } from "@tanstack/react-router";
 import Modal from "~/components/Modal";
@@ -18,12 +18,11 @@ import styles from "./InventoryModal.module.scss";
 const SLOT_COUNT = 9; // 3x3 grid
 
 const ItemIcon = ({ icon, itemId }: { icon: string; itemId: InventoryItemId }) => {
-  const page =
-    icon === "jewel" && itemId in PAGE_FOR_JEWEL ? PAGE_FOR_JEWEL[itemId as JewelId] : "about";
+  const page = itemId in PAGE_FOR_JEWEL ? PAGE_FOR_JEWEL[itemId as JewelId] : "about";
   const { backgroundColor } = useGetColorsFromTheme(page);
-  const color = icon === "jewel" && itemId in PAGE_FOR_JEWEL ? backgroundColor : undefined;
-  const isJewel = icon === "jewel" && itemId in PAGE_FOR_JEWEL;
-  return isJewel ?
+  const color = itemId in PAGE_FOR_JEWEL ? backgroundColor : undefined;
+  const isSocketItem = itemId in PAGE_FOR_JEWEL;
+  return isSocketItem ?
       <span className={styles.jewelBg}>
         <Icon
           name={icon}
@@ -50,17 +49,14 @@ const InventoryModal = ({
   const { data: ui } = useUiStrings();
   const [inspectingItem, setInspectingItem] = useState<InventoryItemId | null>(null);
 
-  const sortedItems = useMemo(
-    () => INVENTORY_DISPLAY_ORDER.filter((id) => items.includes(id)),
-    [items],
-  );
+  const sortedItems = INVENTORY_DISPLAY_ORDER.filter((id) => items.includes(id));
 
   // Build slot array: items fill slots in order, remaining slots are empty
-  const slots = useMemo(() => {
+  const slots = (() => {
     const filled: Array<InventoryItemId | null> = sortedItems.slice(0, SLOT_COUNT);
     while (filled.length < SLOT_COUNT) filled.push(null);
     return filled;
-  }, [sortedItems]);
+  })();
 
   const getTriggerLocation = () => {
     if (pathname === "/") return "23% 108%";

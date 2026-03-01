@@ -2,6 +2,18 @@
   command = "pnpm run deploy-sanity && pnpm build"
   publish = "dist/client"
 
+# Cache static assets for 1 year (immutable filenames via content hash)
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache static images (favicon, cursors, og-image)
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
 # SPA client-side routing: serve shell for all non-asset routes so direct navigation/bookmarks work
 [[redirects]]
   from = "/*"

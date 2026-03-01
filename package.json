@@ -11,9 +11,12 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:test": "PLAYWRIGHT_TEST=1 vite",
+    "test": "playwright test",
+    "test:unit": "vitest run",
+    "test:ui": "PLAYWRIGHT_UI=1 playwright test --ui",
     "lint": "eslint src/",
     "type-check": "tsc --noEmit",
-    "dev:live": "netlify dev",
     "build": "env NODE_TLS_REJECT_UNAUTHORIZED=0 sh -c 'tsc && vite build'",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
@@ -48,11 +51,11 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
-    "dotenv": "^16.4.7",
     "@axe-core/react": "^4.10.1",
     "@eslint/js": "^9.17.0",
     "@nabla/vite-plugin-eslint": "^2.0.6",
     "@netlify/vite-plugin-tanstack-start": "^1.2.12",
+    "@playwright/test": "^1.58.2",
     "@sanity/vision": "^5.11.0",
     "@storybook/addon-essentials": "^8.6.14",
     "@storybook/addon-interactions": "^8.6.14",
@@ -65,10 +68,13 @@
     "@types/node": "^22.13.5",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "@vitejs/plugin-react-swc": "^3.8.0",
+    "@vitejs/plugin-react": "^5.1.4",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "dotenv": "^16.4.7",
     "eslint": "^9.17.0",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.1.0",
+    "jsdom": "^28.1.0",
     "netlify-cli": "^18.1.0",
     "storybook": "^8.6.17",
     "typescript": "^5.7.3",
@@ -76,6 +82,7 @@
     "vite": "^7.3.1",
     "vite-plugin-mkcert": "^1.17.6",
     "vite-plugin-pwa": "^0.21.1",
-    "vite-plugin-svgr": "^4.3.0"
+    "vite-plugin-svgr": "^4.3.0",
+    "vitest": "^4.0.18"
   }
 }

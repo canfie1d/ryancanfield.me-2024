@@ -1,6 +1,12 @@
+import { lazy, Suspense } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import SecretRoute from "~/pages/SecretRoute";
+
+const SecretRoute = lazy(() => import("~/pages/SecretRoute"));
 
 export const Route = createFileRoute("/_app/⓺⓷⓻⓸")({
-  component: () => <SecretRoute achievementId="circle_around" />,
+  component: () => (
+    <Suspense fallback={null}>
+      <SecretRoute achievementId="circle_around" />
+    </Suspense>
+  ),
 });

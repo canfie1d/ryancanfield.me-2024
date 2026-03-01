@@ -24,7 +24,7 @@ const useClickOutside = (
     };
 
     document.addEventListener("mousedown", validateEventStart);
-    document.addEventListener("touchstart", validateEventStart);
+    document.addEventListener("touchstart", validateEventStart, { passive: true });
     document.addEventListener("click", listener);
 
     return () => {

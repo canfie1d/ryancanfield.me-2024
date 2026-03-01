@@ -45,32 +45,32 @@ export const INVENTORY_ITEMS: Record<
       "// The source is the destination\n// https://github.com/canfie1d/ryancanfield.me-2024/blob/main/README.md",
   },
   "jewel-about": {
-    name: "The Eye of Eryndor",
-    description: "A gleaming gem that reveals the path. Place it in the settings panel to unlock.",
-    icon: "jewel",
+    name: "Small Statue",
+    description: "A tiny carved figure that reveals the path. Place it in the settings panel to unlock.",
+    icon: "statue",
     useContent:
-      "The Eye sees all who wander. Place this jewel in the About socket in settings to unlock the game mode.",
+      "The statue watches all who wander. Place it in the About socket in settings to unlock the game mode.",
   },
   "jewel-work": {
-    name: "The Seal of Triumphs",
-    description: "A jewel forged from victories. Place it in the settings panel to unlock.",
-    icon: "jewel",
+    name: "Shovel",
+    description: "A worn shovel forged from victories. Place it in the settings panel to unlock.",
+    icon: "shovel",
     useContent:
-      "The Seal remembers every triumph. Place this jewel in the Work socket in settings to unlock the game mode.",
+      "The shovel remembers every triumph. Place it in the Work socket in settings to unlock the game mode.",
   },
   "jewel-writing": {
-    name: "The Quill's Tear",
-    description: "A crystalline drop from the quill of a scribe. Place it in the settings panel to unlock.",
-    icon: "jewel",
+    name: "Quill",
+    description: "A feather quill from the hand of a scribe. Place it in the settings panel to unlock.",
+    icon: "quill",
     useContent:
-      "The Quill's Tear holds stories. Place this jewel in the Writing socket in settings to unlock the game mode.",
+      "The quill holds stories. Place it in the Writing socket in settings to unlock the game mode.",
   },
   "jewel-contact": {
-    name: "The Signet of Reach",
-    description: "A jewel that bridges distances. Place it in the settings panel to unlock.",
-    icon: "jewel",
+    name: "Pigeon",
+    description: "A messenger bird that bridges distances. Place it in the settings panel to unlock.",
+    icon: "pigeon",
     useContent:
-      "The Signet connects those who reach out. Place this jewel in the Contact socket in settings to unlock the game mode.",
+      "The pigeon connects those who reach out. Place it in the Contact socket in settings to unlock the game mode.",
   },
   sword: {
     name: "Blade of Eryndor",
