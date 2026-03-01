@@ -22,6 +22,8 @@
   functionsPort = 8888
   autoLaunch = false
 
-  [dev.https]
-    certFile = "net-fn.pem"
-    keyFile = "net-fn-key.pem"
+  # HTTPS certs (net-fn.pem, net-fn-key.pem) are gitignored for security.
+  # Uncomment below and generate certs locally if you need HTTPS for dev.
+  # [dev.https]
+  #   certFile = "net-fn.pem"
+  #   keyFile = "net-fn-key.pem"
