@@ -100,6 +100,8 @@ export default defineConfig(({ command, isPreview }) => ({
   },
   server: {
     port: 3000,
+    // Netlify Dev uses hostnames like devserver-staging--ryancanfield.netlify.app
+    ...(process.env.NETLIFY && { allowedHosts: true }),
     // proxy: {
     //   "/api": {
     //     target: "https://localhost:8888/functions",
