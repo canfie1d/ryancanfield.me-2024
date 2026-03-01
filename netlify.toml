@@ -30,7 +30,5 @@
   command = "pnpm dev"
   targetPort = 3000
   autoLaunch = false
-
-  [dev.https]
-    certFile = "./certs/net-fn.pem"
-    keyFile = "./certs/net-fn-key.pem"
+  # HTTPS certs (net-fn.pem, net-fn-key.pem) are generated locally by vite-plugin-mkcert
+  # and gitignored. Omit [dev.https] so Netlify Dev works without them (e.g. deploy previews).
