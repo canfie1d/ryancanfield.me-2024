@@ -54,8 +54,13 @@ export default defineConfig(({ command, isPreview }) => ({
         theme_color: "#d3d3d3",
       },
     }),
-    // mkcert only for dev server — excluded from build/preview/Playwright to avoid cert issues
-    ...(command === "serve" && !isPreview && !process.env.PLAYWRIGHT_TEST && !process.env.VITEST
+    // mkcert only for dev server — excluded from build/preview/Playwright/Netlify to avoid cert issues
+    // (Netlify Dev has no sudo; mkcert -install fails with "Permission denied")
+    ...(command === "serve" &&
+      !isPreview &&
+      !process.env.PLAYWRIGHT_TEST &&
+      !process.env.VITEST &&
+      !process.env.NETLIFY
       ? [
         mkcert({
           savePath: "./certs",
